@@ -1,0 +1,204 @@
+@charset "utf-8";
+/* CSS Document */
+@media (min-width: 1025px) and (max-width: 3000px) 
+{
+	#circulossinavance
+	{
+		top:-100px; 
+		left:360px;
+	}
+	#circulosproceso
+	{
+		top:-100px; 
+		left:210px;
+		
+	}
+	#circuloscumplidos	
+	{
+		top:-100px; 
+		left:60px;
+	}
+	#circulostotales
+	{
+		top:100px; 
+		left:950px;
+	}
+	#margenrow
+	{
+		margin-top:16%;
+	}
+	#margentotales
+	{
+		
+		margin-left: 20%;
+		font-size: 2em;
+		
+	}
+	
+}
+
+@media (min-width: 801px) and (max-width: 1024px)  
+{
+	#circulossinavance
+	{
+		top:-100px; 
+		left:340px;
+	}
+	#circulosproceso
+	{
+		top:-100px; 
+		left:190px;
+	}
+	#circuloscumplidos	
+	{
+		top:-100px; 
+		left:40px;
+		
+	}
+	#circulostotales
+	{
+		top:100px; 
+		left:300px;
+	}
+	#margentotales
+	{
+		
+		margin-left: 17%;
+		font-size: 2em;
+	}
+}
+@media (min-width: 701px) and (max-width: 800px)  
+{
+	#circulossinavance
+	{
+		top:-40px; 
+		left:140px;
+	}
+	#circulosproceso
+	{
+		top:-200px; 
+		left:215px;
+	}
+	#circuloscumplidos	
+	{
+		top:-200px; 
+		left:70px;
+		
+	}
+	#circulostotales
+	{
+		top:100px; 
+		left:300px;
+	}
+	#margentotales
+	{
+		
+		margin-left: 20%;
+		font-size: 1.5em;
+	}
+}
+
+@media (min-width: 650px) and (max-width: 700px) 
+{
+	#circulossinavance
+	{
+		top:280px; 
+		left:85px;
+	}
+	#circulosproceso
+	{
+		top:280px; 
+		left:500px;
+	}
+	#circuloscumplidos	
+	{
+		top:280px; 
+		left:290px;
+
+	}
+	#circulostotales
+	{
+		top:280px; 
+		left:600px;
+	}
+	#margentotales
+	{
+		margin-top: 50%;
+		margin-left: 20%;
+		font-size: 2em;
+	}
+}
+@media (min-width: 430px) and (max-width: 649px) 
+{
+	#circulossinavance
+	{
+		top:83px; 
+		left:300px;
+	}
+	#circulosproceso
+	{
+		top:83px; 
+		left:200px;
+
+	}
+	#circuloscumplidos
+	{
+		top:83px; 
+		left:100px;
+	}
+	#circulostotales
+	{
+		top:100px; 
+		left:235px;
+	}
+	#margentotales
+	{
+		margin-top: 21%;
+		margin-left: 24%;
+		font-size: 1.2em;;
+	}
+	.circulos
+	{
+		width:100% !important;
+		max-width:100% !important;
+	}
+}
+@media (min-width: 250px) and (max-width: 420px) 
+{
+	#circulossinavance
+	{
+		top:100px; 
+		left:15px;
+	}
+	#circulosproceso
+	{
+		top:100px; 
+		left:215px;
+
+	}
+	#circuloscumplidos
+	{
+		top:100px; 
+		left:115px;
+	}
+	#circulostotales
+	{
+		top:100px; 
+		left:235px;
+	}
+	#movilescirc
+	{	
+		data-width="30"
+	}
+	#margentotales
+	{
+		margin-top: 50%;
+		margin-left: 23%;
+		font-size: 1em;
+	}
+	.circulos
+	{
+		width:100% !important;
+		max-width:100% !important;
+	}
+}

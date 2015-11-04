@@ -1,0 +1,225 @@
+body {
+    /* background:#fff url('../assets/repgray2.png') 0 0 repeat-x;*/
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color:#333;
+}
+
+h1 span {
+    color:#333;
+}
+
+p {
+    color:#333;
+}
+
+hr {
+
+}
+
+fieldset {
+    background:#f9f9f9;
+    height: auto;
+    border:1px solid #aaaaaa;
+}
+
+input, textarea, select {
+    background:#ffffff;
+    border:1px solid #AAAAAA;
+    color:#555;
+}
+
+label {
+    color:#464646;
+}
+
+.meta p a {
+    color:#bbb;
+}
+
+.meta ul li a {
+    background:url('images/ui-bg_inset-hard_20_545454_1x100.png') 50% 50% repeat-x;
+    border:1px solid #222;
+    padding:3px 10px 3px 5px;
+    color:#fff;
+}
+
+p.mid a {
+    color:#bbb;
+}
+
+#header #search {
+    background:url('../assets/searchbar.png') 0 0 no-repeat;
+}
+
+#search input {
+    color:#bbb;
+}
+
+#navbar ul.nav {
+	/*c2d689*/
+    border-right:1px solid #D2D2D2;
+    border-left:1px solid #D2D2D2;
+}
+
+ul.nav li {
+    -moz-border-radius-topleft:4px;
+    -moz-border-radius-topright:4px;
+    border-left:1px solid #ADADAD;
+    border-right:1px solid #ADADAD;
+    border-top: 1px solid #ADADAD;
+
+}
+
+ul.nav li a:hover {
+    /*color:#fff;*/
+    background:url('../assets/mhover.png') bottom center no-repeat;
+
+
+}
+
+ul.nav ul li {
+     -moz-border-radius-topleft:4px;
+    -moz-border-radius-topright:4px;
+    height:15px;
+    border-left:1px solid #296d00;
+    border-right: 1px solid #296d00;
+    border-top: 1px solid #296d00; 
+   
+
+}
+ul.nav ul li.menu {
+     -moz-border-radius-topleft:4px;
+    -moz-border-radius-topright:4px;
+    border-bottom: 1px solid #296d00; 
+    height:15px;
+     
+   
+
+}
+
+ul.nav li li {
+    background:#c2d689;
+}
+
+ul.nav li li.new{
+    background:#c2d689;
+    width: 180px;
+     display:inline;
+}
+
+ul.nav li li a {
+    display: block;
+    width: auto;
+    margin-top: -4px;
+
+}
+
+ul.nav li li a:hover {
+    display: block;
+    background:#fff;
+    margin-left:-4px;
+}
+
+#sidebar h2 {
+    border-bottom:1px dotted #d3d3d3;
+}
+
+#sidebar ul li {
+    border-bottom:1px dashed #eee;
+    background:url('../assets/arrow_left.png') 5px 8px no-repeat;
+}
+
+#sidebar ul li:hover {
+    background:url('../assets/arrow_left_hover.png') 5px 8px no-repeat;
+}
+
+#sidebar ul li a {
+    text-decoration:none;
+    color:#555;
+    font-size:11px;
+}
+
+#sidebar ul li a:hover {
+    color:#000;
+}
+
+#footer {
+    height: 28px;
+    width: 958px;
+    background-image: url('../images/footer.png');
+    background-repeat: no-repeat;
+    border-left: 1px solid #696969;
+    border-right: 1px solid #696969;
+    border-bottom: 1px solid #696969;
+   
+
+}
+
+ul.dash li a {
+    color:#555;
+    background:url('../assets/largebut.png') 0 0 no-repeat;
+}
+
+
+ul.dash li a:hover {
+    background:url('../assets/largebut_hover.png') 0 0 no-repeat;
+}
+
+table.fullwidth, table.normal {
+    border:1px solid #AAAAAA;
+
+}
+
+table.fullwidth thead, table.normal thead {
+    background: url("images/ui-bg_inset-hard_30_606060_1x100.png") repeat-x scroll 50% 50% #545454;
+    color:#747474;
+    font-weight: bold;
+}
+
+table.fullwidth thead tr, table.normal thead tr {
+    color:#fff;
+}
+
+table.fullwidth tr, table.normal tr {
+    color:#999;
+    cursor:pointer;
+}
+
+table.fullwidth tr.odd, table.normal tr.odd {
+    background:#f0f0f0;
+    color:#6b6c6e;
+}
+
+table.fullwidth tr:hover, table.normal tr:hover {
+    color:#333;
+}
+
+table.fullwidth thead tr:hover, table.normal thead tr:hover {
+    color:#fff;
+}
+
+
+.portlet-header .ui-icon { 
+    position:relative;
+    margin-top:-1px;
+    float:right;
+    cursor:pointer;
+}
+
+input.error {
+    border:1px solid #c44509;
+}
+
+label.error {
+    display:inline-block;
+    color: #c44509;
+    text-align: left;
+}
+select.error {	
+    border:1px solid #c44509;
+}
+textarea.error {	
+    border:1px solid #c44509;
+}

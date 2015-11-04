@@ -1,0 +1,131 @@
+
+/*** adding the class sf-navbar in addition to sf-menu creates an all-horizontal nav-bar menu ***/
+.sf-navbar {
+    background: url("images/ui-bg_inset-hard_30_606060_1x100.png") repeat-x scroll 50% 50% #545454;
+    
+    height: 30px;
+    font-size: 11px;
+    border: 1px solid #333;
+    color: #FFFFFF;
+    float: left;
+    font-size: 1em;
+    font-weight: bold;
+    position: relative;
+    width: 958px;
+    padding-left: 3px;
+    margin: 0;
+    padding: 0.1em 0em 0;
+}
+.sf-navbar li {
+    background: url("images/ui-bg_inset-hard_20_545454_1x100.png") repeat-x scroll 50% 50% #AAAAAA;
+    position:		static;
+    margin: 2px 3px 1px 0;
+    padding: 0;
+    top: 1px;
+    white-space: nowrap;
+    border: 1px solid #333333;
+    border-top-right-radius: 3px;
+    border-top-left-radius: 3px;
+    border-bottom: 0 none;
+
+}
+.sf-navbar a {
+    border-top:		none;
+}
+.sf-navbar li ul {
+    width:			70em; /*IE6 soils itself without this*/
+}
+.sf-navbar li li {
+    background:		#FFFFFF;
+    position:		relative;
+    border: none;
+    margin-top: 3px;
+}
+.sf-navbar li li ul {
+    width:			13em;
+}
+.sf-navbar li li li {
+    width:			100%;
+}
+.sf-navbar ul li {
+    width:			auto;
+    float:			left;
+}
+.sf-navbar a, .sf-navbar a:visited {
+    border:			none;
+}
+.sf-navbar li.current {
+    background:		#BDD2FF;
+    color: #222222;
+}
+.sf-navbar li:hover,
+.sf-navbar li.sfHover,
+.sf-navbar li li.current,
+.sf-navbar a:focus, .sf-navbar a:hover, .sf-navbar a:active {
+    background:		#FFFFFF;
+    color: #222222;
+    
+    border-top-right-radius: 3px;
+    border-top-left-radius: 3px;
+}
+.sf-navbar a:visited, .sf-navbar a:link 
+{
+    color: #222222;    
+}
+
+.sf-navbar ul li:hover,
+.sf-navbar ul li.sfHover,
+ul.sf-navbar ul li:hover li,
+ul.sf-navbar ul li.sfHover li,
+.sf-navbar ul a:focus, .sf-navbar ul a:hover, .sf-navbar ul a:active {
+ /*   background:		#D1DFFF;*/
+  
+ border-bottom: 1px solid #222222;
+ 
+}
+ul.sf-navbar li li li:hover,
+ul.sf-navbar li li li.sfHover,
+.sf-navbar li li.current li.current,
+.sf-navbar ul li li a:focus, .sf-navbar ul li li a:hover, .sf-navbar ul li li a:active {
+    background:		#222222;
+}
+ul.sf-navbar .current ul,
+ul.sf-navbar ul li:hover ul,
+ul.sf-navbar ul li.sfHover ul {
+    left:			0;
+    top:			2.5em; /* match top ul list item height */
+}
+ul.sf-navbar .current ul ul {
+    top: 			-999em;
+}
+
+.sf-navbar li li.current > a {
+    font-weight:	bold;
+}
+
+/*** point all arrows down ***/
+/* point right for anchors in subs */
+.sf-navbar ul .sf-sub-indicator { background-position: -10px -100px; }
+.sf-navbar ul a > .sf-sub-indicator { background-position: 0 -100px; }
+/* apply hovers to modern browsers */
+.sf-navbar ul a:focus > .sf-sub-indicator,
+.sf-navbar ul a:hover > .sf-sub-indicator,
+.sf-navbar ul a:active > .sf-sub-indicator,
+.sf-navbar ul li:hover > a > .sf-sub-indicator,
+.sf-navbar ul li.sfHover > a > .sf-sub-indicator {
+    background-position: -10px -100px; /* arrow hovers for modern browsers*/
+}
+
+/*** remove shadow on first submenu ***/
+.sf-navbar > li > ul {
+    background: transparent;
+    padding: 0;
+    -moz-border-radius-bottomleft: 0;
+    -moz-border-radius-topright: 0;
+    -webkit-border-top-right-radius: 0;
+    -webkit-border-bottom-left-radius: 0;
+}
+
+ li li.selected{
+    border-bottom: 2px solid #222222;
+}

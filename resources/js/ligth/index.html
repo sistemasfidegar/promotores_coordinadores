@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es" >
+<head>
+	<meta charset="utf-8">
+
+	<title>Lightbox 2</title>
+
+	<meta name="description" content="Lightbox 2.Mmanual para ponerlo en marcha"/>
+	<meta name="author" content="Lokesh Dhakar">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+	<script src="js/modernizr.custom.js"></script>
+
+	<link rel="shortcut icon" href="img/demopage/favicon.ico">
+	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Karla:400,700">
+	<link rel="stylesheet" href="css/screen.css" media="screen"/>
+	<link rel="stylesheet" href="css/lightbox.css" media="screen"/>
+</head>
+<body>
+
+<div class="wrapper">
+
+	<section id="intro" class="section intro-section">
+		<header>
+			<h1 class="logo">Ejemplo del uso de Lightbox2 </h1>
+		</header>
+	</section>
+
+	<section id="examples" class="section examples-section">
+		<header>
+			<h2 class="section-header">&nbsp;</h2>
+		</header>
+
+		<h3 style="clear: both;">Ponemos un juego de fotos</h3>
+
+		<div class="image-row">
+			<div class="image-set">
+				<a class="example-image-link" href="imagenes/cebras.jpg" data-lightbox="example-set" title="Para pasar la imagen, pincha en la parte derecha de la imagen.">
+				<img class="example-image" src="imagenes/thumb/cebras.jpg" alt="Plants: image 1 0f 4 thumb" width="200" height="143"/></a>
+				
+				<a class="example-image-link" href="imagenes/elefante.jpg" data-lightbox="example-set" title="O presiona la flecha derecha del teclado.">
+				<img class="example-image" src="imagenes/thumb/elefante.jpg" alt="Elfantes" width="200" height="133"/></a>
+				
+				<a class="example-image-link" href="imagenes/gepardo.jpg" data-lightbox="example-set" title="El script ya está precargando la siguiente imagen.">
+				<img class="example-image" src="imagenes/thumb/gepardo.jpg" alt="gepardo" width="200" height="147"/></a>
+				
+				<a class="example-image-link" href="imagenes/gorila.jpg" data-lightbox="example-set" title="Para cerrar pulsa en la X o fuera de la imagen.">
+				<img class="example-image" src="imagenes/thumb/gorila.jpg" alt="Gorila" width="200" height="165"/></a>
+				
+
+<a class="example-image-link" href="imagenes/monos.jpg" data-lightbox="example-set" title="Qué, que salaos son.">
+				<img class="example-image" src="imagenes/thumb/monos.jpg" alt="Monos" width="200" height="134"/></a>
+				
+
+<a class="example-image-link" href="imagenes/oso.jpg" data-lightbox="example-set" title="No están enfadados. Solo que son algo tímidos">
+				<img class="example-image" src="imagenes/thumb/oso.jpg" alt="Oso" width="200" height="132"/></a>
+				
+
+<a class="example-image-link" href="imagenes/rinoceronte.jpg" data-lightbox="example-set" title="Precioso. A mí personalmente me gusta más verlos que, bueno, lo que hacen los chinos">
+				<img class="example-image" src="imagenes/thumb/rinoceronte.jpg" alt="Rinoceronte" width="200" height="124"/></a>
+				
+				
+				
+				
+			</div>
+		</div>
+	</section>
+
+	<section id="download" class="section download-section">
+		<header>
+			<h2 class="section-header">BAJAR </h2>
+		</header>
+
+		<a href="releases/lightbox2.6.zip" class="download-button">
+			<div class="file">
+				Lightbox
+				</div>
+		</a>
+
+		<p>
+			Aquí teneís todos los archivos para esta trabajar con esta página
+		</p>
+	</section>
+
+	<section id="how-to-use" class="section how-to-use-section">
+		<header>
+			<h2 class="section-header">Cómo usarlo</h2>
+			<h2 class="section-subheader">Instrucciones paso a paso</h2>
+		</header>
+		<h3>PartE 1 - Configurarlo</h3>
+		<ol>
+			<li>Lo primero es bajarse la carpeta completa ( enlace en la parte 
+			superior )</li>
+			<li>Veremos unos archivos java en la carpeta <code>js</code> que son&nbsp; <code>
+			jquery-1.10.2.min.js</code> 
+			y&nbsp; <code>lightbox-2.6.min.js</code> . Estos archivos son los 
+			que se llaman para conseguir la transición de la foto pequeña a la 
+			grande con el oscurecimiento de la pantalla. Los vamos a poner casi 
+			al final de la página , antes de que cierre la etiqueta &lt;body&gt;:
+<pre><code>&lt;script src=&quot;js/jquery-1.10.2.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;js/lightbox-2.6.min.js&quot;&gt;&lt;/script&gt;
+</code></pre></li>
+			<li>Dentro de la carpeta&nbsp; <code>css</code>&nbsp; tenemos el 
+			archivo&nbsp; <code>lightbox.css</code> . Esta línea hay que ponerla 
+			en la cabecera, antes de la etiqueta &lt;/head&gt;:
+<pre><code>&lt;link href=&quot;css/lightbox.css&quot; rel=&quot;stylesheet&quot; /&gt;
+</code></pre>
+			</li>
+			<li>Dentro de la carpeta&nbsp; <code>img</code>&nbsp; tenemos varias 
+			imágenes necesarias para mostrar e informar bien de las imágenes. 
+			Son&nbsp; <code>close.png</code>, <code>loading.gif</code>, <code>
+			prev.png</code>, y&nbsp; <code>next.png</code>. Estos archivos son 
+			usados en&nbsp; <code>lightbox.css</code>. Por defecto,&nbsp; <code>
+			lightbox.css</code>&nbsp; buscará estas imágenes en esta carpeta <code>
+			img</code>.</li>
+			<li>Hemos incluido la carpeta <code>imagenes</code> y dentro de 
+			ellas, para las imágenes pequeñas, otra carpeta llamada <code>
+			<span style="background-color: #2B2B2B">thumb</span></code> donde se 
+			guardan las imágenes de estos animales en miniatura.&nbsp;&nbsp; </li>
+		</ol>
+		<h3>Parte 2 - Puesta en marcha</h3>
+	<ul>
+			<li>Para que se active Lightbox hay que poner el atributo&nbsp; <code>
+			data-lightbox</code>&nbsp; a cada imagen, además&nbsp; de un único 
+			nombre a cada imagen. Un ejemplo es el siguiente:
+<pre><code>&lt;a class=&quot;example-image-link&quot; href=&quot;imagenes/elefante.jpg&quot; data-lightbox=&quot;example-set&quot; title=&quot;Aquí ponemos el título de la foto&quot;&gt;
+&lt;img class=&quot;example-image&quot; src=&quot;imagenes/thumb/elefante.jpg&quot; alt=&quot;Elfantes&quot; width=&quot;200&quot; height=&quot;133&quot;/&gt;&lt;/a&gt;
+</code></pre>
+			<div class="sub-point">&nbsp; <code>title</code>&nbsp; se usa para 
+				poner el título a la foto.</div> </li>
+			<li>Para el resto de las imágenes hay que proceder de igual forma, 
+			dando lugar algo como<pre><code>&lt;a class=&quot;example-image-link&quot; href=&quot;imagenes/cebras.jpg&quot; data-lightbox=&quot;example-set&quot; title=&quot;Para pasar la imagen, pincha en la parte derecha de la imagen.&quot;&gt;
+&lt;img class=&quot;example-image&quot; src=&quot;imagenes/thumb/cebras.jpg&quot; alt=&quot;Plants: image 1 0f 4 thumb&quot; width=&quot;200&quot; height=&quot;143&quot;/&gt;&lt;/a&gt;
+
+&lt;a class=&quot;example-image-link&quot; href=&quot;imagenes/elefante.jpg&quot; data-lightbox=&quot;example-set&quot; title=&quot;O presiona la flecha derecha del teclado.&quot;&gt;
+&lt;img class=&quot;example-image&quot; src=&quot;imagenes/thumb/elefante.jpg&quot; alt=&quot;Elfantes&quot; width=&quot;200&quot; height=&quot;133&quot;/&gt;&lt;/a&gt;
+</code></pre></li>
+		</ul>
+	</section>
+
+	<section id="doante" class="section donate-section last">
+		<header>
+		</header>
+	<form class="donate-button-form" name="_xclick" action="https://www.paypal.com/cgi-bin/webscr" method="post">
+				<input type="hidden" name="bn" value="PP-DonationsBF">
+				<input type="hidden" name="tax" value="0">
+				<input type="hidden" name="currency_code" value="USD">
+				<input type="hidden" name="no_note" value="1">
+				<input type="hidden" name="item_name" value="Donation for Lightbox">
+				<input type="hidden" name="business" value="lokesh.dhakar@gmail.com">
+				<input type="hidden" name="cmd" value="_xclick">
+				<p><a href="http://www.tecnologia-informatica.es">Tecnología 
+				Informática</a></p>
+		</form>
+	</section>
+
+</div>
+
+
+<script src="js/jquery-1.10.2.min.js"></script>
+	<script src="js/lightbox-2.6.min.js"></script>
+
+
+</body>
+</html>
