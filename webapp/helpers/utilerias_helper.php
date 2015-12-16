@@ -3,6 +3,24 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
+function getPromedio($id_promedio)
+{
+	$promedio = "Error en promedio";
+	
+	switch($id_promedio)
+	{
+		case 1: $promedio = "6.00 - 6.50"; break;
+		case 2: $promedio = "6.51 - 7.00"; break;
+		case 3: $promedio = "7.01 - 7.50"; break;
+		case 4: $promedio = "7.51 - 8.00"; break;
+		case 5: $promedio = "8.01 - 8.50"; break;
+		case 6: $promedio = "8.51 - 9.00"; break;
+		case 7: $promedio = "9.01 - 9.50"; break;
+		case 8: $promedio = "9.51 - 10.00"; break;
+	}
+	
+	return $promedio;
+}
 
 function getMesesTrimestre($trimestre) {
 

@@ -6,6 +6,142 @@ class Modelo extends MY_Model {
         parent::__construct();
     }
     
+    function getinfo(){
+    	$this->sql="select * from registro_pyc;";
+    	$results = $this->db->query($this->sql);
+    	return $results->result_array();
+    }
+    function getEscolar($matricula)
+    {
+    
+    	$this->sql = "select * from b_escolar where matricula_asignada = '$matricula';";
+    	$results = $this->db->query($this->sql);
+    	return $results->result_array();
+    }
+    
+    function getDireccion($matricula)
+    {
+    
+    	$this->sql = "select * from b_direccion where matricula_asignada = '$matricula';";
+    
+    	$results = $this->db->query($this->sql);
+    	return $results->result_array();
+    }
+    
+    function getIdentificacion($matricula)
+    {
+    
+    	$this->sql = "select b.*,p.* from 
+						beneficiarios b
+						inner join b_personal p using(matricula_asignada)
+						where matricula_asignada = '$matricula';";
+    
+    	$results = $this->db->query($this->sql);
+    	return $results->result_array();
+    }
+    
+    function getMatriculaBeneficiario($dato)
+    {
+    
+    	$this->sql = "SELECT B.matricula_asignada 
+						FROM beneficiarios B 
+						INNER JOIN b_personal P on b.matricula_asignada = p.matricula_asignada 
+						WHERE P.matricula_asignada ='$dato' OR P.CURP='$dato';";
+    
+    	$results = $this->db->query($this->sql);
+    	return $results->result_array();
+    }
+    
+    function getIdPlantel($matricula){
+    	$this->sql="select id_plantel from cat_plantel 
+						where plantel=(select plantel from b_escolar where matricula_asignada='$matricula');";
+    	$results = $this->db->query($this->sql);
+    	return $results->result_array();
+    }
+    function getCiclo(){
+    	$this->sql="select id_ciclo_escolar, ciclo_escolar from cat_ciclo_escolar where activo is true;";
+    	$results = $this->db->query($this->sql);
+    	return $results->result_array();
+    }
+    function buscaRegistro($matricula){
+    	$this->sql="select id_tipo_registro, id_ciclo from registro_pyc where matricula='$matricula';";
+    	$results = $this->db->query($this->sql);
+    	return $results->result_array();
+    }
+    function generaFolio($matricula){
+    	$this->sql="select p.clave, r.consecutivo from registro_pyc r 
+					inner join cat_plantel p on p.id_plantel=r.id_plantel
+					where r.matricula='$matricula';";
+    	$results = $this->db->query($this->sql);
+    	return $results->result_array();
+    }
+    function guardaFolio($folio,$matricula){
+    	$this->sql="update registro_pyc set folio='$folio' where matricula='$matricula';";
+    	$results = $this->db->query($this->sql, array(1));
+    	return $results->result_array();
+    }
+    function insertaRegistro($ciclo,$tipo_lugar,$matricula,$id_plantel,$eje_1,$eje_2,$eje_3,$eje_4,$eje_5,$eje_6,$eje_7,$lugar,$actividad_1,$actividad_2,$actividad_3,$correo,$tel,$cons){
+    	$this->sql="insert into registro_pyc (id_ciclo, id_tipo_registro, matricula, id_plantel, eje_1, eje_2, eje_3, eje_4, eje_5, eje_6, eje_7, lugar_apoyo, actividad_1, actividad_2, actividad_3, correo, telefono, fecha_registro, consecutivo)
+    						values($ciclo,$tipo_lugar,'$matricula',$id_plantel,$eje_1,$eje_2,$eje_3,$eje_4,$eje_5,$eje_6,$eje_7,'$lugar','$actividad_1','$actividad_2','$actividad_3','$correo',$tel,now(),$cons) returning id_registro;";
+     	$results = $this->db->query($this->sql, array(1));
+    	return $results->result_array();
+    	
+    }
+    function getUltimoFolio($id_plantel){
+    	$this->sql="select consecutivo from folios where id_plantel=$id_plantel;";
+    	$results = $this->db->query($this->sql);
+    	return $results->result_array();
+    }
+  /*  function insertaFolios(){
+    	$this->sql="";
+    	$results = $this->db->query($this->sql);
+    	return $results->result_array();
+    }
+    */
+    function incrementa($cons, $id_plantel){
+    	$this->sql="update folios set consecutivo=$cons where id_plantel=$id_plantel;";
+    	
+    	$results = $this->db->query($this->sql);
+    	//return $results->result_array();
+    	return 1;
+    }
+    function registroCoo(){
+    	$this->sql="select * from registro_pyc r
+    			inner join beneficiarios p on p.matricula_asignada=r.matricula
+    			inner join cat_ciclo_escolar c on c.id_ciclo_escolar=r.id_ciclo 
+    			where r.id_tipo_registro=1 and id_aceptado is null and c.activo is true
+    			order by fecha_registro asc;";
+    	$results = $this->db->query($this->sql);
+    	return $results->result_array();
+    }
+    function registroProm(){
+    	$this->sql="select * from registro_pyc r
+    			join beneficiarios p on p.matricula_asignada=r.matricula
+    			inner join cat_ciclo_escolar c on c.id_ciclo_escolar=r.id_ciclo
+    			where r.id_tipo_registro=2 and id_aceptado is null and c.activo is true
+    			order by fecha_registro asc;";
+    	$results = $this->db->query($this->sql);
+    	return $results->result_array();
+    }
+    function AceptadoCoo(){
+    	$this->sql="select * from registro_pyc r
+    			inner join beneficiarios p on p.matricula_asignada=r.matricula
+    			inner join cat_ciclo_escolar c on c.id_ciclo_escolar=r.id_ciclo
+    			where r.id_tipo_registro=1 and id_aceptado=1 and c.activo is true
+    			order by fecha_registro asc;";
+    	$results = $this->db->query($this->sql);
+    	return $results->result_array();
+    }
+    function AceptadoProm(){
+    	$this->sql="select * from registro_pyc r
+    			join beneficiarios p on p.matricula_asignada=r.matricula
+    			where r.id_tipo_registro=2 and id_aceptado=1
+    			order by fecha_registro asc;";
+    	$results = $this->db->query($this->sql);
+    	return $results->result_array();
+    }
+    ///////////////////////////////////////////////
+    
     function getInfoUsuarios() {
     
     	$this->sql = "select id_usuario, nombre||' '||paterno||' '||materno as nombre_usuario, usuario, email, id_perfil, perfil, id_dg, cdg.nombre_dg
@@ -244,7 +380,11 @@ class Modelo extends MY_Model {
         $results = $this->db->query($this->sql, array(1));
         return $results->result_array();
     }
-
+	function inserAceptado($id){
+		$this->sql="update registro_pyc set id_aceptado=1 where id_registro=$id;";
+		$results = $this->db->query($this->sql, array(1));
+		return 1;
+	}
     function getEntesInvolucrados($ids) {
         $this->sql = "select id_ente, nombre_ente, siglas_ente from cat_ente_publico where id_ente in($ids) and activo is true order by nombre_ente;
                 ";

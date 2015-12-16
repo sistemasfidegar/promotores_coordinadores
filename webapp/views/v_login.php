@@ -6,7 +6,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <!-- End of Meta -->
 
-        <title>Actividades en Comunidad</title>
+        <title>Registro de promotores y coordinadores del Programa "Prepa Sí"</title>
 
         <link rel="shortcut icon" href="resources/images/favicon.ico">   
 
@@ -159,8 +159,8 @@
             	<br /><br /><br />
             	
                 <div class="transbox" style="border: 1px solid #9D9CA1;">
-                    <h1>Actividades en Comunidad</h1>
-                    <form id="formulario" action="index.php/main/login" method="POST">
+                    <h1>Registro de promotores y coordinadores del Programa "Prepa Sí"</h1>
+                    <form id="formulario" action="index.php/admin/login" method="POST">
                         <table style=" width: 70%;">
                             <tr>
                                 <td>

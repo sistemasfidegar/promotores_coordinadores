@@ -5,7 +5,11 @@ class M_admin extends MY_Model {
     function M_admin() {
         parent::__construct();
     }
-    
+    function listadoCoo(){
+    	$this->sql="select * from registro_pyc where id_tipo_registro=1;";
+    	$results = $this->db->query($this->sql);
+    	return $results->result_array();
+    }
     function getCatDelegaciones()
     {
     	$this->sql = "select * from cat_delegacion

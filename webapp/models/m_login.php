@@ -11,7 +11,7 @@ class M_login extends MY_Model {
         $data['password'] = $password;
         $this->sql = "SELECT * from usuario 
 						inner join cat_perfil using(id_perfil) 
-						full join cat_delegacion using(id_delegacion)        		
+						       		
 						where usuario=:alias and password=:password 
 						and usuario.activo=true;";
         $this->bindParameters($data);   
