@@ -289,8 +289,8 @@
 								</th>
 							</tr>
 							<tr>
-								<th width="2%">#.</th>
-								<th width="">NOMBRE</th>
+								<th width="2%">#</th>
+								<th width="">NOMBRE(S)</th>
 								<th width="">MATRICULA</th>
 								<th>FOLIO</th>
 								<th width="">LUGAR APOYO</th>
