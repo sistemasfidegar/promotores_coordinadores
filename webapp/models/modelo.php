@@ -75,8 +75,8 @@ class Modelo extends MY_Model {
     	$results = $this->db->query($this->sql);
     	return $results->result_array();
     }
-    function guardaFolio($folio,$matricula){
-    	$this->sql="update registro_pyc set folio='$folio' where matricula='$matricula';";
+    function guardaFolio($folio,$matricula,$tipo_reg){
+    	$this->sql="update registro_pyc set folio='$folio' where matricula='$matricula' and id_tipo_registro=$tipo_reg;";
     	$results = $this->db->query($this->sql, array(1));
     	return $results->result_array();
     }

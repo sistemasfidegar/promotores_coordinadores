@@ -137,18 +137,19 @@
         });//ready
         
         function valores(){
-        	r1 = 't[]';
-        	f= document.form_datos;
-        	
-        	arre = new Array();
-        	
-        	for (var i = 0, total = f[r1].length; i <= total; i++){
-        	   if (f[r1][i].checked) 
-            	   arre[arre.length] = f[r1][i].value;
-        	}
-        	//return arre;
-        	  
-        	
+        	valor = 't[]';
+            f= document.form_datos;
+         	arre = new Array();
+         	total = f[valor].length;
+         	if(isNaN(total)){
+             	arre[0]=document.getElementById('t[]').value;
+         	}else
+         	{
+	         	for (var i = 0; i < total; i++)
+	          	 if (f[valor][i].checked) arre[arre.length] = f[valor][i].value;
+         	}
+           //return arre.length;
+      
         	 if(arre.length > 0 )
         	 {
         		
@@ -205,7 +206,7 @@
         		}); 	
         		
         	 }
-        	
+        
         }                                                                    
 
         function irA(uri) {

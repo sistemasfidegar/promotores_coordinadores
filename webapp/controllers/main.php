@@ -57,10 +57,9 @@ class Main extends CI_Controller {
     		
     	}
 	    elseif($reg[0]['id_ciclo']!=$data['id_ciclo'] ){
-	    	$b=$this->modelo->insertaRegistro($data['ciclo'],$data['tipo_registro'],$data['matricula'],$data['id_plantel'],
-	    			$data['eje_1'],$data['eje_2'],$data['eje_3'],$data['eje_4'],$data['eje_5'],$data['eje_6'],$data['eje_7']
-	    			,$data['lugar'],$data['actividad_1'],$data['actividad_2'],$data['actividad_3'],$data['correo'],
-	    			$data['tel'],$data['cons']);
+	    	$b=$this->modelo->insertaRegistro($data['ciclo'],$data['tipo_registro'],$data['matricula'],
+	    			$data['id_plantel'],$data['eje_1'],$data['eje_2'],$data['eje_3'],$data['eje_4'],$data['eje_5'],$data['eje_6'],$data['eje_7']
+	    			,$data['lugar'],$data['actividad_1'],$data['actividad_2'],$data['actividad_3'],$data['correo'],$data['tel'],$data['cons']);
 	    }
     	$aux=$this->modelo->generaFolio($data['matricula']);
     	
@@ -68,7 +67,7 @@ class Main extends CI_Controller {
     	 
     	$data['folio']=	$aux[0];
     	
-    	$this->modelo->guardaFolio($folio,$data['matricula']);
+    	$this->modelo->guardaFolio($folio,$data['matricula'],$data['tipo_registro']);
     	$this->load->view('beneficiario/v_mensaje', $data, false);
     	//echo '<pre>';
     	//print_r($data);
