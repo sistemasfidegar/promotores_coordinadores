@@ -89,12 +89,9 @@ class Main extends CI_Controller {
     {
     	
     	// $reg=$this->modelo->buscaRegistro($matricula_asignada);
-    	
-    	
-    	
-	    	
     		$data['matricula'] = $this->input->post('matricula');
 	    	$data['ciclo'] = (int)$this->input->post('ciclo');
+	    	
 	    	$aux=$this->modelo->getIdPlantel($data['matricula']);
 	    	$data['id_plantel'] = (int)$aux[0]['id_plantel'];
 	    	
@@ -114,7 +111,9 @@ class Main extends CI_Controller {
 			$data['lugar']=$this->input->post('lugar');
 		   	//end post
 		   	
-			
+			$aux=$this->modelo->getUltimofolio($data['id_plantel']);
+			$cons= 1+(int)$aux[0]['consecutivo'];
+			$data['cons']=$cons;
 	
 			$aux = $this->modelo->getIdentificacion($data['matricula']);
 			$data['identificacion'] = $aux[0];
@@ -122,30 +121,26 @@ class Main extends CI_Controller {
 			
 			
 			
-			$aux=$this->modelo->getUltimofolio($data['id_plantel']);
-			$cons= 1+(int)$aux[0]['consecutivo'];
-			$data['cons']=$cons;
+			
 			$b=$this->modelo->insertaRegistro($data['ciclo'],$data['tipo_registro'],$data['matricula'],$data['id_plantel'],
 					$data['eje_1'],$data['eje_2'],$data['eje_3'],$data['eje_4'],$data['eje_5'],$data['eje_6'],$data['eje_7']
 					,$data['lugar'],$data['actividad_1'],$data['actividad_2'],$data['actividad_3'],$data['correo'],
 					$data['tel'],$data['cons']);
 		
 			$a=$this->modelo->incrementa($data['cons'],$data['id_plantel']);
-			$this->modelo->guardaFolio($folio,$data['matricula'],$data['tipo_registro'], $data['ciclo']);
 			
 			
-			$aux=$this->modelo->BuscaFolio($data['matricula']);
-			$folio=trim($aux[0]['clave']).str_pad($aux[0]['consecutivo'],5,0,STR_PAD_LEFT);
-			$data['folio']=	$aux[0];
-
 			$aux=$this->modelo->getDatosEscuela($data['id_plantel']);
 			$data['escuela']=$aux[0];
 				    	
 			$aux=$this->modelo->getfecha($data['matricula'], $data['ciclo']);
 			$data['fecha']=$aux[0];
 
+			$aux=$this->modelo->BuscaFolio($data['matricula']);
+			$folio=trim($aux[0]['clave']).str_pad($aux[0]['consecutivo'],5,0,STR_PAD_LEFT);
+			$data['folio']=	$aux[0];
 			
-			
+			$this->modelo->guardaFolio($folio,$data['matricula'],$data['tipo_registro'], $data['ciclo']);
 			
 			//$this->load->view('beneficiario/existe', $data, false);
 			$this->load->view('beneficiario/v_mensaje', $data, false);
