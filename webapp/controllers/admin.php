@@ -8,7 +8,16 @@ class Admin extends CI_Controller {
 	{
 		if ($this->session->userdata('logged_in'))
 		{
-			redirect('admin/principal');
+			switch ($this->session->userdata('id_perfil'))
+			{
+				case 1: //Admin
+					redirect('administrador/index');
+					
+					break;
+				case 2: //Operador
+					redirect('admin/principal');
+					break;
+			}
 		}
 		else
 			redirect('admin/login');
@@ -131,35 +140,80 @@ function aceptado(){
  function principal(){
  	$this->load->view('admin/v_listado');
  }
+ 	
 	function RegistradosC(){
-		
-		$data['Coordinador']=$this->modelo->registroCoo();
-		$aux=$this->modelo->getCiclo();
-		$data['ciclo']=$aux[0];
+		$data['institucion']=$this->modelo->getInstitucion();
 		$data['registro']=1;
-		$this->load->view('admin/v_PC', $data, false);
+		$this->load->view('admin/v_regCoordinador', $data, false);
+	}
+	function RegistradosC1(){
+		$data['institucion']=$this->modelo->getInstitucion();
+		$plantel=(int)$this->input->post('plantel');
+		$aux=$this->modelo->getDatosEscuela($plantel);
+		$data['datos']=$aux[0];
+		$data['Coordinador']=$this->modelo->registroCoo($plantel);
+		/*$aux=$this->modelo->getCiclo();
+		$data['ciclo']=$aux[0];*/
+		$data['registro']=1;
+		$this->load->view('admin/v_regCoordinador', $data, false);
 	}
 	function RegistradosP(){
-	
-		$data['Promotor']=$this->modelo->registroProm();
+		$data['institucion']=$this->modelo->getInstitucion();
 		$data['registro']=2;
-		$aux=$this->modelo->getCiclo();
-		$data['ciclo']=$aux[0];
-		$this->load->view('admin/v_PC', $data, false);
+		$this->load->view('admin/v_regPromotor', $data, false);
+	}
+	function RegistradosP1(){
+		$data['institucion']=$this->modelo->getInstitucion();
+		$plantel=(int)$this->input->post('plantel');
+		
+		$aux=$this->modelo->getDatosEscuela($plantel);
+		$data['datos']=$aux[0];
+		
+		$data['Promotor']=$this->modelo->registroProm($plantel);
+		$data['registro']=2;
+		
+		$this->load->view('admin/v_regPromotor', $data, false);
 	}
 	function AceptadosC(){
-		$data['Coordinador']=$this->modelo->AceptadoCoo();
+		$data['institucion']=$this->modelo->getInstitucion();
 		$data['registro']=1;
-		$aux=$this->modelo->getCiclo();
-		$data['ciclo']=$aux[0];
-		$this->load->view('admin/v_aceptadoPC', $data, false);
+		
+		$this->load->view('admin/v_coordinadorAceptado', $data, false);
+	}
+	function AceptadosC1(){
+		$data['institucion']=$this->modelo->getInstitucion();
+		$plantel=(int)$this->input->post('plantel');
+		$aux=$this->modelo->getDatosEscuela($plantel);
+		$data['datos']=$aux[0];
+		$data['Coordinador']=$this->modelo->AceptadoCoo($plantel);
+		$data['registro']=1;
+	
+		$this->load->view('admin/v_coordinadorAceptado', $data, false);
 	}
 	function AceptadosP(){
-		$data['Promotor']=$this->modelo->AceptadoProm();
+		$data['institucion']=$this->modelo->getInstitucion();
 		$data['registro']=2;
-		$aux=$this->modelo->getCiclo();
-		$data['ciclo']=$aux[0];
-		$this->load->view('admin/v_aceptadoPC', $data, false);
+		$this->load->view('admin/v_promotorAceptado', $data, false);
+	}
+	function AceptadosP1(){
+		$data['institucion']=$this->modelo->getInstitucion();
+		$plantel=(int)$this->input->post('plantel');
+		$aux=$this->modelo->getDatosEscuela($plantel);
+		$data['datos']=$aux[0];
+		$data['Promotor']=$this->modelo->AceptadoProm($plantel);
+		$data['registro']=2;
+		
+		$this->load->view('admin/v_promotorAceptado', $data, false);
+	}
+	public function ajaxGetPlanteles($tipo)
+	{
+		$planteles = $this->modelo->get_plantel($tipo);
+		 
+		echo '<option value="0">[Seleccionar]</option>';
+		foreach ($planteles as $plantel){
+			echo '<option value="'.$plantel['id_plantel'].'">'.$plantel['plantel'].'</option>';
+		}
+		
 	}
 	function exportaExcel()
 	{

@@ -11,86 +11,150 @@ class Main extends CI_Controller {
     	
     	$this->load->view('beneficiario/v_registro');
     }
-    
-    
-    function guarda_registro()
+    function muestra_informacion($matricula_asignada)
     {
-    	$data['matricula'] = $this->input->post('matricula');
-    	$data['tipo_registro'] = (int)$this->input->post('tipo_registro');
-    	$data['correo'] = $this->input->post('email');
-    	$data['tel'] = (int)$this->input->post('telefono');
-    	$data['eje_1'] = (int)$this->input->post('eje_1');
-    	$data['eje_2'] = (int)$this->input->post('eje_2');
-    	$data['eje_3'] = (int)$this->input->post('eje_3');
-    	$data['eje_4'] = (int)$this->input->post('eje_4');
-    	$data['eje_5'] = (int)$this->input->post('eje_5');
-    	$data['eje_6'] = (int)$this->input->post('eje_6');
-    	$data['eje_7'] = (int)$this->input->post('eje_7');
-    	$data['actividad_1'] =$this->input->post('actividad_1');
-    	$data['actividad_2'] =$this->input->post('actividad_2');
-    	$data['actividad_3'] =$this->input->post('actividad_3');
-    	$data['lugar']=$this->input->post('lugar');
+    
+    	$reg=$this->modelo->buscaRegistro($matricula_asignada);
     	
-    	$aux=$this->modelo->getIdPlantel($data['matricula']);
-    	$data['id_plantel'] = (int)$aux[0]['id_plantel'];
-    	$aux=$this->modelo->getUltimofolio($data['id_plantel']);
-    	$cons= 1+(int)$aux[0]['consecutivo'];
-    	$data['cons']=$cons;
-    	
-    	$data['ciclo'] = (int)$this->input->post('ciclo');
-    	$data['msj']=2;
-    	
-    	$aux = $this->modelo->getIdentificacion($data['matricula']);
+    	$data['matricula'] = $matricula_asignada;
+    	$aux = $this->modelo->getIdentificacion($matricula_asignada);
     	$data['identificacion'] = $aux[0];
-    	
-    	$a=$this->modelo->incrementa($data['cons'],$data['id_plantel']);
-    	$reg=$this->modelo->buscaRegistro($data['matricula']);
-    	$aux=$this->modelo->getCiclo();
-    	$data['id_ciclo']=$aux[0]['id_ciclo_escolar'];
-    	
-    	if($reg==null)
-    	{
-    		   	$b=$this->modelo->insertaRegistro($data['ciclo'],$data['tipo_registro'],$data['matricula'],$data['id_plantel'],
-		    	$data['eje_1'],$data['eje_2'],$data['eje_3'],$data['eje_4'],$data['eje_5'],$data['eje_6'],$data['eje_7']
-		    	,$data['lugar'],$data['actividad_1'],$data['actividad_2'],$data['actividad_3'],$data['correo'],
-		    	$data['tel'],$data['cons']);
-    		
-    	}
-	    elseif($reg[0]['id_ciclo']!=$data['id_ciclo'] ){
-	    	$b=$this->modelo->insertaRegistro($data['ciclo'],$data['tipo_registro'],$data['matricula'],
-	    			$data['id_plantel'],$data['eje_1'],$data['eje_2'],$data['eje_3'],$data['eje_4'],$data['eje_5'],$data['eje_6'],$data['eje_7']
-	    			,$data['lugar'],$data['actividad_1'],$data['actividad_2'],$data['actividad_3'],$data['correo'],$data['tel'],$data['cons']);
-	    }
-    	$aux=$this->modelo->generaFolio($data['matricula']);
-    	
-    	$folio=trim($aux[0]['clave']).str_pad($aux[0]['consecutivo'],5,0,STR_PAD_LEFT);
     	 
-    	$data['folio']=	$aux[0];
+    	$aux = $this->modelo->getDireccion($matricula_asignada);
+    	$data['direccion'] = $aux[0];
+    	 
+    	$aux = $this->modelo->getEscolar($matricula_asignada);
+    	$data['escolar'] = $aux[0];
     	
-    	$this->modelo->guardaFolio($folio,$data['matricula'],$data['tipo_registro']);
-    	$this->load->view('beneficiario/v_mensaje', $data, false);
-    	//echo '<pre>';
-    	//print_r($data);
-    	//echo '</pre>';
+    	$aux=$this->modelo->getCicloActual();
+    	$data['id_ciclo_actual']=$aux[0]['id_ciclo_escolar'];
+    	$data['ciclo_escolar'] = $aux[0]['ciclo_escolar'];
     	
+    		
+    	if($reg!=null)
+    	{
+    		$data['tipo_registro']=$reg[0]['id_tipo_registro'];
+    		
+    		if($data['id_ciclo_actual'] == $reg[0]['id_ciclo']){
+    			 
+    			 
+    			$aux=$this->modelo->BuscaFolio($matricula_asignada);
+    			$data['folio']=$aux[0];
+    		  
+    			$aux = $this->modelo->getIdentificacion($matricula_asignada);
+    			$data['identificacion'] = $aux[0];
+    			$aux=$this->modelo->getIdPlantel($data['matricula']);
+    			$data['id_plantel'] = (int)$aux[0]['id_plantel'];
+    			
+    			$aux=$this->modelo->getfecha($data['matricula'], $data['id_ciclo_actual']);
+    			$data['fecha']=$aux[0];
+    			$aux=$this->modelo->getDatosEscuela($data['id_plantel']);
+    			$data['escuela']=$aux[0];
+    			$data['es_promotor'] = 1;
+    			$this->load->view('beneficiario/v_mensaje', $data, false);
+    		  
+    		}
+    		elseif($reg[0]['id_tipo_registro']== 1|| $reg[0]['id_tipo_registro']==2){
+    			$data['es_promotor'] = 1;
+    			$data['tiene_registro'] = 1;
+    			$this->load->view('beneficiario/v_datos', $data, false);
+    		}
+    
+    
+    	}
+    	else{
+    		$data['es_promotor'] = 0;
+    		$data['tiene_registro'] = 0;
+    		$this->load->view('beneficiario/v_datos', $data, false);
+    	}
+ 	 
     }
-    
-    
     function muestra_formato_registro()
     {
     	$data['matricula'] = $this->input->post('matricula');
     	$data['tipo_registro'] = (int)$this->input->post('tipo_registro');
     	$data['correo'] = $this->input->post('correo');
+    	$data['tiene_registro'] = (int)$this->input->post('tiene_registro');
     	$data['tel'] = $this->input->post('tel');
     	$data['id_ciclo'] = (int)$this->input->post('ciclo');
-    	$data['folio']=$this->modelo->generaFolio($data['matricula']);
+    	$data['folio']=$this->modelo->BuscaFolio($data['matricula']);
     	$aux = $this->modelo->getIdentificacion($data['matricula']);
     	$data['identificacion'] = $aux[0];
-    	
-    	$this->load->view('beneficiario/v_formato_registro', $data, false);                                                                                                                                                                                                                                                                                                                                   
-    	
-    	
+    	 
+    	$this->load->view('beneficiario/v_formato_registro', $data, false);
+    	 
+    	 
     }
+    function guarda_registro()
+    {
+    	
+    	// $reg=$this->modelo->buscaRegistro($matricula_asignada);
+    	
+    	
+    	
+	    	
+    		$data['matricula'] = $this->input->post('matricula');
+	    	$data['ciclo'] = (int)$this->input->post('ciclo');
+	    	$aux=$this->modelo->getIdPlantel($data['matricula']);
+	    	$data['id_plantel'] = (int)$aux[0]['id_plantel'];
+	    	
+	    	$data['tipo_registro'] = (int)$this->input->post('tipo_registro');
+			$data['correo'] = $this->input->post('email');
+			$data['tel'] = (int)$this->input->post('telefono');
+			$data['eje_1'] = (int)$this->input->post('eje_1');
+			$data['eje_2'] = (int)$this->input->post('eje_2');
+			$data['eje_3'] = (int)$this->input->post('eje_3');
+			$data['eje_4'] = (int)$this->input->post('eje_4');
+			$data['eje_5'] = (int)$this->input->post('eje_5');
+			$data['eje_6'] = (int)$this->input->post('eje_6');
+			$data['eje_7'] = (int)$this->input->post('eje_7');
+			$data['actividad_1'] =$this->input->post('actividad_1');
+			$data['actividad_2'] =$this->input->post('actividad_2');
+			$data['actividad_3'] =$this->input->post('actividad_3');
+			$data['lugar']=$this->input->post('lugar');
+		   	//end post
+		   	
+			
+	
+			$aux = $this->modelo->getIdentificacion($data['matricula']);
+			$data['identificacion'] = $aux[0];
+			
+			
+			
+			
+			$aux=$this->modelo->getUltimofolio($data['id_plantel']);
+			$cons= 1+(int)$aux[0]['consecutivo'];
+			$data['cons']=$cons;
+			$b=$this->modelo->insertaRegistro($data['ciclo'],$data['tipo_registro'],$data['matricula'],$data['id_plantel'],
+					$data['eje_1'],$data['eje_2'],$data['eje_3'],$data['eje_4'],$data['eje_5'],$data['eje_6'],$data['eje_7']
+					,$data['lugar'],$data['actividad_1'],$data['actividad_2'],$data['actividad_3'],$data['correo'],
+					$data['tel'],$data['cons']);
+		
+			$a=$this->modelo->incrementa($data['cons'],$data['id_plantel']);
+			$this->modelo->guardaFolio($folio,$data['matricula'],$data['tipo_registro'], $data['ciclo']);
+			
+			
+			$aux=$this->modelo->BuscaFolio($data['matricula']);
+			$folio=trim($aux[0]['clave']).str_pad($aux[0]['consecutivo'],5,0,STR_PAD_LEFT);
+			$data['folio']=	$aux[0];
+
+			$aux=$this->modelo->getDatosEscuela($data['id_plantel']);
+			$data['escuela']=$aux[0];
+				    	
+			$aux=$this->modelo->getfecha($data['matricula'], $data['ciclo']);
+			$data['fecha']=$aux[0];
+
+			
+			
+			
+			//$this->load->view('beneficiario/existe', $data, false);
+			$this->load->view('beneficiario/v_mensaje', $data, false);
+    	
+    	//$this->load->view('beneficiario/existe', $data, false);
+    }
+    
+    
+    
     
     
     function ajax_beneficiario_registrado()
@@ -109,55 +173,7 @@ class Main extends CI_Controller {
     }
     
     
-    function muestra_informacion($matricula_asignada)
- 	{
- 		$aux=$this->modelo->getCiclo();
- 		$data['id_ciclo']=$aux[0]['id_ciclo_escolar'];
- 		$data['ciclo_escolar'] = $aux[0]['ciclo_escolar'];
- 		$data['matricula'] = $matricula_asignada;
- 		
- 		 
- 		$aux = $this->modelo->getIdentificacion($matricula_asignada);
- 		$data['identificacion'] = $aux[0];
- 		
- 		$aux = $this->modelo->getDireccion($matricula_asignada);
- 		$data['direccion'] = $aux[0];
- 		
- 		$aux = $this->modelo->getEscolar($matricula_asignada);
- 		$data['escolar'] = $aux[0];
- 		
-    	$reg=$this->modelo->buscaRegistro($matricula_asignada);
-    	
-    	if($reg!=null)
-    	{
-    		if($data['id_ciclo'] == $reg[0]['id_ciclo']){
-    			$aux=$this->modelo->generaFolio($matricula_asignada);
-    			$data['folio']=$aux[0];
-		    	$aux = $this->modelo->getIdentificacion($matricula_asignada);
-		    	$data['identificacion'] = $aux[0];
-		    	$data['msj']=1;
-		    	$data['tiene_registro'] = 1;
-		    	$data['es_promotor'] = 1;
-		    	$this->load->view('beneficiario/v_mensaje', $data, false);
-    		}
-    		elseif ($reg[0]['id_tipo_registro']== 1|| $reg[0]['id_tipo_registro']==2){
-    			$data['es_promotor'] = 1;
-    			$data['tiene_registro'] = 0;
-    			$this->load->view('beneficiario/v_datos', $data, false);
-    		}
-    		
-    		
-    	}
-    	else{
-    		$data['es_promotor'] = 0;
-    		$data['tiene_registro'] = 0;
-    		$this->load->view('beneficiario/v_datos', $data, false);
-    	} 
-    		
-
-	    	
-    	
-    }
+    
     
 
     function salir()
@@ -194,7 +210,7 @@ class Main extends CI_Controller {
     	$pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
     	$pdf->SetCreator(PDF_CREATOR);
     	$pdf->SetAuthor('Cony Jaramillo');
-    	$pdf->SetTitle('Ejemplo de provincías con TCPDF');
+    	$pdf->SetTitle('Combrobante');
     	$pdf->SetSubject('Registro Coordinadores y Promotores');
     	$pdf->SetKeywords('TCPDF, PDF, example, test, guide');
     	ob_start();
@@ -242,26 +258,104 @@ class Main extends CI_Controller {
     	$data['nombre'] = $this->input->post('nombre');
     	$data['folio'] = $this->input->post('folio');
     	$data['correo'] = $this->input->post('correo');
+    	$data['fecha'] = $this->input->post('fecha');
+    	$data['plantel'] = $this->input->post('plantel');
+    	$data['institucion'] = $this->input->post('institucion');
+    	$data['tipo_registro'] = $this->input->post('tipo_registro');
+    	 
     	//preparamos y maquetamos el contenido a crear
-    	$html = '';
+    	$html ="";
     	$html .= "<style type=text/css>";
-    	$html.=".leyenda
-        {
-        	font-size:15px !important;
-        	font-weight: bold;        
-        }";
-    	$html .= "th{color: #000; font-weight: bold; background-color: #BCAFB7}";
-    	$html .= "td{background-color:#BCAFB7; color: #fff; text-align:center;}";
+    	$html .=" h1 {
+					  
+					    width: 100%;
+					    font-weight: bold;
+					    font-size: 13;
+					    line-height: 2;
+					    text-align: center;
+					    color: #070005;
+					}
+    			h2{
+    					text-align: justify;
+    					font-weight: bold;
+						font-size: 9;
+						line-height: 1.5;
+    					color:  #070005;
+    				}
+    			h3{
+    				line-height: 3;
+    				text-align: center;
+    				font-weight: normal;
+    				font-size: 9;
+    				}
+					h4{
+    					text-align: center;
+    					font-weight: bold;
+						font-size: 10;
+						line-height: 1;
+    					color: #070005;
+				}
+    			
+    			h5{
+    					text-align: justify;
+    					font-weight: bold;
+						font-size: 10;
+						line-height: 4;
+    					color:  #070005;
+				}
+    			p {
+    			 	line-height: 1.5;
+    				color: #5E5D5D;
+    				font-weight: bold;
+				    text-align: justify;
+					
+    				font-size: 9;
+    				
+				}
+    				
+    			
+			";
+    	
     	$html .= "</style>";
-    	$html .= '<br /><br />';
-    	$html .= '<label class="leyenda" style="color:#000; text-align:center; padding-left:20px;">'.$data['nombre']."</label>";
-    	$html .= '<p style="text-align:center; font-size:11px;">HAS QUEADO REGISTRADO, REVISA CONSTANTEMENTE TU CORREO</p>';
-    	$html .= '<p style="text-align:center; font-size:11px;"><a href="">'.$data['correo'].'</a></p>';
-    	$html .= '<p style="text-align:center; font-size:11px;">PARA NOTIFICARTE SI FUISTE ACEPTADO, TU N&Uacute;MERO DE FOLIO ES:</p>';
-    	//$html .= '<p style="text-align:center; font-size:11px !important;">TU N&Uacute;MERO DE FOLIO ES:</p><br /><br>';
-    	$html .= '<table style=" text-align:center; padding-left:10px; font-size:12px">';
-    	$html .= '<tr><th>'.$data['folio']."</th></tr>";
-    	$html .= "</table>";
+    	//$html .="<body>";
+    	$html .='<h1>COMPROBANTE DE REGISTRO COMO '.$data['tipo_registro'].'<br> DEL PROGRAMA PREPA S&Iacute;</h1>';
+    	
+    	$html .="<p><h5>".$data['nombre']."</h5></p>";
+    	
+    	$html .='<table border="0">
+    			<tr>
+    				<td><h2>FECHA DE REGISTRO</h2></td>
+    				<td colspan="2"><p>'.$data['fecha'].'</p></td>
+    				
+    			</tr>
+    			<tr>
+    				<td><h2>INSTITUCION</h2></td>
+    				<td colspan="2"><p>'.$data['institucion'].'</p></td>
+    			</tr>
+    			<tr>
+    				<td><h2>PLANTEL</h2></td>
+    				<td colspan="2"><p>'.$data['plantel'].'</p></td>
+    			</tr>
+    			<tr>
+    				<td colspan="3"><h4></h4></td>
+    			</tr>
+    			<tr>
+    				<td colspan="3" bgcolor="#FBEFFB"><h4>FOLIO:   '.$data['folio'].'</h4></td>
+    				
+    			</tr>
+    			
+    			</table>';
+    	//$html .="<p><h4>Institucion: ".$data['institucion']." <br>Plantel ".$data['plantel']."</h4></p>";
+    	
+    	
+    	
+    /*	$html .="<p>TU FECHA DE REGISTRO ES: <b>".$data['fecha']."</b></p>";
+    	$html .="<p>TU N&Uacute;MERO DE FOLIO ES: <b>".$data['folio']."</b></p>";
+    	*/
+    	$html .="<br><h3>Has quedado registrado, te sugerimos estar al pendiente de tu correo: <br> <u>".$data['correo']."</u></h3>";
+    	
+    	
+    //	$html .="</body>";
     	
     	 
     	// Imprimimos el texto con writeHTMLCell()

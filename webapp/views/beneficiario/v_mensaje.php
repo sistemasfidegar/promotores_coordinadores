@@ -91,28 +91,40 @@
 
 
 <?php 
+	
 	$fol= trim($folio['clave']).str_pad($folio['consecutivo'],5,0,STR_PAD_LEFT);
 	$nom= $identificacion['nombre'].' '.$identificacion['ap'].' '.$identificacion['am'];
+	
+
+	
 ?>
     </head>
 <page>
     <body>
    <div id="registro" class="register-container container">
    	<div class="row">
+   	
     	<div  class="register">
         	<form id="formulario" method="post" action="index.php/main/generar">
             	<div style="text-align:left; padding-left:20px; border-bottom: 2px dotted #bbb; min-height:73px;">
                 	<a href="index.php/main"><img src="resources/assets/img/logo_gdf_cgdf.png" style="padding-top:0px;" align="top" /></a>&nbsp;                                               	
                 </div>
                	<div id="dotos_personales">
+               	<label><h3>Comprobante de registro como <?php if ($tipo_registro==1){echo 'coordinador ';$reg='COORDINADOR';}elseif ($tipo_registro==2){echo 'promotor';$reg='PROMOTOR';}?> del programa Prepa Sí</h3></label>
+               	<p><h5><?php echo $escuela['institucion'].' / '.$escuela['plantel'];?></h5></p>
                	<br /><label class="leyenda" style="color:#E6007E; text-align:center; padding-left:20px;"><?php echo $nom;?></label><br>
+		        	<p>TU FECHA DE REGISTRO ES: <b><?php echo $fecha['fecha_registro'];?></b></p>
 		        	<p>TU N&Uacute;MERO DE FOLIO ES:<br /><br /> <b><?php echo $fol;?></b></p>		                        
-		            <p>HAS QUEADO REGISTRADO, REVISA CONSTANTEMENTE TU CORREO <br><br><u><?php echo $identificacion['email'];?></u><br><br>PARA NOTIFICARTE SI FUISTE ACEPTADO</p>
+		            <p>HAS QUEADO REGISTRADO, TE SUGERIMOS ESTAR AL PENDIENTE DE TU CORREO <br><br><u><?php echo $identificacion['email'];?></u><br><br></p>
 		            <p></p>
 		            <br />
 		       </div>
 		       <input type="hidden" id="nombre" name="nombre" value="<?php  echo $nom; ?>" />
+		       <input type="hidden" id="plantel" name="plantel" value="<?php echo $escuela['plantel']; ?>" />
+		       <input type="hidden" id="institucion" name="institucion" value="<?php echo $escuela['institucion'];?>">
                <input type="hidden" id="folio" name="folio" value="<?php echo $fol;?>" />
+               <input type="hidden" id="fecha" name="fecha" value="<?php echo $fecha['fecha_registro'];?>" />
+               <input type="hidden" id="tipo_registro" name="tipo_registro" value="<?php echo $reg;?>" />
                <input type="hidden" id="correo" name="correo" value="<?php echo $identificacion['email'];?>" />
          <td align="center" colspan="7">
 	    <hr />

@@ -68,22 +68,6 @@
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.13);
   -webkit-font-smoothing: antialiased;
 }
-.btn-custom1 {
-  background-color: hsl(320, 98%, 47%) !important;
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#fc1bb1", endColorstr="#E3157D");
-  background-image: -khtml-gradient(linear, left top, left bottom, from(#fc1bb1), to(#E3157D));
-  background-image: -moz-linear-gradient(top, #fc1bb1, #ed029f);
-  background-image: -ms-linear-gradient(top, #fc1bb1, #ed029f);
-  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fc1bb1), color-stop(100%, #E3157D));
-  background-image: -webkit-linear-gradient(top, #fc1bb1, #E3157D);
-  background-image: -o-linear-gradient(top, #fc1bb1, #E3157D);
-  background-image: linear-gradient(#fc1bb1, #E3157D);
-  border-color: #ed029f #E3157D hsl(320, 98%, 45%);
-  color: #FFFEFE !important;
-  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.13);
-  -webkit-font-smoothing: antialiased;
-}
      
         .error {
 		    background: url("resources/assets/css/images/ui-bg_glass_95_fef1ec_1x400.png") repeat-x scroll 50% 50% #fef1ec !important;
@@ -131,7 +115,7 @@
         	        	        	
         	$('[title]').qtip();     	 
         	         	        	         	    	         	         	        	        	        	        	        	        	           
-             
+          /*   
              $("#guardar_promotor").click(function ()
              {
 				//alert('promotor');
@@ -146,7 +130,7 @@
             	 $("#tipo_registro").val(1);
             	 $("#registra").submit();        	              
              });
-             
+            */ 
              $("#Institucion").change(function () {
                  var tipo = $("#Institucion option:selected").val();
 
@@ -247,19 +231,15 @@
         
         </script>
 </head>
-
-    <body>
-       
-    <div class="register-container container">
-  	
-            <div class="row">
-                <div class="register">
-                  
-                   
-                    <div style="text-align:left; padding-left:20px; border-bottom: 2px dotted #bbb; min-height:73px;">
-                        	<a href="index.php/main"><img src="resources/assets/img/logo_gdf_cgdf.png" style="padding-top:0px;" align="top" /></a>&nbsp;                                               	
-                    </div>
-                    <div class="row-fluid">
+<body>
+	<div class="register-container container">
+		<div class="row">
+        	<div class="register">
+        		<div style="text-align:left; padding-left:20px; border-bottom: 2px dotted #bbb; min-height:73px;">
+                    <a href="index.php/main"><img src="resources/assets/img/logo_gdf_cgdf.png" style="padding-top:0px;" align="top" /></a>&nbsp;                                               	
+               	</div>
+               	<!-- Buscador -->
+               	<div class="row-fluid">
 					<div class="span12">
 						<div class="navbar">
 							<div class="navbar-inner">
@@ -294,24 +274,24 @@
 						</div>
 					</div>
 				</div>
-				<div class="row-fluid">
-				<div class="span12">
-				
-				<div class="span12">
-				<form id="escuela" name="escuela" method="post" action="index.php/admin/RegistradosC1">
-				<h3>REGISTRO COORDINADORES</h3>
-				<table  border="0" style=" text-align:left !important;">
-				<tr>
-				<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-				</tr>
-					  <tr>
-						  <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-						  <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-						  <td><label>Institucion:</label></td>
-						  <td>&nbsp;&nbsp;&nbsp;</td>
-					      <td>
-					    	
-								            <select name="Institucion" id="Institucion" class="form-control" >
+               	<!-- end Buscador -->
+               	<div class="row-fluid">
+               	<!-- Busca Promotor -->
+               		<div class="span12">
+               		
+						<div class="span12">
+						
+							<form id="escuela" name="escuela" method="post" action="index.php/admin/RegistradosP1">
+							<h3>REGISTRO PROMOTORES</h3>
+								<table  border="0" style=" text-align:left !important;">
+									<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+									<tr>
+									  <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+									  <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+									  <td><label>Institucion:</label></td>
+									  <td>&nbsp;&nbsp;&nbsp;</td>
+								      <td>
+								      	<select name="Institucion" id="Institucion" class="form-control" >
 								            	<option value="0">[Seleccionar]</option>
 							            		<?php 
 							            		$u=0;
@@ -358,65 +338,51 @@
 							            			}
 							            		?>					            				           
 							            	</select>
-					    </td>
-					    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-					    <td><label>Plantel:</label></td>
-					    <td>&nbsp;&nbsp;&nbsp;</td>
-					    <td>
-						    
-							<select name="plantel" id="plantel" class="form-control" >
-								<option value="0">[Seleccionar]</option>					            	            
-							</select>
-						</td>
-						<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-						<td>
-						<input class="btn btn-small" type="submit" name="Buscar" id="Buscar" value="Buscar">
-						
-						</td>		
-					    
-					  </tr>
-					  
-				</table>
-				
-				</form>
-				
+								      </td>
+								      </td>
+									    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+									    <td><label>Plantel:</label></td>
+									    <td>&nbsp;&nbsp;&nbsp;</td>
+					    				<td>
+					    					<select name="plantel" id="plantel" class="form-control" >
+												<option value="0">[Seleccionar]</option>					            	            
+											</select>
+						   				</td>
+						   				<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+										<td>
+											<input class="btn btn-small" type="submit" name="Buscar" id="Buscar" value="Buscar">
+										</td>
+									</tr>
+								</table>
+							</form>
+					</div>
 				</div>
-				</div>
-				
-				</div>
-				<div class="row-fluid">
+        	</div>
+        	<!-- end Busca Promotor -->
+        	<div class="row-fluid">
+        	<?php if($registro==2 && isset($Promotor) && $Promotor!=null){ ?>
 				<div class="span12">
-				<div class="span12"></div>
-   				<div class="row">
-					 
-						<?php if($registro==1 && isset($Coordinador) && $Coordinador!=null){
-						/*echo '<pre>';
-						print_r($Coordinador);
-						echo '</pre>';*/
-						?>	
+					<div class="span12"></div>
+					<div class="row-fluid">
 						
 						<div class="span8"><div class="span12">&nbsp;</div></div>
 						<div class="span4">
 							<div class="span8">&nbsp;</div>
-							
 							<div class="span3"><input class="btn btn-small btn-custom" type="button" onclick="valores()" name="nuevo" id="nuevo" value="Aprobar"></div>	
-						</div>
+						</div>	
 					</div>
-				</div>
-					        	
-        	
-					<div id="span12">
-						<form name="form_datos" id="form_datos">
-							<h2><?php echo $datos['institucion'].' - '.$datos['plantel'];?></h2>
+        		</div>
+        		<div id="span12">
+					<form name="form_datos" id="form_datos">
+						<h2><?php echo $datos['institucion'].' - '.$datos['plantel'];?></h2>
 						<table width="" class= "table table-bordered table-striped table-hover table-condensed">
-							<tr align="center">
+						<tr align="center">
 								
 								<th colspan="10" class="align-right">
-								REPORTE DE BENEFICIARIOS REGISTRADOS PARA COORDINADOR  
+								<p>REPORTE DE BENEFICIARIOS REGISTRADOS PARA PROMOTOR</p>  
 									<?php //echo getMesesTrimestreLetra($trimestre);?><?php //echo$anio;?>
 								</th>
 							</tr>
-							
 							<tr>
 								<th width="2%">#</th>
 								<th width="">NOMBRE</th>
@@ -430,7 +396,7 @@
 								<th>CICLO</th>
 							</tr>
 							<?php 
-								foreach ($Coordinador as $val){
+								foreach ($Promotor as $val){
 							?>
 							
 							<tr>
@@ -447,23 +413,19 @@
 								<td><?php echo $val['ciclo_escolar']?></td>
 							</tr>
 								<?php }?>
-								
-								<input type="hidden" name="tipo" id="tipo" value="1">
+							<input type="hidden" name="tipo" id="tipo" value="2">
 						</table>
-						</form>
-					</div>
-					<div id="span12">
-					 
-						<?php
-						}
-						?>
-						
 					</form>
-                </div>
-            </div>
-           </div>
-           </div>
+				</div>
+        	</div>
+        	
+        	<?php }?>
+        	
+        	
+        	
         </div>
-        </body>
-        </html>
-     
+      </div>
+	</div>
+	
+</body>
+</html>

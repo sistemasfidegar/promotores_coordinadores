@@ -58,25 +58,25 @@ class Modelo extends MY_Model {
     	$results = $this->db->query($this->sql);
     	return $results->result_array();
     }
-    function getCiclo(){
+    function getCicloActual(){
     	$this->sql="select id_ciclo_escolar, ciclo_escolar from cat_ciclo_escolar where activo is true;";
     	$results = $this->db->query($this->sql);
     	return $results->result_array();
     }
     function buscaRegistro($matricula){
-    	$this->sql="select id_tipo_registro, id_ciclo from registro_pyc where matricula='$matricula';";
+    	$this->sql="select id_tipo_registro, id_ciclo from registro_pyc where matricula='$matricula' ORDER BY id_registro desc;";
     	$results = $this->db->query($this->sql);
     	return $results->result_array();
     }
-    function generaFolio($matricula){
+    function BuscaFolio($matricula){
     	$this->sql="select p.clave, r.consecutivo from registro_pyc r 
 					inner join cat_plantel p on p.id_plantel=r.id_plantel
-					where r.matricula='$matricula';";
+					where r.matricula='$matricula' ORDER BY id_registro desc;;";
     	$results = $this->db->query($this->sql);
     	return $results->result_array();
     }
-    function guardaFolio($folio,$matricula,$tipo_reg){
-    	$this->sql="update registro_pyc set folio='$folio' where matricula='$matricula' and id_tipo_registro=$tipo_reg;";
+    function guardaFolio($folio,$matricula,$tipo_reg,$id_ciclo){
+    	$this->sql="update registro_pyc set folio='$folio' where matricula='$matricula' and id_tipo_registro=$tipo_reg and id_ciclo=$id_ciclo;";
     	$results = $this->db->query($this->sql, array(1));
     	return $results->result_array();
     }
@@ -86,6 +86,11 @@ class Modelo extends MY_Model {
      	$results = $this->db->query($this->sql, array(1));
     	return $results->result_array();
     	
+    }
+    function getfecha($matricula, $id_ciclo){
+    	$this->sql="select to_char(fecha_registro, 'DD/MM/YYYY') fecha_registro from registro_pyc where matricula='$matricula' and id_ciclo=$id_ciclo;";
+    	$results = $this->db->query($this->sql, array(1));
+    	return $results->result_array();
     }
     function getUltimoFolio($id_plantel){
     	$this->sql="select consecutivo from folios where id_plantel=$id_plantel;";
@@ -105,38 +110,77 @@ class Modelo extends MY_Model {
     	//return $results->result_array();
     	return 1;
     }
-    function registroCoo(){
-    	$this->sql="select * from registro_pyc r
-    			inner join beneficiarios p on p.matricula_asignada=r.matricula
-    			inner join cat_ciclo_escolar c on c.id_ciclo_escolar=r.id_ciclo 
-    			where r.id_tipo_registro=1 and id_aceptado is null and c.activo is true
-    			order by fecha_registro asc;";
+    function registroCoo($plantel){
+    	$this->sql="select r.id_registro,r.matricula, p.nombre, p.ap, p.am, r.folio, r.lugar_apoyo, r.eje_1, r.correo, r.telefono, c.ciclo_escolar, cd.delegacion
+						from registro_pyc r
+						inner join beneficiarios p on p.matricula_asignada=r.matricula
+						inner join cat_ciclo_escolar c on c.id_ciclo_escolar=r.id_ciclo 
+						inner join cat_plantel cp on r.id_plantel=cp.id_plantel
+						INNER JOIN cat_delegacion cd on cp.id_delegacion=cd.id_delegacion
+  						where r.id_tipo_registro=1 and id_aceptado is null 
+  						and c.activo is true and r.id_plantel=$plantel
+						ORDER BY r.fecha_registro asc;";
     	$results = $this->db->query($this->sql);
     	return $results->result_array();
     }
-    function registroProm(){
-    	$this->sql="select * from registro_pyc r
-    			join beneficiarios p on p.matricula_asignada=r.matricula
-    			inner join cat_ciclo_escolar c on c.id_ciclo_escolar=r.id_ciclo
-    			where r.id_tipo_registro=2 and id_aceptado is null and c.activo is true
-    			order by fecha_registro asc;";
+    
+    function registroProm($plantel){
+    	$this->sql="select r.id_registro,r.matricula, p.nombre, p.ap, p.am, r.folio, r.lugar_apoyo, r.eje_1, r.correo, r.telefono, c.ciclo_escolar, cd.delegacion
+						from registro_pyc r
+						inner join beneficiarios p on p.matricula_asignada=r.matricula
+						inner join cat_ciclo_escolar c on c.id_ciclo_escolar=r.id_ciclo 
+						inner join cat_plantel cp on r.id_plantel=cp.id_plantel
+						INNER JOIN cat_delegacion cd on cp.id_delegacion=cd.id_delegacion
+  						where r.id_tipo_registro=2 and id_aceptado is null 
+  						and c.activo is true and r.id_plantel=$plantel
+						ORDER BY r.fecha_registro asc;";
     	$results = $this->db->query($this->sql);
     	return $results->result_array();
     }
-    function AceptadoCoo(){
-    	$this->sql="select * from registro_pyc r
-    			inner join beneficiarios p on p.matricula_asignada=r.matricula
-    			inner join cat_ciclo_escolar c on c.id_ciclo_escolar=r.id_ciclo
-    			where r.id_tipo_registro=1 and id_aceptado=1 and c.activo is true
-    			order by fecha_registro asc;";
+    function AceptadoCoo($plantel){
+    	$this->sql="select r.id_registro,r.matricula, p.nombre, p.ap, p.am, r.folio, r.lugar_apoyo, r.eje_1, r.correo, r.telefono, c.ciclo_escolar, cd.delegacion
+						from registro_pyc r
+						inner join beneficiarios p on p.matricula_asignada=r.matricula
+						inner join cat_ciclo_escolar c on c.id_ciclo_escolar=r.id_ciclo 
+						inner join cat_plantel cp on r.id_plantel=cp.id_plantel
+						INNER JOIN cat_delegacion cd on cp.id_delegacion=cd.id_delegacion
+    			
+    					where r.id_tipo_registro=1 and id_aceptado=1 and c.activo is true and r.id_plantel=$plantel 
+    					order by fecha_registro asc;";
     	$results = $this->db->query($this->sql);
     	return $results->result_array();
     }
-    function AceptadoProm(){
-    	$this->sql="select * from registro_pyc r
-    			join beneficiarios p on p.matricula_asignada=r.matricula
-    			where r.id_tipo_registro=2 and id_aceptado=1
-    			order by fecha_registro asc;";
+    function AceptadoProm($plantel){
+    	$this->sql="select r.id_registro,r.matricula, p.nombre, p.ap, p.am, r.folio, r.lugar_apoyo, r.eje_1, r.correo, r.telefono, c.ciclo_escolar, cd.delegacion
+						from registro_pyc r
+						inner join beneficiarios p on p.matricula_asignada=r.matricula
+						inner join cat_ciclo_escolar c on c.id_ciclo_escolar=r.id_ciclo 
+						inner join cat_plantel cp on r.id_plantel=cp.id_plantel
+						INNER JOIN cat_delegacion cd on cp.id_delegacion=cd.id_delegacion
+						
+						where r.id_tipo_registro=2 and id_aceptado=1 and c.activo is true and r.id_plantel=$plantel 
+    					order by fecha_registro asc;
+    ";
+    	$results = $this->db->query($this->sql);
+    	return $results->result_array();
+    }
+    function getInstitucion(){
+    	$this->sql="SELECT id_institucion, institucion, universidad FROM cat_institucion where activo='t' order by universidad,institucion;";
+    	$results = $this->db->query($this->sql);
+    	return $results->result_array();
+    	
+    }
+    
+    function get_plantel($tipo){
+    	$this->sql = "SELECT cp.*,ci.institucion FROM cat_plantel cp
+						inner join cat_institucion ci using(id_institucion)
+						WHERE cp.activo is true and id_institucion=$tipo
+						order by institucion,plantel;";
+    	$results = $this->db->query($this->sql);
+    	return $results->result_array();
+    }
+    function getDatosEscuela($plantel){
+    	$this->sql = "select cp.plantel, i.institucion from cat_plantel cp inner join cat_institucion i on cp.id_institucion=i.id_institucion where cp.id_plantel=$plantel;";
     	$results = $this->db->query($this->sql);
     	return $results->result_array();
     }

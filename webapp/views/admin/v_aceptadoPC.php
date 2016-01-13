@@ -270,17 +270,15 @@
         </script>
     </head>
 
-    <body>
-       
-        <div class="register-container container">
-            <div class="row">
-                <div class="register">
-                  
-                   
-                    <div style="text-align:left; padding-left:20px; border-bottom: 2px dotted #bbb; min-height:73px;">
-                        	<a href="index.php/main"><img src="resources/assets/img/logo_gdf_cgdf.png" style="padding-top:0px;" align="top" /></a>&nbsp;                                               	
-                    </div>
-                    <div class="row-fluid">
+   <body>
+	<div class="register-container container">
+		<div class="row">
+        	<div class="register">
+        		<div style="text-align:left; padding-left:20px; border-bottom: 2px dotted #bbb; min-height:73px;">
+                    <a href="index.php/main"><img src="resources/assets/img/logo_gdf_cgdf.png" style="padding-top:0px;" align="top" /></a>&nbsp;                                               	
+               	</div>
+                    <!-- Buscador -->
+               	<div class="row-fluid">
 					<div class="span12">
 						<div class="navbar">
 							<div class="navbar-inner">
@@ -309,12 +307,134 @@
 									        <li class="active">
 									          <a href="index.php/admin/salir">Salir</a>
 									        </li>
-									    </ul>
-									    
+									    </ul> 
 								</div>
 							</div>	
 						</div>
 					</div>
+				</div>
+               	<!-- end Buscador -->
+               	
+               	
+               	<div class="row-fluid">
+               	<!-- Busca Promotor -->
+               		<div class="span12">
+               		
+						<div class="span12">
+						
+							<form id="escuela" name="escuela" method="post" action="index.php/admin/AceptadosP">
+							<h3>PROMOTORES ACEPTADOS</h3>
+								<table  border="0" style=" text-align:left !important;">
+									<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+									<tr>
+									  <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+									  <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+									  <td><label>Institucion:</label></td>
+									  <td>&nbsp;&nbsp;&nbsp;</td>
+								      <td>
+								      	<select name="Institucion" id="Institucion" class="form-control" >
+								            	<option value="0">[Seleccionar]</option>
+							            		<?php 
+							            		$u=0;
+							            		$b=0;
+							            		$i=0;
+							            			foreach ($institucion as $val){
+							            				if($val['universidad']==0){
+							            				
+							            					if($b==0)
+							            						echo " <optgroup label='Bachillerato'>";
+							            				
+							            					echo "<option value='".$val['id_institucion']."'>".$val['institucion']."</option>";
+							            					
+							            					$b++;
+							            				}
+							            					
+							            				if($val['universidad']==1){
+							            				
+							            					if($u==0)
+							            					{
+							            						echo'</optgroup>';
+							            						echo " <optgroup label='Universidad'>";
+							            					}
+							            				
+							            				
+							            					echo "<option value='".$val['id_institucion']."'>".utf8_encode($val['institucion'])."</option>";
+							            				
+							            					$u++;
+							            				
+							            				}
+							            					
+							            				if($val['universidad']==2){
+							            					if($i==0)
+							            					{
+							            						echo'</optgroup>';
+							            						echo " <optgroup label='Institutos'>";
+							            					}
+							            						
+							            					echo "<option value='".$val['id_institucion']."'>".utf8_encode($val['institucion'])."</option>";
+							            				
+							            					$i++;
+							            						
+							            				}
+							            			}
+							            		?>					            				           
+							            	</select>
+								      </td>
+								      </td>
+									    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+									    <td><label>Plantel:</label></td>
+									    <td>&nbsp;&nbsp;&nbsp;</td>
+					    				<td>
+					    					<select name="plantel" id="plantel" class="form-control" >
+												<option value="0">[Seleccionar]</option>					            	            
+											</select>
+						   				</td>
+						   				<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+										<td>
+											<input class="btn btn-small" type="submit" name="Buscar" id="Buscar" value="Buscar">
+										</td>
+									</tr>
+								</table>
+							</form>
+					</div>
+				</div>
+        	</div>
+        	<!-- end Busca Promotor -->
+               	
+               	
+               	
+               	
+               	
+               	
+               	
+               	
+               	
+               	
+               	
+               	
+               	
+               	
+               	
+               	
+               	
+               	
+               	
+               	
+               	
+               	
+               	
+               	
+               	
+               	
+               	
+               	
+               	
+               	
+               	
+               	
+               	
+               	
+               	
                   
 					<div id="row-fluid">
 					

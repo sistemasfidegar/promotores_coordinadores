@@ -296,7 +296,8 @@
                     <form id="formulario" action="index.php/main/guarda_registro" method="post">
                     	<input type="hidden" id="matricula" name="matricula" value="<?php  echo $matricula; ?>" />
                     	<input type="hidden" id="tipo_registro" name="tipo_registro" value="<?php  echo $tipo_registro; ?>" />
-                    	<input type="hidden" id="ciclo" name="ciclo" value="<?php  echo $id_ciclo; ?>" />	
+                    	<input type="hidden" id="ciclo" name="ciclo" value="<?php  echo $id_ciclo; ?>" />
+                    	<input type="hidden" id="tiene_registro" name="tiene_registro" value=<?php echo $tiene_registro;?> />	
                         <div style="text-align:left; padding-left:20px; border-bottom: 2px dotted #bbb; min-height:73px;">
                         	<a href="index.php/main"><img src="resources/assets/img/logo_gdf_cgdf.png" style="padding-top:0px;" align="top" /></a>&nbsp;                                               	
                         </div>
@@ -444,7 +445,7 @@
 	                        	<br />
 	                        	
 	                        	<div style="text-align: left; padding-left:15px;">
-	                        		<input type="checkbox" id="terminos" name="terminos" value="1" style="width:2%;"> Acepto los términos y condiciones...
+	                        		<input type="checkbox" id="terminos" name="terminos" value="1" style="width:2%;"> Acepto los términos y condiciones, <a href="resources/archivos/acepto.pdf" target="_blank">Leer.</a>
 	                        	</div>
 	                       	</div>       	                       
 	                        

@@ -129,9 +129,9 @@
     <body>
     
     <?php 
-  
+ 
     if(isset($tiene_registro) && $tiene_registro==1)
-    {
+    {/*
     ?>	
     	<script>
 
@@ -156,7 +156,8 @@
     	</script>
     	
     <?php 	
-    }  
+    */}  
+  
     ?>
        
         <div class="register-container container">
@@ -165,12 +166,12 @@
                 <div class="register">
                     <form id="registra" action="index.php/main/muestra_formato_registro" method="post">
                     	<input type="hidden" id="matricula" name="matricula" value="<?php  echo $matricula; ?>" />
+                    	<input type="hidden" id="tiene_registro" name="tiene_registro" value=<?php echo $tiene_registro;?> />
                     	<input type="hidden" id="tipo_registro" name="tipo_registro" value="" />
-                    
                         <div style="text-align:left; padding-left:20px; border-bottom: 2px dotted #bbb; min-height:73px;">
                         	<a href="index.php/main"><img src="resources/assets/img/logo_gdf_cgdf.png" style="padding-top:0px;" align="top" /></a>&nbsp;                                               	
                         </div>
-                        <input type="hidden" id="ciclo" name="ciclo" value="<?php  echo $id_ciclo; ?>" />	
+                        <input type="hidden" id="ciclo" name="ciclo" value="<?php  echo $id_ciclo_actual; ?>" />	
                         <div style="text-align:center; padding-top:20px;">
                         	                        	                       
 	                        <div id="dotos_personales">

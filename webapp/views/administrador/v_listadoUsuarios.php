@@ -1,3 +1,7 @@
+
+
+
+
 <div class="box">     
         <div class="box-body table-responsive">	
 			<div id="lista">
