@@ -92,7 +92,7 @@
 
 <?php 
 	
-	$fol= trim($folio['clave']).str_pad($folio['consecutivo'],5,0,STR_PAD_LEFT);
+	
 	$nom= $identificacion['nombre'].' '.$identificacion['ap'].' '.$identificacion['am'];
 	
 
@@ -114,7 +114,7 @@
                	<p><h5><?php echo $escuela['institucion'].' / '.$escuela['plantel'];?></h5></p>
                	<br /><label class="leyenda" style="color:#E6007E; text-align:center; padding-left:20px;"><?php echo $nom;?></label><br>
 		        	<p>TU FECHA DE REGISTRO ES: <b><?php echo $fecha['fecha_registro'];?></b></p>
-		        	<p>TU N&Uacute;MERO DE FOLIO ES:<br /><br /> <b><?php echo $fol;?></b></p>		                        
+		        	<p>TU N&Uacute;MERO DE FOLIO ES:<br /><br /> <b><?php echo $folio;?></b></p>		                        
 		            <p>HAS QUEADO REGISTRADO, TE SUGERIMOS ESTAR AL PENDIENTE DE TU CORREO <br><br><u><?php echo $identificacion['email'];?></u><br><br></p>
 		            <p></p>
 		            <br />
@@ -122,7 +122,7 @@
 		       <input type="hidden" id="nombre" name="nombre" value="<?php  echo $nom; ?>" />
 		       <input type="hidden" id="plantel" name="plantel" value="<?php echo $escuela['plantel']; ?>" />
 		       <input type="hidden" id="institucion" name="institucion" value="<?php echo $escuela['institucion'];?>">
-               <input type="hidden" id="folio" name="folio" value="<?php echo $fol;?>" />
+               <input type="hidden" id="folio" name="folio" value="<?php echo $folio;?>" />
                <input type="hidden" id="fecha" name="fecha" value="<?php echo $fecha['fecha_registro'];?>" />
                <input type="hidden" id="tipo_registro" name="tipo_registro" value="<?php echo $reg;?>" />
                <input type="hidden" id="correo" name="correo" value="<?php echo $identificacion['email'];?>" />

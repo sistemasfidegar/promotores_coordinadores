@@ -165,8 +165,9 @@
                
                 <div class="register">
                     <form id="registra" action="index.php/main/muestra_formato_registro" method="post">
-                    	<input type="hidden" id="matricula" name="matricula" value="<?php  echo $matricula; ?>" />
+                    	<!-- <input type="hidden" id="matricula" name="matricula" value="<?php  echo $matricula; ?>" /> -->
                     	<input type="hidden" id="tiene_registro" name="tiene_registro" value=<?php echo $tiene_registro;?> />
+                    	<input type="hidden" id="id_archivo" name="id_archivo" value="<?php echo $identificacion['id_archivo']; ?>" />
                     	<input type="hidden" id="tipo_registro" name="tipo_registro" value="" />
                         <div style="text-align:left; padding-left:20px; border-bottom: 2px dotted #bbb; min-height:73px;">
                         	<a href="index.php/main"><img src="resources/assets/img/logo_gdf_cgdf.png" style="padding-top:0px;" align="top" /></a>&nbsp;                                               	
@@ -180,12 +181,13 @@
 	                        	<input type="text" id="paterno" name="paterno" placeholder="A. Paterno" value="<?php echo $identificacion['ap']; ?>" title="Apellido Paterno" style="width:30%;" readonly >		                       		                        		                        
 		                        <input type="text" id="materno" name="materno" placeholder="A. Materno" value="<?php echo $identificacion['am']; ?>" title="Apellido Materno" style="width:30%;" readonly >
 		                        <br />
-		                        <input type="text" id="correo" name="correo" placeholder="Correo electrónico" value="<?php echo $identificacion['email']; ?>" title="Correo Electrónico" style="width:30%;" readonly >
-		                        <input type="text" id="tel" name="tel" placeholder="Teléfono" value="<?php echo $identificacion['telefono']; ?>" title="Teléfono" style="width:30%;" readonly >
-		                        <input type="text" id="cel" name="cel" placeholder="Celular" value="<?php echo $identificacion['celular']; ?>" title="Celular" style="width:30%;" readonly >
-		                        <br />
-		                        <input type="text" id="padre" name="padre" placeholder="Nombre del padre" value="<?php echo $identificacion['nombre_p']." ".$identificacion['ap_p']." ".$identificacion['am_p']; ?>" title="Padre" style="width:46%;" readonly >
-		                        <input type="text" id="madre" name="madre" placeholder="Nombre de la Madre" value="<?php echo $identificacion['nombre_m']." ".$identificacion['ap_m']." ".$identificacion['am_m']; ?>" title="Madre" style="width:46%;" readonly >
+		                        <input type="hidden" id="correo" name="correo" placeholder="Correo electrónico" value="<?php echo $identificacion['email']; ?>" title="Correo Electrónico" style="width:30%;" readonly > 
+		                        <input type="hidden" id="tel" name="tel" placeholder="Teléfono" value="<?php echo $identificacion['telefono']; ?>" title="Teléfono" style="width:30%;" readonly >
+		                        <!-- <input type="text" id="cel" name="cel" placeholder="Celular" value="<?php echo $identificacion['celular']; ?>" title="Celular" style="width:30%;" readonly >
+		                         -->
+		                         <br />
+		                        <input type="text" id="curp" name="curp" placeholder="curp" value="<?php echo $identificacion['curp']; ?>" title="curp" style="width:46%;" readonly >
+		                        <input type="text" id="matricula" name="matricula" placeholder="matricula" value="<?php echo $matricula; ?>" title="matricula" style="width:46%;" readonly >
 	                        </div>
 	                        
 	                        
@@ -224,7 +226,9 @@
 	                        	$turno = $escolar['turno'];
 	                        	$modalidad = $escolar['sistema'];
 	                        	$promedio = $escolar['promedio'];
-	                        }
+	                        	$prom=$p_bach;
+	                        	$coor=$c_bach;	      
+	                         }
 	                        else 
 	                        {
 	                        	$institucion = $escolar['institucion_uni'];
@@ -233,26 +237,29 @@
 	                        	$turno = $escolar['turno_uni'];
 	                        	$modalidad = $escolar['sistema'];
 	                        	$promedio = $escolar['promedio_uni'];
+	                        	$prom=$p_uni;
+	                        	$coor=$c_uni;
+	                        	
 	                        }
 	                        
 	                        ?>
 		                        <label class="leyenda" style="color:#E6007E;  text-align:left; padding-left:20px;">3. Datos escolares</label>
-		                        <input type="text" id="institucion" name="institucion" placeholder="Institución" value="<?php echo $institucion; ?>" title="Institución" style="width:46%;" readonly >
-	                        	<input type="text" id="plantel" name="plantel" placeholder="Plantel" value="<?php echo $plantel; ?>" title="Plantel" style="width:46%;" readonly >
-	                        	<br />	                        	
-	                        	<input type="text" id="grado" name="grado" placeholder="Grado" value="<?php echo $grado; ?>" title="Grado" style="width:22%;" readonly >
-	                        	<input type="text" id="turno" name="turno" placeholder="Turno" value="<?php echo $turno; ?>" title="Turno" style="width:22%;" readonly >
-	                        	<input type="text" id="modalidad" name="modalidad" placeholder="Modalidad" value="<?php echo $modalidad; ?>" title="Modalidad" style="width:23%;" readonly >
-	                        	<input type="text" id="promedio" name="promedio" placeholder="Promedio" value="<?php echo getPromedio($promedio); ?>" title="Promedio" style="width:22%; text-align:center;" readonly >
+		                        <input type="text" id="institucion" name="institucion" placeholder="Institución" value="<?php echo $institucion; ?>" title="Institución" style="width:36%;" readonly >
+	                        	<input type="text" id="plantel" name="plantel" placeholder="Plantel" value="<?php echo $plantel; ?>" title="Plantel" style="width:35%;" readonly >
+	                        	           	
+	                        	<input type="text" id="grado" name="grado" placeholder="Grado" value="<?php echo $grado; ?>" title="Grado" style="width:8%;" readonly >
+	                        	<input type="text" id="turno" name="turno" placeholder="Turno" value="<?php echo $turno; ?>" title="Turno" style="width:8%;" readonly >
+	                        	
 	                       	</div>    	                       
 	                        
 	                      
 						    
 
                        </div>
-                                             
+                            <?php if($prom=='disponible'){?>                
                         	<button id="guardar_promotor" type="button" style="font-weight:bold;">Registrarse como "PROMOTOR"</button>
-                        	<?php if($es_promotor==1){?>
+                        	<?php }?>
+                        	<?php if($es_promotor==1 && ($coor=='disponible')){?>
                         	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         	<button id="guardar_coordinador" type="button" style="font-weight:bold;">Registrarse como "COORDINADOR"</button>
                         	<?php }?>

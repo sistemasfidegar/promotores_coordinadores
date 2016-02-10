@@ -13,61 +13,104 @@ class Main extends CI_Controller {
     }
     function muestra_informacion($matricula_asignada)
     {
-    
-    	$reg=$this->modelo->buscaRegistro($matricula_asignada);
-    	
     	$data['matricula'] = $matricula_asignada;
+    	
+    	$aux=$this->modelo->lugar_disponible($data['matricula']);
+    	$data['disponible']=$aux[0];
     	$aux = $this->modelo->getIdentificacion($matricula_asignada);
     	$data['identificacion'] = $aux[0];
-    	 
-    	$aux = $this->modelo->getDireccion($matricula_asignada);
-    	$data['direccion'] = $aux[0];
-    	 
-    	$aux = $this->modelo->getEscolar($matricula_asignada);
-    	$data['escolar'] = $aux[0];
     	
-    	$aux=$this->modelo->getCicloActual();
-    	$data['id_ciclo_actual']=$aux[0]['id_ciclo_escolar'];
-    	$data['ciclo_escolar'] = $aux[0]['ciclo_escolar'];
-    	
-    		
-    	if($reg!=null)
+    	if ($data['disponible']['c_bach']==0 && $data['disponible']['p_bach']==0){
+    		$data['mensaje']=1;
+    		$this->load->view('beneficiario/noDisponible', $data, false);
+    	}
+    	elseif ($data['disponible']['c_uni']==0 && $data['disponible']['p_uni']==0 )
     	{
-    		$data['tipo_registro']=$reg[0]['id_tipo_registro'];
-    		
-    		if($data['id_ciclo_actual'] == $reg[0]['id_ciclo']){
-    			 
-    			 
-    			$aux=$this->modelo->BuscaFolio($matricula_asignada);
-    			$data['folio']=$aux[0];
-    		  
-    			$aux = $this->modelo->getIdentificacion($matricula_asignada);
-    			$data['identificacion'] = $aux[0];
-    			$aux=$this->modelo->getIdPlantel($data['matricula']);
-    			$data['id_plantel'] = (int)$aux[0]['id_plantel'];
-    			
-    			$aux=$this->modelo->getfecha($data['matricula'], $data['id_ciclo_actual']);
-    			$data['fecha']=$aux[0];
-    			$aux=$this->modelo->getDatosEscuela($data['id_plantel']);
-    			$data['escuela']=$aux[0];
-    			$data['es_promotor'] = 1;
-    			$this->load->view('beneficiario/v_mensaje', $data, false);
-    		  
-    		}
-    		elseif($reg[0]['id_tipo_registro']== 1|| $reg[0]['id_tipo_registro']==2){
-    			$data['es_promotor'] = 1;
-    			$data['tiene_registro'] = 1;
-    			$this->load->view('beneficiario/v_datos', $data, false);
-    		}
-    
-    
+    		$data['mensaje']=2;
+    		$this->load->view('beneficiario/noDisponible', $data, false);
     	}
     	else{
+    		if($data['identificacion']['id_archivo']==1 || $data['identificacion']['id_archivo']==2){
+    			 
+    			if($data['disponible']['c_bach']!=0 ){
+    				$data['c_bach']='disponible';
+    			}else 
+    				$data['c_bach']='NOdisponible';
+    			if ($data['disponible']['p_bach']!=0){
+    				$data['p_bach']='disponible';
+    			}
+    			else $data['p_bach']='NOdisponible';
+    		}
+    		 
+    		if ($data['identificacion']['id_archivo']==3)
+    		{
+    			if($data['disponible']['c_uni']!=0){
+    				$data['c_uni']='disponible';
+    			}
+    			else 
+    				$data['c_uni']='NOdisponible';
+    			if ($data['disponible']['p_uni']!=0){
+    				$data['p_uni']='disponible';
+    			}else
+    				$data['p_uni']='NOdisponible';
+    		}
+    	
+
+    		$reg=$this->modelo->buscaRegistro($matricula_asignada);
+	    	$aux = $this->modelo->getDireccion($matricula_asignada);
+	    	$data['direccion'] = $aux[0];
+	    	 
+	    	$aux = $this->modelo->getEscolar($matricula_asignada);
+	    	$data['escolar'] = $aux[0];
+	    	
+	    	$aux=$this->modelo->getCicloActual();
+	    	
+	    	$data['id_ciclo_actual']=$aux[0]['id_ciclo_escolar'];
+	    	$data['ciclo_escolar'] = $aux[0]['ciclo_escolar'];
+	    	
+	    	if($reg!=null)
+    		{
+    			$data['tipo_registro']=$reg[0]['id_tipo_registro'];
+    		
+    			if($data['id_ciclo_actual'] == $reg[0]['id_ciclo']){
+    				
+    				$aux=$this->modelo->BuscaFolio($data['matricula']);
+    				$data['folio']=$aux[0]['folio'];
+    		  
+	    			$aux=$this->modelo->getIdPlantel($data['matricula']);
+	    			$data['id_plantel'] = (int)$aux[0]['id_plantel'];
+	    			
+	    			$aux=$this->modelo->getfecha($data['matricula'], $data['id_ciclo_actual']);
+	    			$data['fecha']=$aux[0];
+	    			$aux=$this->modelo->getDatosEscuela($data['id_plantel']);
+	    			$data['escuela']=$aux[0];
+	    			$data['es_promotor'] = 1;
+	    			$this->load->view('beneficiario/v_mensaje', $data, false);
+	    		  
+	    		}
+	    		else
+	    		{
+		    		if($reg[0]['id_tipo_registro']== 1 || $reg[0]['id_tipo_registro']==2){ // ya fue prom o coor
+		    			
+		    			
+		    			$data['es_promotor'] = 1;
+		    			$data['tiene_registro'] = 1;
+		    			
+		    			$this->load->view('beneficiario/v_datos', $data, false);
+		    			
+		    			
+		    			
+		    		}
+	    		}
+    
+    	}
+    	else{//primer regisro
     		$data['es_promotor'] = 0;
     		$data['tiene_registro'] = 0;
     		$this->load->view('beneficiario/v_datos', $data, false);
     	}
  	 
+    }
     }
     function muestra_formato_registro()
     {
@@ -76,9 +119,13 @@ class Main extends CI_Controller {
     	$data['correo'] = $this->input->post('correo');
     	$data['tiene_registro'] = (int)$this->input->post('tiene_registro');
     	$data['tel'] = $this->input->post('tel');
+    	$data['delegacion'] = $this->input->post('delegacion');
+    	$data['id_archivo'] = $this->input->post('id_archivo');
     	$data['id_ciclo'] = (int)$this->input->post('ciclo');
     	$data['folio']=$this->modelo->BuscaFolio($data['matricula']);
+    	
     	$aux = $this->modelo->getIdentificacion($data['matricula']);
+    	
     	$data['identificacion'] = $aux[0];
     	 
     	$this->load->view('beneficiario/v_formato_registro', $data, false);
@@ -87,7 +134,7 @@ class Main extends CI_Controller {
     }
     function guarda_registro()
     {
-    	
+    		
     	// $reg=$this->modelo->buscaRegistro($matricula_asignada);
     		$data['matricula'] = $this->input->post('matricula');
 	    	$data['ciclo'] = (int)$this->input->post('ciclo');
@@ -109,12 +156,28 @@ class Main extends CI_Controller {
 			$data['actividad_2'] =$this->input->post('actividad_2');
 			$data['actividad_3'] =$this->input->post('actividad_3');
 			$data['lugar']=$this->input->post('lugar');
+			$data['id_archivo'] = $this->input->post('id_archivo');
+			$data['delegacion'] = $this->input->post('delegacion');
 		   	//end post
 		   	
-			$aux=$this->modelo->getUltimofolio($data['id_plantel']);
-			$cons= 1+(int)$aux[0]['consecutivo'];
-			$data['cons']=$cons;
-	
+			
+			
+			if ($data['id_archivo']== 1 || $data['id_archivo']== 2)
+			{
+				$aux=$this->modelo->getConsecutivoB($data['delegacion'], $data['tipo_registro']);
+				$cons= $aux[0]['fol'];
+				$data['cons']=$this->modelo->ActualizaFolio($cons, $data['tipo_registro'],$data['delegacion']);
+			}
+			elseif ($data['id_archivo']== 3)
+			{
+				$aux=$this->modelo->getConsecutivoU($data['delegacion'], $data['tipo_registro']);
+				$cons= $aux[0]['fol'];
+				$data['cons']=$this->modelo->ActualizaFolioU($cons, $data['tipo_registro'],$data['delegacion']);
+			}
+			
+			$data['siglas']=$aux[0]['siglas'];
+			$data['folio']=$data['siglas'].'0'.$data['tipo_registro'].str_pad($cons, 5,0, STR_PAD_LEFT);
+
 			$aux = $this->modelo->getIdentificacion($data['matricula']);
 			$data['identificacion'] = $aux[0];
 			
@@ -125,9 +188,9 @@ class Main extends CI_Controller {
 			$b=$this->modelo->insertaRegistro($data['ciclo'],$data['tipo_registro'],$data['matricula'],$data['id_plantel'],
 					$data['eje_1'],$data['eje_2'],$data['eje_3'],$data['eje_4'],$data['eje_5'],$data['eje_6'],$data['eje_7']
 					,$data['lugar'],$data['actividad_1'],$data['actividad_2'],$data['actividad_3'],$data['correo'],
-					$data['tel'],$data['cons']);
+					$data['tel'],$data['folio'],$data['id_archivo']);
 		
-			$a=$this->modelo->incrementa($data['cons'],$data['id_plantel']);
+			
 			
 			
 			$aux=$this->modelo->getDatosEscuela($data['id_plantel']);
@@ -136,11 +199,7 @@ class Main extends CI_Controller {
 			$aux=$this->modelo->getfecha($data['matricula'], $data['ciclo']);
 			$data['fecha']=$aux[0];
 
-			$aux=$this->modelo->BuscaFolio($data['matricula']);
-			$folio=trim($aux[0]['clave']).str_pad($aux[0]['consecutivo'],5,0,STR_PAD_LEFT);
-			$data['folio']=	$aux[0];
 			
-			$this->modelo->guardaFolio($folio,$data['matricula'],$data['tipo_registro'], $data['ciclo']);
 			
 			//$this->load->view('beneficiario/existe', $data, false);
 			$this->load->view('beneficiario/v_mensaje', $data, false);
@@ -167,7 +226,19 @@ class Main extends CI_Controller {
     	}
     }
     
-    
+    function ajax_beneficiario_unam(){
+    	$matricula = $this->input->post('matricula_escuela');
+    	$aux = $this->modelo->getMatriculaBeneficiarioUnam($matricula);
+    	 
+    	if($aux!=null)
+    	{
+    		echo $matricula = $aux[0]['matricula_asignada'];
+    	}
+    	else
+    	{
+    		echo "bad";
+    	}
+    }
     
     
 
@@ -192,12 +263,6 @@ class Main extends CI_Controller {
     }
     
     ///////////////////////////////////////////////////////////////
-    public function principal(){
-    	//$data['provincias'] llena el select con las provincias españolas
-    	$data['provincias'] = $this->modelo->getinfo();
-    	//cargamos la vista y pasamos el array $data['provincias'] para su uso
-    	$this->load->view('administrador/pdfs_view', $data, false);
-    }
     
     function generar(){
     	

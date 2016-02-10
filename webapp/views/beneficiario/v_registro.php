@@ -92,7 +92,7 @@
     		$("#btn-submit").click(function () {
 
         		var matricula = '';
-
+        		var matricula_escuela = '';
     			if($("#matricula_asignada").val() != "" && $("#matricula_asignada").val().length>10)
     	        {
     				$.blockUI({message: 'Procesando por favor espere...'});
@@ -119,6 +119,31 @@
     		        });
              
     	        }
+    			else if($("#matricula_escuela").val() != ""){
+
+    				$.blockUI({message: 'Procesando por favor espere...'});
+    	        	jQuery.ajax({
+    		            type: 'post',
+    		            dataType: 'html',
+    		            url: 'index.php/main/ajax_beneficiario_unam',
+    		            data: {matricula_escuela: $("#matricula_escuela").val()},
+    		            success: function (data) {
+
+        		            if(data!="bad")
+        		            {
+	    		            	matricula = data;
+	    		            	irA('index.php/main/muestra_informacion/'+matricula);	               
+        		            }
+        		            else
+        		            {
+            		            alert('No se encontró al beneficiario');
+            		            irA('index.php/main/');
+
+            		        }
+    		            }
+    		            
+    		        });
+    			}
     			else
     			{
     				$.blockUI({ 
@@ -176,14 +201,25 @@
                 <div class="transbox" style="border: 1px solid #9D9CA1;">
                     <h1>Registro de Promotores y Coordinadores <br />"Prepa Sí"</h1>
                     
+                    <label>Elige un método de busqueda</label><br/><br>
+                    
                     <form id="formulario" action="index.php/main/valida_matricula" method="POST">
                     
                         <table style=" width: 80%;" border="0">
-                            <tr>
+                        	<tr>
                                 <td align="center">
                                     <input type="text" id="matricula_asignada" name="matricula_asignada" value="" placeholder="Ingresa tu matrícula PS o CURP" style="width:98%; text-transform:uppercase;"/>
                                 </td>	
                             </tr>
+                            <tr>
+                                <td align="center"></td>	
+                            </tr>
+                            <tr>
+                                <td align="center">
+                                    <input type="text" id="matricula_escuela" name="matricula_escuela" value="" placeholder="matricula (unam)" style="width:98%; text-transform:uppercase;"/>
+                                </td>	
+                            </tr>
+                            
                             <tr>
                                 <td align="center">
                                 <br />
@@ -194,7 +230,7 @@
                             <tr>
                                 <td align="center">
                                 	<br />
-                                    <span style="color: #E3157D;">Fideicomiso Educación Garantizada del Distrito Federal<br />Coordinación Ejecutiva del Programa de Estímulos para el Bachillerato Universal<br />Tel: 1102 1730 &nbsp;&nbsp;Ext. 4081, 4005, 4089, 4128 y 4039.</span>
+                                    <span style="color: #E3157D;">Fideicomiso Educación Garantizada del Distrito Federal<br />Coordinación Ejecutiva del Programa de Estímulos para el Bachillerato Universal<br />Tel: 1102 1730 &nbsp;&nbsp;Ext. 4005, 4089, 4128.</span>
                                 </td>	
                             </tr>   
                                                                               

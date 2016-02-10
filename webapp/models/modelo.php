@@ -51,6 +51,15 @@ class Modelo extends MY_Model {
     	$results = $this->db->query($this->sql);
     	return $results->result_array();
     }
+    function getMatriculaBeneficiarioUnam($dato)
+    {
+    
+    	$this->sql = "SELECT matricula_asignada FROM  b_escolar 
+    	WHERE matricula_escuela ='$dato';";
+    
+    	$results = $this->db->query($this->sql);
+    	return $results->result_array();
+    }
     
     function getIdPlantel($matricula){
     	$this->sql="select id_plantel from cat_plantel 
@@ -68,10 +77,19 @@ class Modelo extends MY_Model {
     	$results = $this->db->query($this->sql);
     	return $results->result_array();
     }
+    function lugar_disponible($matricula)
+    {
+    	$this->sql="SELECT c_bach, c_uni, p_bach, p_uni from folio_del
+					where delegacion=(SELECT delegacion from b_direccion  
+					where matricula_asignada='$matricula');";
+    	$results = $this->db->query($this->sql);
+    	return $results->result_array();
+    	
+    }
     function BuscaFolio($matricula){
-    	$this->sql="select p.clave, r.consecutivo from registro_pyc r 
-					inner join cat_plantel p on p.id_plantel=r.id_plantel
-					where r.matricula='$matricula' ORDER BY id_registro desc;;";
+    	$this->sql="select folio from registro_pyc r 
+					
+					where r.matricula='$matricula' ORDER BY id_registro desc;";
     	$results = $this->db->query($this->sql);
     	return $results->result_array();
     }
@@ -80,9 +98,9 @@ class Modelo extends MY_Model {
     	$results = $this->db->query($this->sql, array(1));
     	return $results->result_array();
     }
-    function insertaRegistro($ciclo,$tipo_lugar,$matricula,$id_plantel,$eje_1,$eje_2,$eje_3,$eje_4,$eje_5,$eje_6,$eje_7,$lugar,$actividad_1,$actividad_2,$actividad_3,$correo,$tel,$cons){
-    	$this->sql="insert into registro_pyc (id_ciclo, id_tipo_registro, matricula, id_plantel, eje_1, eje_2, eje_3, eje_4, eje_5, eje_6, eje_7, lugar_apoyo, actividad_1, actividad_2, actividad_3, correo, telefono, fecha_registro, consecutivo)
-    						values($ciclo,$tipo_lugar,'$matricula',$id_plantel,$eje_1,$eje_2,$eje_3,$eje_4,$eje_5,$eje_6,$eje_7,'$lugar','$actividad_1','$actividad_2','$actividad_3','$correo',$tel,now(),$cons) returning id_registro;";
+    function insertaRegistro($ciclo,$tipo_lugar,$matricula,$id_plantel,$eje_1,$eje_2,$eje_3,$eje_4,$eje_5,$eje_6,$eje_7,$lugar,$actividad_1,$actividad_2,$actividad_3,$correo,$tel,$folio,$id_archivo){
+    	$this->sql="insert into registro_pyc (id_ciclo, id_tipo_registro, matricula, id_plantel, eje_1, eje_2, eje_3, eje_4, eje_5, eje_6, eje_7, lugar_apoyo, actividad_1, actividad_2, actividad_3, correo, telefono, fecha_registro, folio,id_archivo)
+    						values($ciclo,$tipo_lugar,'$matricula',$id_plantel,$eje_1,$eje_2,$eje_3,$eje_4,$eje_5,$eje_6,$eje_7,'$lugar','$actividad_1','$actividad_2','$actividad_3','$correo',$tel,now(),'$folio',$id_archivo) returning id_registro;";
      	$results = $this->db->query($this->sql, array(1));
     	return $results->result_array();
     	
@@ -92,24 +110,45 @@ class Modelo extends MY_Model {
     	$results = $this->db->query($this->sql, array(1));
     	return $results->result_array();
     }
-    function getUltimoFolio($id_plantel){
-    	$this->sql="select consecutivo from folios where id_plantel=$id_plantel;";
+ 
+    function getConsecutivoB($delegacion, $tipo){
+    	if($tipo==1)
+    		$this->sql="select siglas,c_bach-1 as fol from folio_del where delegacion ='$delegacion';";
+    	elseif ($tipo==2)
+    		$this->sql="select siglas,p_bach-1 as fol from folio_del where delegacion ='$delegacion';";
     	$results = $this->db->query($this->sql);
     	return $results->result_array();
     }
-  /*  function insertaFolios(){
-    	$this->sql="";
+    function getConsecutivoU($delegacion, $tipo){
+    	if($tipo==1)
+    		
+    		$this->sql="select delegacion,c_uni-1 as fol from folio_del where delegacion ='$delegacion';";
+    	elseif ($tipo==2)
+    		$this->sql="select delegacion,p_uni-1 as fol from folio_del where delegacion ='$delegacion';";
     	$results = $this->db->query($this->sql);
     	return $results->result_array();
     }
-    */
-    function incrementa($cons, $id_plantel){
-    	$this->sql="update folios set consecutivo=$cons where id_plantel=$id_plantel;";
+    function ActualizaFolio($cons,$tipo,$delegacion){
+    	
+    	if($tipo==1)
+    		
+    		$this->sql="UPDATE folio_del SET c_bach=$cons where delegacion='$delegacion' RETURNING id_delegacion;";
+    	elseif ($tipo==2)
+    		$this->sql="UPDATE folio_del SET p_bach=$cons where delegacion='$delegacion' RETURNING id_delegacion;";
     	
     	$results = $this->db->query($this->sql);
-    	//return $results->result_array();
-    	return 1;
+    	return $results->result_array();
     }
+    function ActualizaFolioU($cons,$tipo,$delegacion){
+    	if($tipo==1)
+    		$this->sql="UPDATE folio_del SET c_uni=$cons where delegacion='$delegacion' RETURNING siglas;";
+    	elseif ($tipo==2)
+    		$this->sql="UPDATE folio_del SET p_uni=$cons where delegacion='$delegacion' RETURNING siglas;";
+    	
+    	$results = $this->db->query($this->sql);
+    	return $results->result_array();
+    }
+  
     function registroCoo($plantel){
     	$this->sql="select r.id_registro,r.matricula, p.nombre, p.ap, p.am, r.folio, r.lugar_apoyo, r.eje_1, r.correo, r.telefono, c.ciclo_escolar, cd.delegacion
 						from registro_pyc r

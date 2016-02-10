@@ -141,45 +141,7 @@
         			    });
 
 			    
-      /*  	 var rules_form = {
-     		        rules: {
-     		        	eje_1: "selectNone",
-     		        	eje_2: "selectNone",
-     		        	eje_3: "selectNone",
-     		        	eje_4: "selectNone",
-     		        	eje_5: "selectNone",
-     		        	eje_6: "selectNone",
-     		        	eje_7: "selectNone",
-     		        	lugar: "required",
-     		        	actividad_1: "required",
-     		        	actividad_2: "required",
-     		        	actividad_3: "required",
-     		        	correo: "required",
-     		        	telefono: "required"     		        	     		            
-     		        },
-     		        messages: {
-     		        	lugar: {required: "Campo obligatorio"},
-     		        	actividad_1: {required: "Campo obligatorio"},
-     		        	actividad_2: {required: "Campo obligatorio"},
-     		        	actividad_3: {required: "Campo obligatorio"},
-     		        	correo: {required: "Campo obligatorio"},
-     		        	telefono: {required: "Campo obligatorio"}
-     		        },
-     		        ignore: ":not(:visible)",
-     		        showErrors: function (map, list) {
-     		            
-     		            var focussed = document.activeElement;
-     		                 		              		           
-     		            this.currentElements.removeAttr("title").removeClass("ui-state-error");
-     		            
-     		            $.each(list, function (index, error) {
-     		                $(error.element).attr("title", error.message).addClass("ui-state-error");
-     		            });
-     		            
-     		           
-     		        }*/
-     		
-
+     
      	 		jQuery.validator.addMethod(
      	            "selectNone",
      	            function (value, element) {
@@ -295,7 +257,9 @@
                 <div class="register">
                     <form id="formulario" action="index.php/main/guarda_registro" method="post">
                     	<input type="hidden" id="matricula" name="matricula" value="<?php  echo $matricula; ?>" />
+                    	<input type="hidden" id="id_archivo" name="id_archivo" value="<?php  echo $id_archivo; ?>" />
                     	<input type="hidden" id="tipo_registro" name="tipo_registro" value="<?php  echo $tipo_registro; ?>" />
+                    	<input type="hidden" id="delegacion" name="delegacion" value="<?php  echo $delegacion; ?>" />
                     	<input type="hidden" id="ciclo" name="ciclo" value="<?php  echo $id_ciclo; ?>" />
                     	<input type="hidden" id="tiene_registro" name="tiene_registro" value=<?php echo $tiene_registro;?> />	
                         <div style="text-align:left; padding-left:20px; border-bottom: 2px dotted #bbb; min-height:73px;">
