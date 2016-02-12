@@ -39,7 +39,13 @@ class Modelo extends MY_Model {
     	$results = $this->db->query($this->sql);
     	return $results->result_array();
     }
-    
+    function  getInserto($matricula){
+    	$this->sql = "SELECT id_ciclo FROM registro_pyc
+    	WHERE matricula ='$matricula' order by fecha_registro desc;";
+    	
+    	$results = $this->db->query($this->sql);
+    	return $results->result_array();
+    }
     function getMatriculaBeneficiario($dato)
     {
     
@@ -77,14 +83,28 @@ class Modelo extends MY_Model {
     	$results = $this->db->query($this->sql);
     	return $results->result_array();
     }
-    function lugar_disponible($matricula)
+    
+    function lugar_disponible($matricula, $id_archivo)
     {
-    	$this->sql="SELECT c_bach, c_uni, p_bach, p_uni from folio_del
-					where delegacion=(SELECT delegacion from b_direccion  
-					where matricula_asignada='$matricula');";
+    	if($id_archivo==1 || $id_archivo==2)
+    		$this->sql="SELECT c_bach as coordinador, p_bach as promotor from folio_del where delegacion=(SELECT delegacion from b_direccion where matricula_asignada='$matricula');";
+    	else
+    		$this->sql="SELECT c_uni as coordinador, p_uni as promotor from folio_del where delegacion=(SELECT delegacion from b_direccion where matricula_asignada='$matricula');";
     	$results = $this->db->query($this->sql);
     	return $results->result_array();
+    	 
+    }
+    function generaMensaje($matricula,$ciclo){
+    	$this->sql="
+SELECT ap, am,nombre,institucion,plantel, to_char(r.fecha_registro, 'DD/MM/YYYY') fecha_registro, matricula,folio,correo,id_tipo_registro as tipo_registro,r.id_archivo
+    	FROM registro_pyc r
+    	INNER JOIN beneficiarios b on b.matricula_asignada=r.matricula
+    	INNER JOIN cat_plantel p on p.id_plantel=r.id_plantel
+    	INNER JOIN cat_institucion i on i.id_institucion=p.id_institucion
     	
+    	WHERE matricula='$matricula' and r.id_ciclo=$ciclo";
+    	$results = $this->db->query($this->sql);
+    	return $results->result_array();
     }
     function BuscaFolio($matricula){
     	$this->sql="select folio from registro_pyc r 
@@ -98,9 +118,9 @@ class Modelo extends MY_Model {
     	$results = $this->db->query($this->sql, array(1));
     	return $results->result_array();
     }
-    function insertaRegistro($ciclo,$tipo_lugar,$matricula,$id_plantel,$eje_1,$eje_2,$eje_3,$eje_4,$eje_5,$eje_6,$eje_7,$lugar,$actividad_1,$actividad_2,$actividad_3,$correo,$tel,$folio,$id_archivo){
-    	$this->sql="insert into registro_pyc (id_ciclo, id_tipo_registro, matricula, id_plantel, eje_1, eje_2, eje_3, eje_4, eje_5, eje_6, eje_7, lugar_apoyo, actividad_1, actividad_2, actividad_3, correo, telefono, fecha_registro, folio,id_archivo)
-    						values($ciclo,$tipo_lugar,'$matricula',$id_plantel,$eje_1,$eje_2,$eje_3,$eje_4,$eje_5,$eje_6,$eje_7,'$lugar','$actividad_1','$actividad_2','$actividad_3','$correo',$tel,now(),'$folio',$id_archivo) returning id_registro;";
+    function insertaRegistro($ciclo,$tipo_lugar,$matricula,$id_plantel,$eje_1,$eje_2,$eje_3,$eje_4,$eje_5,$eje_6,$eje_7,$lugar,$actividad_1,$actividad_2,$actividad_3,$correo,$tel,$folio,$id_archivo,$id_delegacion){
+    	$this->sql="insert into registro_pyc (id_ciclo, id_tipo_registro, matricula, id_plantel, eje_1, eje_2, eje_3, eje_4, eje_5, eje_6, eje_7, lugar_apoyo, actividad_1, actividad_2, actividad_3, correo, telefono, fecha_registro, folio,id_archivo,id_delegacion)
+    						values($ciclo,$tipo_lugar,'$matricula',$id_plantel,$eje_1,$eje_2,$eje_3,$eje_4,$eje_5,$eje_6,$eje_7,'$lugar','$actividad_1','$actividad_2','$actividad_3','$correo',$tel,now(),'$folio',$id_archivo,$id_delegacion) returning id_registro;";
      	$results = $this->db->query($this->sql, array(1));
     	return $results->result_array();
     	
@@ -113,18 +133,18 @@ class Modelo extends MY_Model {
  
     function getConsecutivoB($delegacion, $tipo){
     	if($tipo==1)
-    		$this->sql="select siglas,c_bach-1 as fol from folio_del where delegacion ='$delegacion';";
+    		$this->sql="select siglas,c_bach-1 as fol,id_delegacion from folio_del where delegacion ='$delegacion';";
     	elseif ($tipo==2)
-    		$this->sql="select siglas,p_bach-1 as fol from folio_del where delegacion ='$delegacion';";
+    		$this->sql="select siglas,p_bach-1 as fol,id_delegacion from folio_del where delegacion ='$delegacion';";
     	$results = $this->db->query($this->sql);
     	return $results->result_array();
     }
     function getConsecutivoU($delegacion, $tipo){
     	if($tipo==1)
     		
-    		$this->sql="select delegacion,c_uni-1 as fol from folio_del where delegacion ='$delegacion';";
+    		$this->sql="select siglas,c_uni-1 as fol,id_delegacion from folio_del where delegacion ='$delegacion';";
     	elseif ($tipo==2)
-    		$this->sql="select delegacion,p_uni-1 as fol from folio_del where delegacion ='$delegacion';";
+    		$this->sql="select siglas,p_uni-1 as fol,id_delegacion from folio_del where delegacion ='$delegacion';";
     	$results = $this->db->query($this->sql);
     	return $results->result_array();
     }
@@ -148,7 +168,94 @@ class Modelo extends MY_Model {
     	$results = $this->db->query($this->sql);
     	return $results->result_array();
     }
-  
+    function CoordinadorBach($delegacion){
+    	$this->sql="SELECT d.delegacion,ap, am,nombre,institucion,plantel, r.fecha_registro, matricula,folio, eje_1, lugar_apoyo,correo, telefono
+    	FROM registro_pyc r
+    	INNER JOIN beneficiarios b on b.matricula_asignada=r.matricula
+    	INNER JOIN cat_plantel p on p.id_plantel=r.id_plantel
+    	INNER JOIN cat_institucion i on i.id_institucion=p.id_institucion
+    	INNER JOIN cat_delegacion d on d.id_delegacion=r.id_delegacion
+    	WHERE r.id_archivo in(1,2) and id_tipo_registro=1 and r.id_delegacion=$delegacion;";
+    	$results = $this->db->query($this->sql);
+    	return $results->result_array();
+    }
+    function CoordinadorUni($delegacion){
+    	$this->sql="SELECT d.delegacion,ap, am,nombre,institucion,plantel, r.fecha_registro, matricula,folio, eje_1, lugar_apoyo,correo, telefono
+    	FROM registro_pyc r
+    	INNER JOIN beneficiarios b on b.matricula_asignada=r.matricula
+    	INNER JOIN cat_plantel p on p.id_plantel=r.id_plantel
+    	INNER JOIN cat_institucion i on i.id_institucion=p.id_institucion
+    	INNER JOIN cat_delegacion d on d.id_delegacion=r.id_delegacion
+    	WHERE r.id_archivo=3 and id_tipo_registro=1 and r.id_delegacion=$delegacion";
+    	$results = $this->db->query($this->sql);
+    	return $results->result_array();
+    }
+    function CoordinadorTodosU(){
+    	$this->sql="SELECT d.delegacion,ap, am,nombre,institucion,plantel, r.fecha_registro, matricula,folio, eje_1, lugar_apoyo,correo, telefono
+    	FROM registro_pyc r
+    	INNER JOIN beneficiarios b on b.matricula_asignada=r.matricula
+    	INNER JOIN cat_plantel p on p.id_plantel=r.id_plantel
+    	INNER JOIN cat_institucion i on i.id_institucion=p.id_institucion
+    	INNER JOIN cat_delegacion d on d.id_delegacion=r.id_delegacion
+    	WHERE r.id_archivo=3 and id_tipo_registro=1;";
+    	$results = $this->db->query($this->sql);
+    	return $results->result_array();
+    }
+    function CoordinadorTodosB(){
+    	$this->sql="SELECT d.delegacion,ap, am,nombre,institucion,plantel, r.fecha_registro, matricula,folio, eje_1, lugar_apoyo,correo, telefono
+    	FROM registro_pyc r
+    	INNER JOIN beneficiarios b on b.matricula_asignada=r.matricula
+    	INNER JOIN cat_plantel p on p.id_plantel=r.id_plantel
+    	INNER JOIN cat_institucion i on i.id_institucion=p.id_institucion
+    	INNER JOIN cat_delegacion d on d.id_delegacion=r.id_delegacion
+    	WHERE r.id_archivo in(1,2) and id_tipo_registro=1;";
+    	$results = $this->db->query($this->sql);
+    	return $results->result_array();
+    }
+    function PromotorBach($delegacion){
+    	$this->sql="SELECT d.delegacion,ap, am,nombre,institucion,plantel, r.fecha_registro, matricula,folio, eje_1, lugar_apoyo,correo, telefono
+    	FROM registro_pyc r
+    	INNER JOIN beneficiarios b on b.matricula_asignada=r.matricula
+    	INNER JOIN cat_plantel p on p.id_plantel=r.id_plantel
+    	INNER JOIN cat_institucion i on i.id_institucion=p.id_institucion
+    	INNER JOIN cat_delegacion d on d.id_delegacion=r.id_delegacion
+    	WHERE r.id_archivo in(1,2) and id_tipo_registro=2 and r.id_delegacion=$delegacion";
+    	$results = $this->db->query($this->sql);
+    	return $results->result_array();
+    }
+    function PromotorTodosB(){
+    	$this->sql="SELECT d.delegacion,ap, am,nombre,institucion,plantel, r.fecha_registro, matricula,folio, eje_1, lugar_apoyo,correo, telefono
+    	FROM registro_pyc r
+    	INNER JOIN beneficiarios b on b.matricula_asignada=r.matricula
+    	INNER JOIN cat_plantel p on p.id_plantel=r.id_plantel
+    	INNER JOIN cat_institucion i on i.id_institucion=p.id_institucion
+    	INNER JOIN cat_delegacion d on d.id_delegacion=r.id_delegacion
+    	WHERE r.id_archivo in(1,2) and id_tipo_registro=2 ";
+    	$results = $this->db->query($this->sql);
+    	return $results->result_array();
+    }
+    function PromotorUni($delegacion){
+    	$this->sql="SELECT d.delegacion,ap, am,nombre,institucion,plantel, r.fecha_registro, matricula,folio, eje_1, lugar_apoyo,correo, telefono
+    	FROM registro_pyc r
+    	INNER JOIN beneficiarios b on b.matricula_asignada=r.matricula
+    	INNER JOIN cat_plantel p on p.id_plantel=r.id_plantel
+    	INNER JOIN cat_institucion i on i.id_institucion=p.id_institucion
+    	INNER JOIN cat_delegacion d on d.id_delegacion=r.id_delegacion
+    	WHERE r.id_archivo=3 and id_tipo_registro=2 and r.id_delegacion=$delegacion";
+    	$results = $this->db->query($this->sql);
+    	return $results->result_array();
+    }
+    function PromotorTodosU(){
+    	$this->sql="SELECT d.delegacion,ap, am,nombre,institucion,plantel, r.fecha_registro, matricula,folio, eje_1, lugar_apoyo,correo, telefono
+    	FROM registro_pyc r
+    	INNER JOIN beneficiarios b on b.matricula_asignada=r.matricula
+    	INNER JOIN cat_plantel p on p.id_plantel=r.id_plantel
+    	INNER JOIN cat_institucion i on i.id_institucion=p.id_institucion
+    	INNER JOIN cat_delegacion d on d.id_delegacion=r.id_delegacion
+    	WHERE r.id_archivo=3 and id_tipo_registro=2";
+    	$results = $this->db->query($this->sql);
+    	return $results->result_array();
+    }
     function registroCoo($plantel){
     	$this->sql="select r.id_registro,r.matricula, p.nombre, p.ap, p.am, r.folio, r.lugar_apoyo, r.eje_1, r.correo, r.telefono, c.ciclo_escolar, cd.delegacion
 						from registro_pyc r

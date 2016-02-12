@@ -20,7 +20,14 @@ class M_admin extends MY_Model {
     	return $results->result_array();
     	
     }
-
+    function getInstitucion(){
+    	$this->sql="SELECT id_institucion, institucion, universidad FROM cat_institucion where activo='t' order by universidad,institucion;";
+    	$results = $this->db->query($this->sql);
+    	return $results->result_array();
+    	 
+    }
+    
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     function getPromAvance() {
 
         $this->sql = "select sum(avance)/count(*) as promedio from compromiso 

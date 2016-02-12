@@ -103,14 +103,15 @@
                 	<a href="index.php/main"><img src="resources/assets/img/logo_gdf_cgdf.png" style="padding-top:0px;" align="top" /></a>&nbsp;                                               	
                 </div>
                 <?php
-                 if($mensaje==1){ 
+                 if($identificacion['id_archivo']==1 || $identificacion['id_archivo']==2){ 
+                 	
                 ?>
               <div id="mensaje1">
                	<h1><?php echo $identificacion['nombre'].' '.$identificacion['ap'].' '.$identificacion['am'];?></h1>
                	<label><h3>Lo sentimos pero se han agotado los lugares como Promotor y Coordinador para Bachillerato</h3></label>
                	<p><h5>Te sugerimos intentarlo el proximo ciclo escolar</h5></p>
               </div>
-              <?php }if($mensaje==2){ 
+              <?php }elseif($identificacion['id_archivo']==3){ 
                 ?>
               <div id="mensaje1">
                	<h1><?php echo $identificacion['nombre'].' '.$identificacion['ap'].' '.$identificacion['am'];?></h1>

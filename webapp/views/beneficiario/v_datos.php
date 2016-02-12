@@ -111,9 +111,7 @@
             	 $("#registra").submit();        	              
              });
              
-             
-                    	        
-             
+      
         });//ready
         
                                                                               
@@ -226,8 +224,7 @@
 	                        	$turno = $escolar['turno'];
 	                        	$modalidad = $escolar['sistema'];
 	                        	$promedio = $escolar['promedio'];
-	                        	$prom=$p_bach;
-	                        	$coor=$c_bach;	      
+	                        	      
 	                         }
 	                        else 
 	                        {
@@ -237,8 +234,7 @@
 	                        	$turno = $escolar['turno_uni'];
 	                        	$modalidad = $escolar['sistema'];
 	                        	$promedio = $escolar['promedio_uni'];
-	                        	$prom=$p_uni;
-	                        	$coor=$c_uni;
+	                        	
 	                        	
 	                        }
 	                        
@@ -256,10 +252,10 @@
 						    
 
                        </div>
-                            <?php if($prom=='disponible'){?>                
+                            <?php if($Dpromotor!=0){?>                
                         	<button id="guardar_promotor" type="button" style="font-weight:bold;">Registrarse como "PROMOTOR"</button>
                         	<?php }?>
-                        	<?php if($es_promotor==1 && ($coor=='disponible')){?>
+                        	<?php if($es_promotor==1 && ($Dcoordinador!=0)){?>
                         	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         	<button id="guardar_coordinador" type="button" style="font-weight:bold;">Registrarse como "COORDINADOR"</button>
                         	<?php }?>

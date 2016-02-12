@@ -131,7 +131,7 @@
 								<div class="container">
 									<a href="index.php" class="brand">Prepa Sí</a>
 										<ul class="nav pull-right">
-											<li><a href="index.php/administrador/">Inicio</a></li>
+											<li><a href="index.php/administrador/index">Inicio</a></li>
 											<li class="divider-vertical"></li>
 											
 											<li class="dropdown">
@@ -143,19 +143,19 @@
 									        </li>
 											
 											<li class="dropdown">
-									          <a href="#" class="dropdown-toggle nav-stacked" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Registrados<span class="caret"></span></a>
+									          <a href="#" class="dropdown-toggle nav-stacked" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Bachillerato<span class="caret"></span></a>
 									          <ul class="dropdown-menu">
-									          	<li><a href="index.php/administrador/RegistradosC">Coordinadores</a></li>
-									            <li><a href="index.php/administrador/RegistradosP">Promotores</a></li>
+									          	<li><a href="index.php/administrador/BuscaBC">Coordinadores</a></li>
+									            <li><a href="index.php/administrador/BuscaBP">Promotores</a></li>
 									          </ul>
 									        </li>
 									        <li class="divider-vertical"></li>
 									        <li class="dropdown">
-									          <a href="#" class="dropdown-toggle nav-stacked" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Aceptados <span class="caret"></span></a>
+									          <a href="#" class="dropdown-toggle nav-stacked" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Universidad<span class="caret"></span></a>
 									          <ul class="dropdown-menu">
 									          	
-									            <li><a href="index.php/administrador/AceptadosC">Coordinadores</a></li>
-									            <li><a href="index.php/administrador/AceptadosP">Promotores</a></li>
+									            <li><a href="index.php/administrador/BuscaUC">Coordinadores</a></li>
+									            <li><a href="index.php/administrador/BuscaUP">Promotores</a></li>
 									          </ul>
 									        </li>
 									        <li class="active">

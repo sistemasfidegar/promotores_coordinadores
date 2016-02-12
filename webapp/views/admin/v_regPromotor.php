@@ -113,117 +113,15 @@
         
         $().ready(function() {
         	        	        	
-        	$('[title]').qtip();     	 
-        	         	        	         	    	         	         	        	        	        	        	        	        	           
-          /*   
-             $("#guardar_promotor").click(function ()
-             {
-				//alert('promotor');
-				 $("#tipo_registro").val(2);
-				 $("#registra").submit();	               
-          	  });
-
-
-             $("#guardar_coordinador").click(function ()
-             {
-            	 //alert('coordinador');
-            	 $("#tipo_registro").val(1);
-            	 $("#registra").submit();        	              
-             });
-            */ 
-             $("#Institucion").change(function () {
-                 var tipo = $("#Institucion option:selected").val();
-
-                 //plantel
-                 
-                 	$("#plantel").html('<option value="0">Cargando...</option>');
-                 	jQuery.ajax({
-         	            type: 'post',
-         	            dataType: 'html',
-         	            url: 'index.php/admin/ajaxGetPlanteles/'+tipo,
-         	            data: {operacion: 'ajax'},
-         	            success: function (data) {
-         	                $("#plantel").html(data);	               
-         	            }
-         	        });
-         	  
-             });
+        	$(".botonExcel").click(function(event) {
+          		$("#datos_a_enviar").val( $("<div>").append( $("#Exportar_a_Excel").eq(0).clone()).html());
+          		$("#FormularioExportacion").submit();
+          	});  
                     	        
              
         });//ready
         
-        function valores(){
-        	valor = 't[]';
-            f= document.form_datos;
-         	arre = new Array();
-         	total = f[valor].length;
-         	if(isNaN(total)){
-             	arre[0]=document.getElementById('t[]').value;
-         	}else
-         	{
-	         	for (var i = 0; i < total; i++)
-	          	 if (f[valor][i].checked) arre[arre.length] = f[valor][i].value;
-         	}
-           //return arre.length;
-      
-        	 if(arre.length > 0 )
-        	 {
-        		
-        	  $.ajax({
-        			 
-        		      type: 'POST',
-        		      dataType: 'html',
-        		      url: 'index.php/admin/aceptado/',	 
-        		      data: {arreglo: arre},
-        		      success: function (data) {
-
- 		    //                 $.unblockUI();
-		                     if(data === 'ok')
-		                     {
-		                    	 swal({
-		                          	  title: "¡Registro exitoso!",
-		                          	  text: "",
-		                          	  type: "success",
-		                          	  showCancelButton: false,
-		                          	  confirmButtonColor: "#34AF00",
-		                          	  confirmButtonText: "Ok",
-		                          	  //cancelButtonText: "No, cancel plx!",
-		                          	  closeOnConfirm: false
-		                          	  //closeOnCancel: false
-		                          	},
-		                          	function(isConfirm){
-		                          	  if (isConfirm) {
-		                          		irA('index.php/admin');
-		                          	  } 
-		                          	});
-		                     }
-		                     else
-		                     {
-		                    	 swal({
-		                         	  title: "Ocurrio un error, intentelo más tarde!!!",
-		                         	  text: "",
-		                         	  type: "error",
-		                         	  showCancelButton: false,
-		                         	  confirmButtonColor: "#C9302C",
-		                         	  confirmButtonText: "Ok",
-		                         	  //cancelButtonText: "No, cancel plx!",
-		                         	  closeOnConfirm: false
-		                         	  //closeOnCancel: false
-		                         	},
-		                         	function(isConfirm){
-		                         	  if (isConfirm) {
-		                         		 irA('index.php/admin');
-		                         	  } 
-		                         	});
-		                     }
-		                 }
-        		    
-        		        
-        		}); 	
-        		
-        	 }
-        
-        }                                                                    
+                                   
 
         function irA(uri) {
             window.location.href = '<?php echo base_url(); ?>' + uri;
@@ -249,20 +147,19 @@
 											<li><a href="index.php/admin/">Inicio</a></li>
 											<li class="divider-vertical"></li>
 											<li class="dropdown">
-									          <a href="#" class="dropdown-toggle nav-stacked" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Registrados<span class="caret"></span></a>
+									          <a href="#" class="dropdown-toggle nav-stacked" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Bachillerato<span class="caret"></span></a>
 									          <ul class="dropdown-menu">
 									          	<!-- <li role="separator" class="divider"></li> -->
-									          	<li><a href="index.php/admin/RegistradosC">Coordinadores</a></li>
-									            <li><a href="index.php/admin/RegistradosP">Promotores</a></li>
+									          	<li><a href="index.php/admin/BuscaBC">Coordinadores</a></li>
+									            <li><a href="index.php/admin/BuscaBP">Promotores</a></li>
 									          </ul>
 									        </li>
 									        <li class="divider-vertical"></li>
 									        <li class="dropdown">
-									          <a href="#" class="dropdown-toggle nav-stacked" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Aceptados <span class="caret"></span></a>
+									          <a href="#" class="dropdown-toggle nav-stacked" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Universidad <span class="caret"></span></a>
 									          <ul class="dropdown-menu">
-									          	
-									            <li><a href="index.php/admin/AceptadosC">Coordinadores</a></li>
-									            <li><a href="index.php/admin/AceptadosP">Promotores</a></li>
+									          	<li><a href="index.php/admin/BuscaUC">Coordinadores</a></li>
+									            <li><a href="index.php/admin/BuscaUP">Promotores</a></li>
 									          </ul>
 									        </li>
 									        <li class="active">
@@ -276,152 +173,136 @@
 				</div>
                	<!-- end Buscador -->
                	<div class="row-fluid">
-               	<!-- Busca Promotor -->
+               <!-- Busca Promotor -->
                		<div class="span12">
                		
-						<div class="span12">
 						
-							<form id="escuela" name="escuela" method="post" action="index.php/admin/RegistradosP1">
-							<h3>REGISTRO PROMOTORES</h3>
-								<table  border="0" style=" text-align:left !important;">
+							
+					<?php if ($nivel=='BACHILLERATO'){?>
+						<form id="escuela" name="escuela" method="post" action="index.php/admin/BachilleratoP">
+					<?php }elseif ($nivel=='UNIVERSITARIOS'){?>
+						<form id="escuela" name="escuela" method="post" action="index.php/admin/UniversidadP">
+					<?php }?>
+							
+								<h3>BUSQUEDA PROMOTORES <?php echo $nivel;?></h3>
+								<table  border="0" style=" text-align:center !important;">
 									<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
 									<tr>
 									  <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 									  <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-									  <td><label>Institucion:</label></td>
-									  <td>&nbsp;&nbsp;&nbsp;</td>
-								      <td>
-								      	<select name="Institucion" id="Institucion" class="form-control" >
-								            	<option value="0">[Seleccionar]</option>
-							            		<?php 
-							            		$u=0;
-							            		$b=0;
-							            		$i=0;
-							            			foreach ($institucion as $val){
-							            				if($val['universidad']==0){
-							            				
-							            					if($b==0)
-							            						echo " <optgroup label='Bachillerato'>";
-							            				
-							            					echo "<option value='".$val['id_institucion']."'>".$val['institucion']."</option>";
-							            					
-							            					$b++;
-							            				}
-							            					
-							            				if($val['universidad']==1){
-							            				
-							            					if($u==0)
-							            					{
-							            						echo'</optgroup>';
-							            						echo " <optgroup label='Universidad'>";
-							            					}
-							            				
-							            				
-							            					echo "<option value='".$val['id_institucion']."'>".utf8_encode($val['institucion'])."</option>";
-							            				
-							            					$u++;
-							            				
-							            				}
-							            					
-							            				if($val['universidad']==2){
-							            					if($i==0)
-							            					{
-							            						echo'</optgroup>';
-							            						echo " <optgroup label='Institutos'>";
-							            					}
-							            						
-							            					echo "<option value='".$val['id_institucion']."'>".utf8_encode($val['institucion'])."</option>";
-							            				
-							            					$i++;
-							            						
-							            				}
-							            			}
-							            		?>					            				           
-							            	</select>
-								      </td>
-								      </td>
-									    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-									    <td><label>Plantel:</label></td>
-									    <td>&nbsp;&nbsp;&nbsp;</td>
-					    				<td>
-					    					<select name="plantel" id="plantel" class="form-control" >
-												<option value="0">[Seleccionar]</option>					            	            
-											</select>
-						   				</td>
+									  <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+									  <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+									  <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+									  <td><label>Delegacion:</label></td>
+									  <td align="center"  width="30%">
+				                        	<select id="id_delegacion" name="id_delegacion" class="form-control" style="width: 80%;">
+				                        		<option value="-1">[Seleccionar]</option>
+				                        		<option value="10">Álvaro Obregón</option>
+												<option value="2">Azcapotzalco</option>
+												<option value="14">Benito Juárez</option>
+												<option value="3">Coyoacán</option>
+												<option value="4">Cuajimalpa de Morelos</option>
+												<option value="15">Cuauhtémoc</option>
+												<option value="5">Gustavo A. Madero</option>
+												<option value="6">Iztacalco</option>
+												<option value="7">Iztapalapa</option>
+												<option value="8">La Magdalena Contreras</option>
+												<option value="16">Miguel Hidalgo</option>
+												<option value="9">Milpa Alta</option>
+												<option value="11">Tlahuac</option>
+												<option value="12">Tlalpan</option>
+												<option value="17">Venustiano Carranza</option>
+												<option value="13">Xochimilco</option>
+												<option value="14">Todas</option>
+				                        	</select>
+				                        </td>
+								    	
+								    	
+								      
 						   				<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 										<td>
-											<input class="btn btn-small" type="submit" name="Buscar" id="Buscar" value="Buscar">
+											<input class="btn btn-custom" type="submit" name="Buscar" id="Buscar" value="Buscar">
 										</td>
 									</tr>
 								</table>
 							</form>
-					</div>
+					
 				</div>
         	</div>
-        	<!-- end Busca Promotor -->
-        	<div class="row-fluid">
-        	<?php if($registro==2 && isset($Promotor) && $Promotor!=null){ ?>
+        	
+        	<?php 
+        	//print_r($datos);
+        		if(isset($Promotor) && $Promotor!=null){ 
+        			
+        	?>
 				<div class="span12">
 					<div class="span12"></div>
 					<div class="row-fluid">
 						
 						<div class="span8"><div class="span12">&nbsp;</div></div>
+					<!--  	
 						<div class="span4">
 							<div class="span8">&nbsp;</div>
 							<div class="span3"><input class="btn btn-small btn-custom" type="button" onclick="valores()" name="nuevo" id="nuevo" value="Aprobar"></div>	
-						</div>	
+						</div>
+					-->	
 					</div>
         		</div>
         		<div id="span12">
-					<form name="form_datos" id="form_datos">
-						<h2><?php echo $datos['institucion'].' - '.$datos['plantel'];?></h2>
-						<table width="" class= "table table-bordered table-striped table-hover table-condensed">
+					<form role="form" action="index.php/admin/exportaExcel" method="post" target="_blank" id="FormularioExportacion">
+					
+						<h2> DELEGACIÓN <?php echo strtoupper ($datos['delegacion']);?></h2>
+						<p><img src="resources/images/btn_excel.png" class="botonExcel" style="cursor:pointer;" title="De click aquí para descargar en formato .xls"/></p>
+						<input type="hidden" id="datos_a_enviar" name="datos_a_enviar" />
+						<table border="1" class= "table table-bordered table-striped table-hover table-condensed" id="Exportar_a_Excel">
 						<tr align="center">
 								
-								<th colspan="10" class="align-right">
-								<p>REPORTE DE BENEFICIARIOS REGISTRADOS PARA PROMOTOR</p>  
+								<th colspan="<?php echo$con;?>" class="align-right">
+								<p>REPORTE DE BENEFICIARIOS  PROMOTORES  <?php echo $nivel.' - '.strtoupper ($datos['delegacion']);?> </p>  
 									<?php //echo getMesesTrimestreLetra($trimestre);?><?php //echo$anio;?>
 								</th>
 							</tr>
 							<tr>
-								<th width="2%">#</th>
-								<th width="">NOMBRE</th>
-								<th width="">MATRICULA</th>
+								
+								<th>NOMBRE</th>
+								<th>MATRICULA</th>
+								<th>INSTITUCIÓN</th>
+								<th>PLANTEL</th>
 								<th>FOLIO</th>
+								<?php if($con==10){?>
 								<th>DELEGACION</th>
-								<th width="">LUGAR APOYO</th>
+								<?php }?>
+								<th>LUGAR APOYO</th>
 								<th>EJE PREFERENTE</th>
 								<th>CORREO</th>
 								<th>TELEFONO</th>
-								<th>CICLO</th>
+								
 							</tr>
 							<?php 
 								foreach ($Promotor as $val){
 							?>
 							
 							<tr>
-								<td><input type="checkbox" id="t[]" name="t[]" value="<?php echo $val['id_registro']?>"></td>
 								<td><?php echo $val['ap'].' '.$val['am'].' '.$val['nombre']?></td>
 								<td><?php echo $val['matricula']?></td>
+								<td><?php echo $val['institucion']?></td>
+								<td><?php echo $val['plantel']?></td>
 								<td><?php echo $val['folio']?></td>
-								<td><?php echo $val['delegacion']?></td>
+								<?php if($con==10){?>
+								<td><?php  echo $val['delegacion']?></td>
+								<?php }?>			
+								
 								<td><?php echo $val['lugar_apoyo']?></td>
 								<td><?php if($val['eje_1']==2){echo 'Arte y Cultura';}elseif($val['eje_1']==3){echo'Ciencia y tecnología';}elseif($val['eje_1']==4){echo'Deporte y recreación';}elseif($val['eje_1']==5){echo'Economía solidaria';}elseif($val['eje_1']==6){echo'Medio ambiente';}elseif($val['eje_1']==7){echo'Participación juvenil';}elseif($val['eje_1']==8){echo'Salud';} ?></td>
 								
 								<td><?php echo $val['correo']?></td>
 								<td><?php echo $val['telefono']?></td>
-								<td><?php echo $val['ciclo_escolar']?></td>
+								
 							</tr>
-								<?php }?>
-							<input type="hidden" name="tipo" id="tipo" value="2">
-						</table>
-					</form>
-				</div>
-        	</div>
-        	
-        	<?php }?>
-        	
-        	
+								<?php 
+									}
+        						}
+								?>
         	
         </div>
       </div>

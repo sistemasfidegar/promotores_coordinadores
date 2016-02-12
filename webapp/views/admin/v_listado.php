@@ -152,19 +152,19 @@
 											<li><a href="index.php/admin/">Inicio</a></li>
 											<li class="divider-vertical"></li>
 											<li class="dropdown">
-									          <a href="#" class="dropdown-toggle nav-stacked" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Registrados<span class="caret"></span></a>
+									          <a href="#" class="dropdown-toggle nav-stacked" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Bachillerato<span class="caret"></span></a>
 									          <ul class="dropdown-menu">
-									          	<li><a href="index.php/admin/RegistradosC">Coordinadores</a></li>
-									            <li><a href="index.php/admin/RegistradosP">Promotores</a></li>
+									          	<li><a href="index.php/admin/BuscaBC">Coordinadores</a></li>
+									            <li><a href="index.php/admin/BuscaBP">Promotores</a></li>
 									          </ul>
 									        </li>
 									        <li class="divider-vertical"></li>
 									        <li class="dropdown">
-									          <a href="#" class="dropdown-toggle nav-stacked" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Aceptados <span class="caret"></span></a>
+									          <a href="#" class="dropdown-toggle nav-stacked" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Universidad<span class="caret"></span></a>
 									          <ul class="dropdown-menu">
 									          	
-									            <li><a href="index.php/admin/AceptadosC">Coordinadores</a></li>
-									            <li><a href="index.php/admin/AceptadosP">Promotores</a></li>
+									            <li><a href="index.php/admin/BuscaUC">Coordinadores</a></li>
+									            <li><a href="index.php/admin/BuscaUP">Promotores</a></li>
 									          </ul>
 									        </li>
 									        <li class="active">

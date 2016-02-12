@@ -127,14 +127,14 @@
              		        	actividad_1: "required",
              		        	actividad_2: "required",
              		        	actividad_3: "required",
-             		        	correo: "required",
+             		        	email:{required : true, estructuraemail: true},
              		        	telefono: "required"   },
         			        messages: { 
             			        lugar: {required: "Campo obligatorio"},
              		        	actividad_1: {required: "Campo obligatorio"},
              		        	actividad_2: {required: "Campo obligatorio"},
              		        	actividad_3: {required: "Campo obligatorio"},
-             		        	correo: {required: "Campo obligatorio"},
+             		        	email: {required: "Campo obligatorio", estructuraemail: "Introduce un email valido"},
              		        	telefono: {required: "Campo obligatorio"}
              		        	}
         			    //   ignore: ":not(:visible),:disabled"}
@@ -153,7 +153,19 @@
      	            "Debes seleccionar una opción"
      	 		);
 
-
+     	 		jQuery.validator.addMethod("estructuraemail",function (value, element)
+             			{
+             			 //console.log(value);
+             			 var patron=/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/;
+             				
+             				if (patron.test(element.value)){
+             					
+             						return true;
+             				}
+             				else{
+             						return false;
+             				}
+             			},"Introduce un email valido");
      	 		 $("#guardar").click(function ()
      	 		 { 
      	 			  if($('#formulario').valid())
@@ -403,6 +415,7 @@
 	                       	<br />
 	                       	<div id="datos_contacto">	                        	                       
 		                        <label class="leyenda" style="color:#E6007E;  text-align:left; padding-left:20px;">Verifica tus datos de contacto</label>
+		                       
 		                        <input type="text" id="email" name="email" placeholder="Correo Electrónico" value="<?php echo $correo; ?>" title="Correo Electrónico" style="width:47%; text-transform:uppercase;" >
 		                        <input type="text" id="telefono" name="telefono" placeholder="Teléfono" value="<?php echo $tel; ?>" title="Teléfono" style="width:47%;" maxlength="10">
 	                        	<br />

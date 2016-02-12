@@ -52,22 +52,7 @@
         <![endif]-->
         
         <style>
- .btn-custom {
-  background-color: hsl(320, 98%, 47%) !important;
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#fc1bb1", endColorstr="#E3157D");
-  background-image: -khtml-gradient(linear, left top, left bottom, from(#fc1bb1), to(#E3157D));
-  background-image: -moz-linear-gradient(top, #fc1bb1, #ed029f);
-  background-image: -ms-linear-gradient(top, #fc1bb1, #ed029f);
-  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fc1bb1), color-stop(100%, #E3157D));
-  background-image: -webkit-linear-gradient(top, #fc1bb1, #E3157D);
-  background-image: -o-linear-gradient(top, #fc1bb1, #E3157D);
-  background-image: linear-gradient(#fc1bb1, #E3157D);
-  border-color: #ed029f #E3157D hsl(320, 98%, 45%);
-  color: #FFFEFE !important;
-  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.13);
-  -webkit-font-smoothing: antialiased;
-}
+ 
      
         .error {
 		    background: url("resources/assets/css/images/ui-bg_glass_95_fef1ec_1x400.png") repeat-x scroll 50% 50% #fef1ec !important;
@@ -116,114 +101,16 @@
         	$('[title]').qtip();     	 
         	         	        	         	    	         	         	        	        	        	        	        	        	           
              
-             $("#guardar_promotor").click(function ()
-             {
-				//alert('promotor');
-				 $("#tipo_registro").val(2);
-				 $("#registra").submit();	               
-          	  });
-
-
-             $("#guardar_coordinador").click(function ()
-             {
-            	 //alert('coordinador');
-            	 $("#tipo_registro").val(1);
-            	 $("#registra").submit();        	              
-             });
-             
-             $("#Institucion").change(function () {
-                 var tipo = $("#Institucion option:selected").val();
-
-                 //plantel
-                 
-                 	$("#plantel").html('<option value="0">Cargando...</option>');
-                 	jQuery.ajax({
-         	            type: 'post',
-         	            dataType: 'html',
-         	            url: 'index.php/administrador/ajaxGetPlanteles/'+tipo,
-         	            data: {operacion: 'ajax'},
-         	            success: function (data) {
-         	                $("#plantel").html(data);	               
-         	            }
-         	        });
-         	  
-             });
-                    	        
+        	$(".botonExcel").click(function(event) {
+          		$("#datos_a_enviar").val( $("<div>").append( $("#Exportar_a_Excel").eq(0).clone()).html());
+          		$("#FormularioExportacion").submit();
+          	});  
              
         });//ready
         
-        function valores(){
-        	valor = 't[]';
-            f= document.form_datos;
-         	arre = new Array();
-         	total = f[valor].length;
-         	if(isNaN(total)){
-             	arre[0]=document.getElementById('t[]').value;
-         	}else
-         	{
-	         	for (var i = 0; i < total; i++)
-	          	 if (f[valor][i].checked) arre[arre.length] = f[valor][i].value;
-         	}
-           //return arre.length;
-      
-        	 if(arre.length > 0 )
-        	 {
-        		
-        	  $.ajax({
-        			 
-        		      type: 'POST',
-        		      dataType: 'html',
-        		      url: 'index.php/administrador/aceptado/',	 
-        		      data: {arreglo: arre},
-        		      success: function (data) {
-
- 		    //                 $.unblockUI();
-		                     if(data === 'ok')
-		                     {
-		                    	 swal({
-		                          	  title: "¡Registro exitoso!",
-		                          	  text: "",
-		                          	  type: "success",
-		                          	  showCancelButton: false,
-		                          	  confirmButtonColor: "#34AF00",
-		                          	  confirmButtonText: "Ok",
-		                          	  //cancelButtonText: "No, cancel plx!",
-		                          	  closeOnConfirm: false
-		                          	  //closeOnCancel: false
-		                          	},
-		                          	function(isConfirm){
-		                          	  if (isConfirm) {
-		                          		irA('index.php/administrador');
-		                          	  } 
-		                          	});
-		                     }
-		                     else
-		                     {
-		                    	 swal({
-		                         	  title: "Ocurrio un error, intentelo más tarde!!!",
-		                         	  text: "",
-		                         	  type: "error",
-		                         	  showCancelButton: false,
-		                         	  confirmButtonColor: "#C9302C",
-		                         	  confirmButtonText: "Ok",
-		                         	  //cancelButtonText: "No, cancel plx!",
-		                         	  closeOnConfirm: false
-		                         	  //closeOnCancel: false
-		                         	},
-		                         	function(isConfirm){
-		                         	  if (isConfirm) {
-		                         		 irA('index.php/administrador');
-		                         	  } 
-		                         	});
-		                     }
-		                 }
-        		    
-        		        
-        		}); 	
-        		
-        	 }
         
-        }                                                                    
+        
+                                                                 
 
         function irA(uri) {
             window.location.href = '<?php echo base_url(); ?>' + uri;
@@ -246,11 +133,11 @@
 										<div class="container">
 											<a href="index.php" class="brand">Prepa Sí</a>
 												<ul class="nav pull-right">
-													<li><a href="index.php/administradoristrador/">Inicio</a></li>
+													<li><a href="index.php/administrador/index">Inicio</a></li>
 													<li class="divider-vertical"></li>
 													
 													<li class="dropdown">
-											          <a href="#" class="dropdown-toggle nav-stacked" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">administradoristrador<span class="caret"></span></a>
+											          <a href="#" class="dropdown-toggle nav-stacked" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administradoristrador<span class="caret"></span></a>
 											          <ul class="dropdown-menu">
 											          	<li><a href="index.php/administrador/listadoUsuarios">Listar Usuarios</a></li>
 											            <li><a href="index.php/administrador/nuevoUsuario">Nuevo Usuario</a></li>
@@ -258,19 +145,19 @@
 											        </li>
 													
 													<li class="dropdown">
-											          <a href="#" class="dropdown-toggle nav-stacked" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Registrados<span class="caret"></span></a>
+											          <a href="#" class="dropdown-toggle nav-stacked" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Bachillerato<span class="caret"></span></a>
 											          <ul class="dropdown-menu">
-											          	<li><a href="index.php/administrador/RegistradosC">Coordinadores</a></li>
-											            <li><a href="index.php/administrador/RegistradosP">Promotores</a></li>
+											          	<li><a href="index.php/administrador/BuscaBC">Coordinadores</a></li>
+											            <li><a href="index.php/administrador/BuscaBP">Promotores</a></li>
 											          </ul>
 											        </li>
 											        <li class="divider-vertical"></li>
 											        <li class="dropdown">
-											          <a href="#" class="dropdown-toggle nav-stacked" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Aceptados <span class="caret"></span></a>
+											          <a href="#" class="dropdown-toggle nav-stacked" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Universidad<span class="caret"></span></a>
 											          <ul class="dropdown-menu">
 											          	
-											            <li><a href="index.php/administrador/AceptadosC">Coordinadores</a></li>
-											            <li><a href="index.php/administrador/AceptadosP">Promotores</a></li>
+											            <li><a href="index.php/administrador/BuscaUC">Coordinadores</a></li>
+											            <li><a href="index.php/administrador/BuscaUP">Promotores</a></li>
 											          </ul>
 											        </li>
 											        <li class="active">
@@ -290,146 +177,139 @@
                		
 						<div class="span12">
 						
-							<form id="escuela" name="escuela" method="post" action="index.php/administrador/RegistradosC1">
-								<h3>REGISTRO COORDINADORES</h3>
-								<table  border="0" style=" text-align:left !important;">
+							<?php if ($nivel=='BACHILLERATO'){?>
+						<form id="escuela" name="escuela" method="post" action="index.php/administrador/BachilleratoC">
+					<?php }elseif ($nivel=='UNIVERSITARIOS'){?>
+						<form id="escuela" name="escuela" method="post" action="index.php/administrador/UniversidadC">
+					<?php }?>
+							
+								<h3>BUSQUEDA COORDINADORES <?php echo $nivel;?></h3>
+								<table  border="0" style=" text-align:center !important;">
 									<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
 									<tr>
 									  <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 									  <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-									  <td><label>Institucion:</label></td>
-									  <td>&nbsp;&nbsp;&nbsp;</td>
-								      <td>
-								      	<select name="Institucion" id="Institucion" class="form-control" >
-								            	<option value="0">[Seleccionar]</option>
-							            		<?php 
-							            		$u=0;
-							            		$b=0;
-							            		$i=0;
-							            			foreach ($institucion as $val){
-							            				if($val['universidad']==0){
-							            				
-							            					if($b==0)
-							            						echo " <optgroup label='Bachillerato'>";
-							            				
-							            					echo "<option value='".$val['id_institucion']."'>".$val['institucion']."</option>";
-							            					
-							            					$b++;
-							            				}
-							            					
-							            				if($val['universidad']==1){
-							            				
-							            					if($u==0)
-							            					{
-							            						echo'</optgroup>';
-							            						echo " <optgroup label='Universidad'>";
-							            					}
-							            				
-							            				
-							            					echo "<option value='".$val['id_institucion']."'>".$val['institucion']."</option>";
-							            				
-							            					$u++;
-							            				
-							            				}
-							            					
-							            				if($val['universidad']==2){
-							            					if($i==0)
-							            					{
-							            						echo'</optgroup>';
-							            						echo " <optgroup label='Institutos'>";
-							            					}
-							            						
-							            					echo "<option value='".$val['id_institucion']."'>".$val['institucion']."</option>";
-							            				
-							            					$i++;
-							            						
-							            				}
-							            			}
-							            		?>					            				           
-							            	</select>
-								      </td>
-								      </td>
-									    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-									    <td><label>Plantel:</label></td>
-									    <td>&nbsp;&nbsp;&nbsp;</td>
-					    				<td>
-					    					<select name="plantel" id="plantel" class="form-control" >
-												<option value="0">[Seleccionar]</option>					            	            
-											</select>
-						   				</td>
+									  <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+									  <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+									  <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+									  <td><label>Delegacion:</label></td>
+									  <td align="center"  width="30%">
+				                        	<select id="id_delegacion" name="id_delegacion" class="form-control" style="width: 80%;">
+				                        		<option value="-1">[Seleccionar]</option>
+				                        		<option value="10">Álvaro Obregón</option>
+												<option value="2">Azcapotzalco</option>
+												<option value="14">Benito Juárez</option>
+												<option value="3">Coyoacán</option>
+												<option value="4">Cuajimalpa de Morelos</option>
+												<option value="15">Cuauhtémoc</option>
+												<option value="5">Gustavo A. Madero</option>
+												<option value="6">Iztacalco</option>
+												<option value="7">Iztapalapa</option>
+												<option value="8">La Magdalena Contreras</option>
+												<option value="16">Miguel Hidalgo</option>
+												<option value="9">Milpa Alta</option>
+												<option value="11">Tlahuac</option>
+												<option value="12">Tlalpan</option>
+												<option value="17">Venustiano Carranza</option>
+												<option value="13">Xochimilco</option>
+												<option value="14">Todas</option>
+				                        	</select>
+				                        </td>
+								    	
+								    	
+								      
 						   				<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 										<td>
-											<input class="btn btn-small" type="submit" name="Buscar" id="Buscar" value="Buscar">
+											<input class="btn btn-custom" type="submit" name="Buscar" id="Buscar" value="Buscar">
 										</td>
 									</tr>
 								</table>
 							</form>
-					</div>
+					
 				</div>
         	</div>
         	<!-- end Busca Promotor -->
         	<div class="row-fluid">
-        	<?php if($registro==1 && isset($Coordinador) && $Coordinador!=null){ ?>
+        	
+        	
+        	<?php 
+        	//print_r($datos);
+        		if(isset($Coordinador) && $Coordinador!=null){ 
+        	?>
 				<div class="span12">
 					<div class="span12"></div>
-					<div class="row-fluid">
-						
-						<div class="span8"><div class="span12">&nbsp;</div></div>
-						<div class="span4">
-							<div class="span8">&nbsp;</div>
-							<div class="span3"><input class="btn btn-small btn-custom" type="button" onclick="valores()" name="nuevo" id="nuevo" value="Aprobar"></div>	
-						</div>	
-					</div>
-        		</div>
-        		<div id="span12">
-					<form name="form_datos" id="form_datos">
-						<h2><?php echo $datos['institucion'].' - '.$datos['plantel'];?></h2>
-						<table width="" class= "table table-bordered table-striped table-hover table-condensed">
-						<tr align="center">
+						<div class="row-fluid">
+							<div class="span8"><div class="span12">&nbsp;</div></div>
+								<!--  	
+									<div class="span4">
+										<div class="span8">&nbsp;</div>
+										<div class="span3"><input class="btn btn-small btn-custom" type="button" onclick="valores()" name="nuevo" id="nuevo" value="Aprobar"></div>	
+									</div>
+								-->	
+								</div>
+			        		</div>
+			        		<div id="span12">
+								<form role="form" action="index.php/administrador/exportaExcel" method="post" target="_blank" id="FormularioExportacion">
 								
-								<th colspan="10" class="align-right">
-								<p>REPORTE DE BENEFICIARIOS REGISTRADOS PARA COORDINADOR</p>  
-									<?php //echo getMesesTrimestreLetra($trimestre);?><?php //echo$anio;?>
-								</th>
-							</tr>
-							<tr>
-								<th width="2%">#</th>
-								<th width="">NOMBRE</th>
-								<th width="">MATRICULA</th>
-								<th>FOLIO</th>
-								<th>DELEGACION</th>
-								<th width="">LUGAR APOYO</th>
-								<th>EJE PREFERENTE</th>
-								<th>CORREO</th>
-								<th>TELEFONO</th>
-								<th>CICLO</th>
-							</tr>
-							<?php 
-								foreach ($Coordinador as $val){
-							?>
+									<h2> DELEGACIÓN <?php echo strtoupper ($datos['delegacion']);?></h2>
+									<p><img src="resources/images/btn_excel.png" class="botonExcel" style="cursor:pointer;" title="De click aquí para descargar en formato .xls"/></p>
+								<input type="hidden" id="datos_a_enviar" name="datos_a_enviar" />
+									<table border="1" class= "table table-bordered table-striped table-hover table-condensed" id="Exportar_a_Excel">
+									<tr align="center">
+											
+											<th colspan="<?php echo $con;?>" class="align-right">
+											<p>REPORTE DE BENEFICIARIOS  COORDINADOR <?php echo $nivel.' - '.strtoupper ($datos['delegacion']);?> </p>  
+												<?php //echo getMesesTrimestreLetra($trimestre);?><?php //echo$anio;?>
+											</th>
+										</tr>
+										<tr>
+											
+											<th>NOMBRE</th>
+											<th>MATRICULA</th>
+											<th>INSTITUCIÓN</th>
+											<th>PLANTEL</th>
+											<th>FOLIO</th>
+											<?php if($con==10){?>
+											<th>DELEGACION</th>
+											<?php }?>
+											<th>LUGAR APOYO</th>
+											<th>EJE PREFERENTE</th>
+											<th>CORREO</th>
+											<th>TELEFONO</th>
+											
+										</tr>
+										<?php 
+											foreach ($Coordinador as $val){
+										?>
+										
+										<tr>
+											<td><?php echo $val['ap'].' '.$val['am'].' '.$val['nombre']?></td>
+											<td><?php echo $val['matricula']?></td>
+											<td><?php echo $val['institucion']?></td>
+											<td><?php echo $val['plantel']?></td>
+											<td><?php echo $val['folio']?></td>
+											<?php if($con==10){?>
+											<td><?php  echo $val['delegacion']?></td>
+											<?php }?>
+											
+											<td><?php echo $val['lugar_apoyo']?></td>
+											<td><?php if($val['eje_1']==2){echo 'Arte y Cultura';}elseif($val['eje_1']==3){echo'Ciencia y tecnología';}elseif($val['eje_1']==4){echo'Deporte y recreación';}elseif($val['eje_1']==5){echo'Economía solidaria';}elseif($val['eje_1']==6){echo'Medio ambiente';}elseif($val['eje_1']==7){echo'Participación juvenil';}elseif($val['eje_1']==8){echo'Salud';} ?></td>
+											
+											<td><?php echo $val['correo']?></td>
+											<td><?php echo $val['telefono']?></td>
+											
+										</tr>
+											
+									<?php 	
+								
+								}
+        					}
+								?>
 							
-							<tr>
-								<td><input type="checkbox" id="t[]" name="t[]" value="<?php echo $val['id_registro']?>"></td>
-								<td><?php echo $val['ap'].' '.$val['am'].' '.$val['nombre']?></td>
-								<td><?php echo $val['matricula']?></td>
-								<td><?php echo $val['folio']?></td>
-								<td><?php echo $val['delegacion']?></td>
-								<td><?php echo $val['lugar_apoyo']?></td>
-								<td><?php if($val['eje_1']==2){echo 'Arte y Cultura';}elseif($val['eje_1']==3){echo'Ciencia y tecnología';}elseif($val['eje_1']==4){echo'Deporte y recreación';}elseif($val['eje_1']==5){echo'Economía solidaria';}elseif($val['eje_1']==6){echo'Medio ambiente';}elseif($val['eje_1']==7){echo'Participación juvenil';}elseif($val['eje_1']==8){echo'Salud';} ?></td>
-								
-								<td><?php echo $val['correo']?></td>
-								<td><?php echo $val['telefono']?></td>
-								<td><?php echo $val['ciclo_escolar']?></td>
-							</tr>
-								<?php }?>
-							<input type="hidden" name="tipo" id="tipo" value="2">
 						</table>
 					</form>
 				</div>
         	</div>
-        	
-        	<?php }?>
-        	
         	
         	
         </div>

@@ -85,15 +85,72 @@
 		    overflow: hidden !important;
 		    text-align:left;
 		}
-		
-        
+		.myButton {
+	-moz-box-shadow:inset 0px 1px 0px 0px #d4229f;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #d4229f;
+	box-shadow:inset 0px 1px 0px 0px #d4229f;
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #ff5bb0), color-stop(1, #ef027d));
+	background:-moz-linear-gradient(top, #ff5bb0 5%, #ef027d 100%);
+	background:-webkit-linear-gradient(top, #ff5bb0 5%, #ef027d 100%);
+	background:-o-linear-gradient(top, #ff5bb0 5%, #ef027d 100%);
+	background:-ms-linear-gradient(top, #ff5bb0 5%, #ef027d 100%);
+	background:linear-gradient(to bottom, #ff5bb0 5%, #ef027d 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff5bb0', endColorstr='#ef027d',GradientType=0);
+	background-color:#ff5bb0;
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+	border:1px solid #f5bfe4;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:14px;
+	font-weight:bold;
+	padding:6px 24px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #4f3744;
+}
+.btn {
+  background: #e61e85;
+  background-image: -webkit-linear-gradient(top, #e61e85, #f2228e);
+  background-image: -moz-linear-gradient(top, #e61e85, #f2228e);
+  background-image: -ms-linear-gradient(top, #e61e85, #f2228e);
+  background-image: -o-linear-gradient(top, #e61e85, #f2228e);
+  background-image: linear-gradient(to bottom, #e61e85, #f2228e);
+  -webkit-border-radius: 2;
+  -moz-border-radius: 2;
+  border-radius: 2px;
+  text-shadow: 1px 1px 3px #ffffff;
+  -webkit-box-shadow: 0px 1px 3px #faf7fa;
+  -moz-box-shadow: 0px 1px 3px #faf7fa;
+  box-shadow: 0px 1px 3px #faf7fa;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 15px;
+  padding: 4px 43px 4px 43px;
+  border: solid #E3157D 1px;
+  text-decoration: none;
+}
+
+.btn:hover {
+  background: #f2228e;
+  background-image: -webkit-linear-gradient(top, #f2228e, #e61e85);
+  background-image: -moz-linear-gradient(top, #f2228e, #e61e85);
+  background-image: -ms-linear-gradient(top, #f2228e, #e61e85);
+  background-image: -o-linear-gradient(top, #f2228e, #e61e85);
+  background-image: linear-gradient(to bottom, #f2228e, #e61e85);
+  text-decoration: none;
+}
         </style>               
 
+<script type="text/javascript">
 
+</script>
 <?php 
 	
 	
-	$nom= $identificacion['nombre'].' '.$identificacion['ap'].' '.$identificacion['am'];
+	$nom= $msj['nombre'].' '.$msj['ap'].' '.$msj['am'];
 	
 
 	
@@ -110,26 +167,37 @@
                 	<a href="index.php/main"><img src="resources/assets/img/logo_gdf_cgdf.png" style="padding-top:0px;" align="top" /></a>&nbsp;                                               	
                 </div>
                	<div id="dotos_personales">
-               	<label><h3>Comprobante de registro como <?php if ($tipo_registro==1){echo 'coordinador ';$reg='COORDINADOR';}elseif ($tipo_registro==2){echo 'promotor';$reg='PROMOTOR';}?> del programa Prepa Sí</h3></label>
-               	<p><h5><?php echo $escuela['institucion'].' / '.$escuela['plantel'];?></h5></p>
+               	<label><h3>Comprobante de registro como <?php if ($msj['tipo_registro']==1){echo 'Coordinador ';$reg='COORDINADOR';}elseif ($msj['tipo_registro']==2){echo 'Promotor';$reg='PROMOTOR';}?>
+               	 del Programa "<?php if($msj['id_archivo']==1 || $msj['id_archivo']==2){echo 'Prepa';}else{echo'Universitarios';}?> Sí"</h3></label>
+               	<p><h5><?php echo $msj['institucion'].' / '.$msj['plantel'];?></h5></p>
                	<br /><label class="leyenda" style="color:#E6007E; text-align:center; padding-left:20px;"><?php echo $nom;?></label><br>
-		        	<p>TU FECHA DE REGISTRO ES: <b><?php echo $fecha['fecha_registro'];?></b></p>
-		        	<p>TU N&Uacute;MERO DE FOLIO ES:<br /><br /> <b><?php echo $folio;?></b></p>		                        
-		            <p>HAS QUEADO REGISTRADO, TE SUGERIMOS ESTAR AL PENDIENTE DE TU CORREO <br><br><u><?php echo $identificacion['email'];?></u><br><br></p>
-		            <p></p>
-		            <br />
+		        	<p>TU FECHA DE REGISTRO ES: <b><?php echo $msj['fecha_registro'];?></b></p>
+		        	<p>TU N&Uacute;MERO DE FOLIO ES:<br /><br /> <b><?php echo $msj['folio'];?></b></p>		                        
+		            <p>HAS QUEADO REGISTRADO, TE SUGERIMOS ESTAR AL PENDIENTE DE TU CORREO <br><br><u><?php echo $msj['correo'];?></u></p>
+		            
+		            
 		       </div>
+		       <p color="red"><br><br>Recuerda imprimir tu comprobante</p>
 		       <input type="hidden" id="nombre" name="nombre" value="<?php  echo $nom; ?>" />
-		       <input type="hidden" id="plantel" name="plantel" value="<?php echo $escuela['plantel']; ?>" />
-		       <input type="hidden" id="institucion" name="institucion" value="<?php echo $escuela['institucion'];?>">
-               <input type="hidden" id="folio" name="folio" value="<?php echo $folio;?>" />
-               <input type="hidden" id="fecha" name="fecha" value="<?php echo $fecha['fecha_registro'];?>" />
+		       <input type="hidden" id="plantel" name="plantel" value="<?php echo $msj['plantel']; ?>" />
+		       <input type="hidden" id="institucion" name="institucion" value="<?php echo $msj['institucion'];?>">
+               <input type="hidden" id="folio" name="folio" value="<?php echo $msj['folio'];?>" />
+               <input type="hidden" id="fecha" name="fecha" value="<?php echo $msj['fecha_registro'];?>" />
                <input type="hidden" id="tipo_registro" name="tipo_registro" value="<?php echo $reg;?>" />
-               <input type="hidden" id="correo" name="correo" value="<?php echo $identificacion['email'];?>" />
-         <td align="center" colspan="7">
+               <input type="hidden" id="correo" name="correo" value="<?php echo $msj['correo'];?>" />
+        
 	    <hr />
-	        <input type="submit" value="Imprimir" title="Crear PDF" />
-        </td>
+	    		<div style="text-align:left; padding-left:20px;  min-height:73px;" class="span2">
+                	<input type="submit" value="Imprimir"  title="Crear PDF" />                                               	
+                </div>
+                <div style="text-align:center; padding-left:20px;  min-height:73px;" class="span4">
+                	                           	
+                </div>
+                <div style="text-align:rigth; padding-left:20px;  min-height:73px;" class="span4">
+                	<a href="index.php/main" class="btn">Terminar</a>                                         	
+                </div>
+	    	
+        
 		</div>      
 	      </form>
 	     

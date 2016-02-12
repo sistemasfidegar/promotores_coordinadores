@@ -171,80 +171,90 @@ class administrador extends CI_Controller {
     }
 
     /*Funciones de barra*/
-    function RegistradosC(){
-    	$data['institucion']=$this->modelo->getInstitucion();
-    	$data['registro']=1;
-    	$this->load->view('administrador/v_regCoordinador', $data, false);
-    }
-    function RegistradosC1(){
-    	$data['institucion']=$this->modelo->getInstitucion();
-    	$plantel=(int)$this->input->post('plantel');
-    	$aux=$this->modelo->getDatosEscuela($plantel);
-    	$data['datos']=$aux[0];
-    	$data['Coordinador']=$this->modelo->registroCoo($plantel);
-    	/*$aux=$this->modelo->getCiclo();
-    		$data['ciclo']=$aux[0];*/
-    	$data['registro']=1;
-    	$this->load->view('administrador/v_regCoordinador', $data, false);
-    }
-    function RegistradosP(){
-    	$data['institucion']=$this->modelo->getInstitucion();
-    	$data['registro']=2;
-    	$this->load->view('administrador/v_regPromotor', $data, false);
-    }
-    function RegistradosP1(){
-    	$data['institucion']=$this->modelo->getInstitucion();
-    	$plantel=(int)$this->input->post('plantel');
-    
-    	$aux=$this->modelo->getDatosEscuela($plantel);
-    	$data['datos']=$aux[0];
-    
-    	$data['Promotor']=$this->modelo->registroProm($plantel);
-    	$data['registro']=2;
-    
-    	$this->load->view('administrador/v_regPromotor', $data, false);
-    }
-    function AceptadosC(){
-    	$data['institucion']=$this->modelo->getInstitucion();
-    	$data['registro']=1;
-    
-    	$this->load->view('administrador/v_coordinadorAceptado', $data, false);
-    }
-    function AceptadosC1(){
-    	$data['institucion']=$this->modelo->getInstitucion();
-    	$plantel=(int)$this->input->post('plantel');
-    	$aux=$this->modelo->getDatosEscuela($plantel);
-    	$data['datos']=$aux[0];
-    	$data['Coordinador']=$this->modelo->AceptadoCoo($plantel);
-    	$data['registro']=1;
-    
-    	$this->load->view('administrador/v_coordinadorAceptado', $data, false);
-    }
-    function AceptadosP(){
-    	$data['institucion']=$this->modelo->getInstitucion();
-    	$data['registro']=2;
-    	$this->load->view('administrador/v_promotorAceptado', $data, false);
-    }
-    function AceptadosP1(){
-    	$data['institucion']=$this->modelo->getInstitucion();
-    	$plantel=(int)$this->input->post('plantel');
-    	$aux=$this->modelo->getDatosEscuela($plantel);
-    	$data['datos']=$aux[0];
-    	$data['Promotor']=$this->modelo->AceptadoProm($plantel);
-    	$data['registro']=2;
-    
-    	$this->load->view('administrador/v_promotorAceptado', $data, false);
-    }
-    public function ajaxGetPlanteles($tipo)
-    {
-    	$planteles = $this->modelo->get_plantel($tipo);
+function BuscaBC(){
+		$data['nivel']='BACHILLERATO';
+	
+		$this->load->view('administrador/v_regCoordinador', $data, false);
+	}
+	function BachilleratoC(){
+		$data['nivel']='BACHILLERATO';
+		$data['delegacion']=(int)$this->input->post('id_delegacion');
+		
+		if($data['delegacion']!=14){
+    		$data['Coordinador']=$this->modelo->CoordinadorBach($data['delegacion']);
+    		$data['datos']=$data['Coordinador'][0];
+    		$data['con']=9;
+		}
+    	elseif ($data['delegacion']==14){
+    		$data['Coordinador']=$this->modelo->CoordinadorTodosB();
     		
-    	echo '<option value="0">[Seleccionar]</option>';
-    	foreach ($planteles as $plantel){
-    		echo '<option value="'.$plantel['id_plantel'].'">'.$plantel['plantel'].'</option>';
+    		$data['datos']=$data['Coordinador'][0];
+    		$data['con']=10;
     	}
-    
-    }
+    	
+		$this->load->view('administrador/v_regCoordinador', $data, false);
+	}
+
+	function BuscaUC(){
+		$data['nivel']='UNIVERSITARIOS';
+		$this->load->view('administrador/v_regCoordinador', $data, false);
+	}
+	function UniversidadC(){
+		$data['nivel']='UNIVERSITARIOS';
+		$data['delegacion']=(int)$this->input->post('id_delegacion');
+		if($data['delegacion']!=14){
+    		$data['Coordinador']=$this->modelo->CoordinadorUni($data['delegacion']);
+    		$data['con']=9;
+		}
+    	else {
+    		$data['Coordinador']=$this->modelo->CoordinadorTodosU();
+    		$data['con']=10;
+    	}
+		$data['datos']=$data['Coordinador'][0];
+		
+		$this->load->view('administrador/v_regCoordinador', $data, false);
+	}
+	///*****/// PROMOTORES ///*****///
+	function BuscaBP(){
+		$data['nivel']='BACHILLERATO';
+		$this->load->view('administrador/v_regPromotor', $data, false);
+	}
+	function BachilleratoP(){
+		$data['nivel']='BACHILLERATO';
+		$data['delegacion']=(int)$this->input->post('id_delegacion');
+		if($data['delegacion']!=14){
+			$data['Promotor']=$this->modelo->PromotorBach($data['delegacion']);
+			$data['con']=9;
+		}
+		else{
+			$data['con']=10;
+			$data['Promotor']=$this->modelo->PromotorTodosB($data['delegacion']);
+		}
+		$data['datos']=$data['Promotor'][0];
+		
+		$this->load->view('administrador/v_regPromotor', $data, false);
+	}
+	
+	function BuscaUP(){
+		$data['nivel']='UNIVERSITARIOS';
+		$this->load->view('administrador/v_regPromotor', $data, false);
+	}
+	function UniversidadP(){
+		$data['nivel']='UNIVERSITARIOS';
+		$data['delegacion']=(int)$this->input->post('id_delegacion');
+		if($data['delegacion']!=14){
+			$data['Promotor']=$this->modelo->PromotorUni($data['delegacion']);
+			$data['con']=9;
+		}else 
+		{
+			$data['Promotor']=$this->modelo->PromotorTodosU($data['delegacion']);
+			$data['con']=10;
+		}
+		$data['datos']=$data['Promotor'][0];
+	
+		$this->load->view('administrador/v_regPromotor', $data, false);
+	}
+    ///*****///    -    ///*****///
     function exportaExcel()
     {
     	$archivo = 'tabla_'.date('dmY_hi').'.xls';

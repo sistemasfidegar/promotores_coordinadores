@@ -109,6 +109,7 @@ class Admin extends CI_Controller {
 
     private function clearOtherSessions($data) {
         $this->load->model('modelo');
+        $this->load->model('m_admin');
         $sessions = $this->M_login->getallSessions();
         foreach ($sessions as $session) {
             $sessionItem = unserialize($session['user_data']);
@@ -140,40 +141,91 @@ function aceptado(){
  function principal(){
  	$this->load->view('admin/v_listado');
  }
- 	
-	function RegistradosC(){
-		$data['institucion']=$this->modelo->getInstitucion();
-		$data['registro']=1;
+ ///*****/// COORDINADORES ///*****///
+	function BuscaBC(){
+		$data['nivel']='BACHILLERATO';
+	
 		$this->load->view('admin/v_regCoordinador', $data, false);
 	}
-	function RegistradosC1(){
-		$data['institucion']=$this->modelo->getInstitucion();
-		$plantel=(int)$this->input->post('plantel');
-		$aux=$this->modelo->getDatosEscuela($plantel);
-		$data['datos']=$aux[0];
-		$data['Coordinador']=$this->modelo->registroCoo($plantel);
-		/*$aux=$this->modelo->getCiclo();
-		$data['ciclo']=$aux[0];*/
-		$data['registro']=1;
+	function BachilleratoC(){
+		$data['nivel']='BACHILLERATO';
+		$data['delegacion']=(int)$this->input->post('id_delegacion');
+		
+		if($data['delegacion']!=14){
+    		$data['Coordinador']=$this->modelo->CoordinadorBach($data['delegacion']);
+    		$data['datos']=$data['Coordinador'][0];
+    		$data['con']=9;
+		}
+    	elseif ($data['delegacion']==14){
+    		$data['Coordinador']=$this->modelo->CoordinadorTodosB();
+    		
+    		$data['datos']=$data['Coordinador'][0];
+    		$data['con']=10;
+    	}
+    	
 		$this->load->view('admin/v_regCoordinador', $data, false);
 	}
-	function RegistradosP(){
-		$data['institucion']=$this->modelo->getInstitucion();
-		$data['registro']=2;
+
+	function BuscaUC(){
+		$data['nivel']='UNIVERSITARIOS';
+		$this->load->view('admin/v_regCoordinador', $data, false);
+	}
+	function UniversidadC(){
+		$data['nivel']='UNIVERSITARIOS';
+		$data['delegacion']=(int)$this->input->post('id_delegacion');
+		if($data['delegacion']!=14){
+    		$data['Coordinador']=$this->modelo->CoordinadorUni($data['delegacion']);
+    		$data['con']=9;
+		}
+    	else {
+    		$data['Coordinador']=$this->modelo->CoordinadorTodosU();
+    		$data['con']=10;
+    	}
+		$data['datos']=$data['Coordinador'][0];
+		
+		$this->load->view('admin/v_regCoordinador', $data, false);
+	}
+	///*****/// PROMOTORES ///*****///
+	function BuscaBP(){
+		$data['nivel']='BACHILLERATO';
 		$this->load->view('admin/v_regPromotor', $data, false);
 	}
-	function RegistradosP1(){
-		$data['institucion']=$this->modelo->getInstitucion();
-		$plantel=(int)$this->input->post('plantel');
-		
-		$aux=$this->modelo->getDatosEscuela($plantel);
-		$data['datos']=$aux[0];
-		
-		$data['Promotor']=$this->modelo->registroProm($plantel);
-		$data['registro']=2;
+	function BachilleratoP(){
+		$data['nivel']='BACHILLERATO';
+		$data['delegacion']=(int)$this->input->post('id_delegacion');
+		if($data['delegacion']!=14){
+			$data['Promotor']=$this->modelo->PromotorBach($data['delegacion']);
+			$data['con']=9;
+		}
+		else{
+			$data['con']=10;
+			$data['Promotor']=$this->modelo->PromotorTodosB($data['delegacion']);
+		}
+		$data['datos']=$data['Promotor'][0];
 		
 		$this->load->view('admin/v_regPromotor', $data, false);
 	}
+	
+	function BuscaUP(){
+		$data['nivel']='UNIVERSITARIOS';
+		$this->load->view('admin/v_regPromotor', $data, false);
+	}
+	function UniversidadP(){
+		$data['nivel']='UNIVERSITARIOS';
+		$data['delegacion']=(int)$this->input->post('id_delegacion');
+		if($data['delegacion']!=14){
+			$data['Promotor']=$this->modelo->PromotorUni($data['delegacion']);
+			$data['con']=9;
+		}else 
+		{
+			$data['Promotor']=$this->modelo->PromotorTodosU($data['delegacion']);
+			$data['con']=10;
+		}
+		$data['datos']=$data['Promotor'][0];
+	
+		$this->load->view('admin/v_regPromotor', $data, false);
+	}
+	///*****///    -    ///*****///
 	function AceptadosC(){
 		$data['institucion']=$this->modelo->getInstitucion();
 		$data['registro']=1;
@@ -215,6 +267,8 @@ function aceptado(){
 		}
 		
 	}
+	
+	///*****/// EXCEL ///*****///
 	function exportaExcel()
 	{
 		$archivo = 'tabla_'.date('dmY_hi').'.xls';
