@@ -198,7 +198,7 @@ class Main extends CI_Controller {
 			
 			
 			
-			$data['folio']=$data['siglas'].$tipo.str_pad($cons, 5,0, STR_PAD_LEFT);
+			$data['folio']=$data['siglas'].'-'.$tipo.'-'.str_pad($cons, 5,0, STR_PAD_LEFT);
 
 			$aux = $this->modelo->getIdentificacion($data['matricula']);
 			$data['identificacion'] = $aux[0];

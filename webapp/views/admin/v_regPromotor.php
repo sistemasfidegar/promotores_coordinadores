@@ -254,7 +254,7 @@
 						<h2> DELEGACIÓN <?php echo strtoupper ($datos['delegacion']);?></h2>
 						<p><img src="resources/images/btn_excel.png" class="botonExcel" style="cursor:pointer;" title="De click aquí para descargar en formato .xls"/></p>
 						<input type="hidden" id="datos_a_enviar" name="datos_a_enviar" />
-						<table border="1" class= "table table-bordered table-striped table-hover table-condensed" id="Exportar_a_Excel">
+						<table border="1" class= "table table-bordered table-striped table-hover table-condensed" id="Exportar_a_Excel" style="font-size:12px;">
 						<tr align="center">
 								
 								<th colspan="<?php echo$con;?>" class="align-right">

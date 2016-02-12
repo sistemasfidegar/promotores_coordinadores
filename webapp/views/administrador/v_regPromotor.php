@@ -248,7 +248,7 @@
 						<h2> DELEGACIÓN <?php echo strtoupper ($datos['delegacion']);?></h2>
 						<p><img src="resources/images/btn_excel.png" class="botonExcel" style="cursor:pointer;" title="De click aquí para descargar en formato .xls"/></p>
 						<input type="hidden" id="datos_a_enviar" name="datos_a_enviar" />
-						<table border="1" class= "table table-bordered table-striped table-hover table-condensed" id="Exportar_a_Excel">
+						<table border="1" class= "table table-bordered table-striped table-hover table-condensed" id="Exportar_a_Excel" style="font-size:12px;">
 						<tr align="center">
 								
 								<th colspan="9" class="align-right">
@@ -263,7 +263,9 @@
 								<th>INSTITUCIÓN</th>
 								<th>PLANTEL</th>
 								<th>FOLIO</th>
-								
+								<?php if($con==10){?>
+								<th>DELEGACION</th>
+								<?php }?>
 								<th>LUGAR APOYO</th>
 								<th>EJE PREFERENTE</th>
 								<th>CORREO</th>
@@ -280,7 +282,9 @@
 								<td><?php echo $val['institucion']?></td>
 								<td><?php echo $val['plantel']?></td>
 								<td><?php echo $val['folio']?></td>
-								
+								<?php if($con==10){?>
+								<td><?php  echo $val['delegacion']?></td>
+								<?php }?>
 								
 								<td><?php echo $val['lugar_apoyo']?></td>
 								<td><?php if($val['eje_1']==2){echo 'Arte y Cultura';}elseif($val['eje_1']==3){echo'Ciencia y tecnología';}elseif($val['eje_1']==4){echo'Deporte y recreación';}elseif($val['eje_1']==5){echo'Economía solidaria';}elseif($val['eje_1']==6){echo'Medio ambiente';}elseif($val['eje_1']==7){echo'Participación juvenil';}elseif($val['eje_1']==8){echo'Salud';} ?></td>
