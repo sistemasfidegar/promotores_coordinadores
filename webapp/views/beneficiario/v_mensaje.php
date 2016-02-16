@@ -85,32 +85,7 @@
 		    overflow: hidden !important;
 		    text-align:left;
 		}
-		.myButton {
-	-moz-box-shadow:inset 0px 1px 0px 0px #d4229f;
-	-webkit-box-shadow:inset 0px 1px 0px 0px #d4229f;
-	box-shadow:inset 0px 1px 0px 0px #d4229f;
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #ff5bb0), color-stop(1, #ef027d));
-	background:-moz-linear-gradient(top, #ff5bb0 5%, #ef027d 100%);
-	background:-webkit-linear-gradient(top, #ff5bb0 5%, #ef027d 100%);
-	background:-o-linear-gradient(top, #ff5bb0 5%, #ef027d 100%);
-	background:-ms-linear-gradient(top, #ff5bb0 5%, #ef027d 100%);
-	background:linear-gradient(to bottom, #ff5bb0 5%, #ef027d 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff5bb0', endColorstr='#ef027d',GradientType=0);
-	background-color:#ff5bb0;
-	-moz-border-radius:6px;
-	-webkit-border-radius:6px;
-	border-radius:6px;
-	border:1px solid #f5bfe4;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	font-family:Arial;
-	font-size:14px;
-	font-weight:bold;
-	padding:6px 24px;
-	text-decoration:none;
-	text-shadow:0px 1px 0px #4f3744;
-}
+		
 .btn {
   background: #e61e85;
   background-image: -webkit-linear-gradient(top, #e61e85, #f2228e);

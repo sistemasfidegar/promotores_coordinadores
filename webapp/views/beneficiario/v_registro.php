@@ -93,9 +93,14 @@
 
         		var matricula = '';
         		var matricula_escuela = '';
-    			if($("#matricula_asignada").val() != "" && $("#matricula_asignada").val().length>10)
-    	        {
-    				$.blockUI({message: 'Procesando por favor espere...'});
+        		var busqueda =$('input:radio[name=busqueda]:checked').val();
+
+        		
+        			
+        		
+        		if(busqueda =='reimpresion')
+        		{
+        			$.blockUI({message: 'Procesando por favor espere...'});
     	        	jQuery.ajax({
     		            type: 'post',
     		            dataType: 'html',
@@ -106,7 +111,7 @@
         		            if(data!="bad")
         		            {
 	    		            	matricula = data;
-	    		            	irA('index.php/main/muestra_informacion/'+matricula);	               
+	    		            	irA('index.php/main/mensaje/'+matricula);	               
         		            }
         		            else
         		            {
@@ -117,58 +122,86 @@
     		            }
     		            
     		        });
-             
-    	        }
-    			else if($("#matricula_escuela").val() != ""){
-
-    				$.blockUI({message: 'Procesando por favor espere...'});
-    	        	jQuery.ajax({
-    		            type: 'post',
-    		            dataType: 'html',
-    		            url: 'index.php/main/ajax_beneficiario_unam',
-    		            data: {matricula_escuela: $("#matricula_escuela").val()},
-    		            success: function (data) {
-
-        		            if(data!="bad")
-        		            {
-	    		            	matricula = data;
-	    		            	irA('index.php/main/muestra_informacion/'+matricula);	               
-        		            }
-        		            else
-        		            {
-            		            alert('No se encontró al beneficiario');
-            		            irA('index.php/main/');
-
-            		        }
-    		            }
-    		            
-    		        });
-    			}
-    			else
-    			{
-    				$.blockUI({ 
-                        message: $('div.growlUI'), 
-                        fadeIn: 700, 
-                        fadeOut: 700, 
-                        timeout: 6000, 
-                        showOverlay: false, 
-                        centerY: false, 
-                        css: { 
-                            width: '350px', 
-                            top: '10px', 
-                            left: '', 
-                            right: '10px', 
-                            border: 'none', 
-                            padding: '5px', 
-                            backgroundColor: '#000', 
-                            '-webkit-border-radius': '10px', 
-                            '-moz-border-radius': '10px', 
-                            opacity: .6, 
-                            color: '#fff' 
-                        } 
-                    }); 
-
-        		}        
+        			
+        		}
+        		else{
+	        		if($("#matricula_asignada").val() != "" && $("#matricula_asignada").val().length>10 && busqueda =='inscripcion')
+	    	        {
+	    				$.blockUI({message: 'Procesando por favor espere...'});
+	    	        	jQuery.ajax({
+	    		            type: 'post',
+	    		            dataType: 'html',
+	    		            url: 'index.php/main/ajax_beneficiario_registrado',
+	    		            data: {matricula: $("#matricula_asignada").val()},
+	    		            success: function (data) {
+	
+	        		            if(data!="bad")
+	        		            {
+		    		            	matricula = data;
+		    		            	irA('index.php/main/muestra_informacion/'+matricula);	               
+	        		            }
+	        		            else
+	        		            {
+	            		            alert('No se encontró al beneficiario');
+	            		            irA('index.php/main/');
+	
+	            		        }
+	    		            }
+	    		            
+	    		        });
+	             
+	    	        }
+	    			else if($("#matricula_escuela").val() != "" && busqueda =='inscripcion'){
+	
+	    				$.blockUI({message: 'Procesando por favor espere...'});
+	    	        	jQuery.ajax({
+	    		            type: 'post',
+	    		            dataType: 'html',
+	    		            url: 'index.php/main/ajax_beneficiario_unam',
+	    		            data: {matricula_escuela: $("#matricula_escuela").val()},
+	    		            success: function (data) {
+	
+	        		            if(data!="bad")
+	        		            {
+		    		            	matricula = data;
+		    		            	irA('index.php/main/muestra_informacion/'+matricula);	               
+	        		            }
+	        		            else
+	        		            {
+	            		            alert('No se encontró al beneficiario');
+	            		            irA('index.php/main/');
+	
+	            		        }
+	    		            }
+	    		            
+	    		        });
+	    			}
+	    			else
+	    			{
+	    				$.blockUI({ 
+	                        message: $('div.growlUI'), 
+	                        fadeIn: 700, 
+	                        fadeOut: 700, 
+	                        timeout: 6000, 
+	                        showOverlay: false, 
+	                        centerY: false, 
+	                        css: { 
+	                            width: '350px', 
+	                            top: '10px', 
+	                            left: '', 
+	                            right: '10px', 
+	                            border: 'none', 
+	                            padding: '5px', 
+	                            backgroundColor: '#000', 
+	                            '-webkit-border-radius': '10px', 
+	                            '-moz-border-radius': '10px', 
+	                            opacity: .6, 
+	                            color: '#fff' 
+	                        } 
+	                    }); 
+	
+	        		}  
+        		}      
 
     		});
 
@@ -207,7 +240,7 @@
                     
                         <table style=" width: 80%;" border="0">
                         	<tr>
-                                <td align="center">
+                                <td align="center" colspan="2">
                                     <input type="text" id="matricula_asignada" name="matricula_asignada" value="" placeholder="Ingresa tu matrícula PS o CURP" style="width:98%; text-transform:uppercase;"/>
                                 </td>	
                             </tr>
@@ -215,20 +248,26 @@
                                 <td align="center"></td>	
                             </tr>
                             <tr>
-                                <td align="center">
+                                <td align="center" colspan="2">
                                     <input type="text" id="matricula_escuela" name="matricula_escuela" value="" placeholder="matricula (unam)" style="width:98%; text-transform:uppercase;"/>
                                 </td>	
                             </tr>
-                            
                             <tr>
-                                <td align="center">
+                                <td align="center"></td>	
+                            </tr>
+                            <tr>
+                                <td align="center" width="40%"><input type="radio" id="busqueda" name="busqueda"  value="inscripcion" checked="checked"> Inscripcion </td>
+                                <td align="center" width="40%"><input type="radio" id="busqueda" name="busqueda"  value="reimpresion">Reimpresión</td>	
+                            </tr>  
+                            <tr>
+                                <td align="center" colspan="2">
                                 <br />
                                     <input id="btn-submit" class="btn_login" type="button" value="Iniciar registro"  style="cursor:pointer;"/>
                                 </td>	
                             </tr>  
                             
                             <tr>
-                                <td align="center">
+                                <td align="center" colspan="2">
                                 	<br />
                                     <span style="color: #E3157D;">Fideicomiso Educación Garantizada del Distrito Federal<br />Coordinación Ejecutiva del Programa de Estímulos para el Bachillerato Universal<br />Tel: 1102 1730 &nbsp;&nbsp;Ext. 4005, 4089, 4128.</span>
                                 </td>	

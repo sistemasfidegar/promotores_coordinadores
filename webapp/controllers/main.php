@@ -77,7 +77,7 @@ class Main extends CI_Controller {
 		    	$this->load->view('beneficiario/v_datos', $data, false);
     	}
     	else{
-    		
+    		$data['R']=1;
     		$this->load->view('beneficiario/noDisponible', $data, false);
     	}    		
     }
@@ -88,14 +88,18 @@ class Main extends CI_Controller {
     function Reingreso($matricula){
     	
     	$data['matricula'] = $matricula;
-    	 
-    	$aux = $this->modelo->getIdentificacion($matricula_asignada);
+    	$data['Dpromotor']=0;
+    	$data['Dcoordinador']=0;
+    	
+    	$aux = $this->modelo->getIdentificacion($matricula);
     	$data['identificacion'] = $aux[0];
     	 
     	$aux=$this->modelo->lugar_disponible($data['matricula'], $data['identificacion']['id_archivo']);
-    	$data['Dpromotor']=$aux[0]['promotor'];
-    	$data['Dcoordinador']=$aux[0]['coordinador'];
-    	 
+    	
+    	if( $aux != null){
+	    	$data['Dpromotor']=$aux[0]['promotor'];
+	    	$data['Dcoordinador']=$aux[0]['coordinador'];
+    	}
     	 
     	if($data['Dpromotor']!=0 || $data['Dcoordinador'] !=0 ){
     	
@@ -116,7 +120,7 @@ class Main extends CI_Controller {
 			$this->load->view('beneficiario/v_datos', $data, false);
     	}
     	else{
-    	
+    		$data['R']=1;
     		$this->load->view('beneficiario/noDisponible', $data, false);
     	}
     }
@@ -172,34 +176,48 @@ class Main extends CI_Controller {
 			
 			if ($data['id_archivo']== 1 || $data['id_archivo']== 2)
 			{
-				$aux=$this->modelo->getConsecutivoB($data['delegacion'], $data['tipo_registro']);
-				$cons= $aux[0]['fol'];
-				$data['cons']=$this->modelo->ActualizaFolio($cons, $data['tipo_registro'],$data['delegacion']);
 				if($data['tipo_registro']==1)
 					$tipo='CB';
 				else
 					$tipo='PB';
+				
+				$aux=$this->modelo->getConsecutivoB($data['delegacion'], $data['tipo_registro']);
+				$cons= $aux[0]['fol'];
+				
+				$data['siglas']=$aux[0]['siglas'];
+				$data['id_delegacion']=$aux[0]['id_delegacion'];
+					
+				$data['folio']=$data['siglas'].'-'.$tipo.'-'.str_pad($cons, 5,0, STR_PAD_LEFT);
+				
+				$cons=$cons-1;
+				$data['cons']=$this->modelo->ActualizaFolio($cons, $data['tipo_registro'],$data['delegacion']);
+				
+				
 							
 			}
 			elseif ($data['id_archivo']== 3)
 			{
-				$aux=$this->modelo->getConsecutivoU($data['delegacion'], $data['tipo_registro']);
-				$cons= $aux[0]['fol'];
-				$data['cons']=$this->modelo->ActualizaFolioU($cons, $data['tipo_registro'],$data['delegacion']);
 				if($data['tipo_registro']==1)
 					$tipo='CU';
 				else
 					$tipo='PU';
 				
+				$aux=$this->modelo->getConsecutivoU($data['delegacion'], $data['tipo_registro']);
+				$cons= $aux[0]['fol'];
+				
+				$data['siglas']=$aux[0]['siglas'];
+				$data['id_delegacion']=$aux[0]['id_delegacion'];
+					
+				$data['folio']=$data['siglas'].'-'.$tipo.'-'.str_pad($cons, 5,0, STR_PAD_LEFT);
+				
+				
+				$cons=$cons-1;
+				$data['cons']=$this->modelo->ActualizaFolioU($cons, $data['tipo_registro'],$data['delegacion']);
+				
+				
 			}
 			
-			$data['siglas']=$aux[0]['siglas'];
-			$data['id_delegacion']=$aux[0]['id_delegacion'];
 			
-			
-			
-			$data['folio']=$data['siglas'].'-'.$tipo.'-'.str_pad($cons, 5,0, STR_PAD_LEFT);
-
 			$aux = $this->modelo->getIdentificacion($data['matricula']);
 			$data['identificacion'] = $aux[0];
 		
@@ -235,14 +253,29 @@ class Main extends CI_Controller {
     }
     
     
-    function mensaje($matricula,$ciclo){
+    function mensaje($matricula){
+    	$data['msj'] =null;
     	$data['matricula'] = $matricula;
-    	$aux = $this->modelo->generaMensaje($data['matricula'], $ciclo);
-    	$data['msj'] = $aux[0];
+    	$aux=$this->modelo->getCicloActual();
+    	
+    	$data['id_ciclo_actual']=$aux[0]['id_ciclo_escolar'];
+    	
+    	$aux = $this->modelo->generaMensaje($data['matricula'], $data['id_ciclo_actual']);
     	
     	
-    	$this->load->view('beneficiario/v_mensaje', $data, false);
+    	if ($aux != null){
+    		$data['msj'] = $aux[0];
+    		$this->load->view('beneficiario/v_mensaje', $data, false);
+    	}
+    	else{
+    		
+    		$data['R']=2;
+    		
+    		$this->load->view('beneficiario/noDisponible', $data, false);
+    	}
+    	
     }
+   
     
     function mensaje2(){
     	
@@ -250,7 +283,7 @@ class Main extends CI_Controller {
     	$aux=$this->modelo->getCicloActual();
     	 
     	$data['id_ciclo_actual']=$aux[0]['id_ciclo_escolar'];
-    	$data['ciclo']= $this->input->get('ciclo');
+    	
     	$aux = $this->modelo->generaMensaje($data['matricula'], $data['id_ciclo_actual']);
     	$data['msj'] = $aux[0];
     	 

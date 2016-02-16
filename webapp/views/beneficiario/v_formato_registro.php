@@ -395,13 +395,13 @@
 	                        	
 	                        }
 	                        ?>
-	         	            <br />
+	         	   <!--     <br />
 	         	            <div id="lugar">           
 	                        	<label class="leyenda" style="color:#E6007E;  text-align:left; padding-left:20px;">Indica el lugar donde te gustaría apoyar como <?php echo $tipo;?></label>	                        	
 	                        	 <input type="text" id="lugar" name="lugar" placeholder="Espacio público, parque, deportivo, plantel, e.t.c" value="" title="Lugar" >                       	
 	                        
 	                        </div>
-	                       
+	                  -->
 	                        
 	                        <br />
 	                        <div id="descripción">	                        	                       
@@ -415,9 +415,15 @@
 	                       	<br />
 	                       	<div id="datos_contacto">	                        	                       
 		                        <label class="leyenda" style="color:#E6007E;  text-align:left; padding-left:20px;">Verifica tus datos de contacto</label>
-		                       
-		                        <input type="text" id="email" name="email" placeholder="Correo Electrónico" value="<?php echo $correo; ?>" title="Correo Electrónico" style="width:47%; text-transform:uppercase;" >
-		                        <input type="text" id="telefono" name="telefono" placeholder="Teléfono" value="<?php echo $tel; ?>" title="Teléfono" style="width:47%;" maxlength="10">
+		                        	<br />
+		                       	<table border="0" style=" width: 90%; text-align: left;">
+		                       	<tr>
+		                       	<td width="2%"></td>
+			                    <td width="50%"> <span style="font-weight: bold; font-size:20px; ">Correo:&nbsp;&nbsp;&nbsp; </span><input type="text" id="email" name="email" placeholder="Correo Electrónico" value="<?php echo $correo; ?>" title="Correo Electrónico" style="width:90%;  text-transform:uppercase;" ></td>
+			                    
+			                    <td width="20%"> <span style="font-weight: bold; font-size:20px;">Telefono: </span><input type="text" id="telefono" name="telefono" placeholder="Teléfono" value="<?php echo $tel; ?>" title="Teléfono" style="width:90%;" maxlength="10"></td>
+			                    </tr>
+		                        </table>	
 	                        	<br />
 	                        	<br />
 	                        	

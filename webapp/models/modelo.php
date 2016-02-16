@@ -40,7 +40,7 @@ class Modelo extends MY_Model {
     	return $results->result_array();
     }
     function  getInserto($matricula){
-    	$this->sql = "SELECT id_ciclo FROM registro_pyc
+    	$this->sql = "SELECT id_ciclo, matricula FROM registro_pyc
     	WHERE matricula ='$matricula' order by fecha_registro desc;";
     	
     	$results = $this->db->query($this->sql);
@@ -133,18 +133,18 @@ SELECT ap, am,nombre,institucion,plantel, to_char(r.fecha_registro, 'DD/MM/YYYY'
  
     function getConsecutivoB($delegacion, $tipo){
     	if($tipo==1)
-    		$this->sql="select siglas,c_bach-1 as fol,id_delegacion from folio_del where delegacion ='$delegacion';";
+    		$this->sql="select siglas,c_bach as fol,id_delegacion from folio_del where delegacion ='$delegacion';";
     	elseif ($tipo==2)
-    		$this->sql="select siglas,p_bach-1 as fol,id_delegacion from folio_del where delegacion ='$delegacion';";
+    		$this->sql="select siglas,p_bach as fol,id_delegacion from folio_del where delegacion ='$delegacion';";
     	$results = $this->db->query($this->sql);
     	return $results->result_array();
     }
     function getConsecutivoU($delegacion, $tipo){
     	if($tipo==1)
     		
-    		$this->sql="select siglas,c_uni-1 as fol,id_delegacion from folio_del where delegacion ='$delegacion';";
+    		$this->sql="select siglas,c_uni as fol,id_delegacion from folio_del where delegacion ='$delegacion';";
     	elseif ($tipo==2)
-    		$this->sql="select siglas,p_uni-1 as fol,id_delegacion from folio_del where delegacion ='$delegacion';";
+    		$this->sql="select siglas,p_uni as fol,id_delegacion from folio_del where delegacion ='$delegacion';";
     	$results = $this->db->query($this->sql);
     	return $results->result_array();
     }

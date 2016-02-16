@@ -86,7 +86,37 @@
 		    text-align:left;
 		}
 		
-        
+        .btn {
+  background: #e61e85;
+  background-image: -webkit-linear-gradient(top, #e61e85, #f2228e);
+  background-image: -moz-linear-gradient(top, #e61e85, #f2228e);
+  background-image: -ms-linear-gradient(top, #e61e85, #f2228e);
+  background-image: -o-linear-gradient(top, #e61e85, #f2228e);
+  background-image: linear-gradient(to bottom, #e61e85, #f2228e);
+  -webkit-border-radius: 2;
+  -moz-border-radius: 2;
+  border-radius: 2px;
+  text-shadow: 1px 1px 3px #ffffff;
+  -webkit-box-shadow: 0px 1px 3px #faf7fa;
+  -moz-box-shadow: 0px 1px 3px #faf7fa;
+  box-shadow: 0px 1px 3px #faf7fa;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 15px;
+  padding: 4px 43px 4px 43px;
+  border: solid #E3157D 1px;
+  text-decoration: none;
+}
+
+.btn:hover {
+  background: #f2228e;
+  background-image: -webkit-linear-gradient(top, #f2228e, #e61e85);
+  background-image: -moz-linear-gradient(top, #f2228e, #e61e85);
+  background-image: -ms-linear-gradient(top, #f2228e, #e61e85);
+  background-image: -o-linear-gradient(top, #f2228e, #e61e85);
+  background-image: linear-gradient(to bottom, #f2228e, #e61e85);
+  text-decoration: none;
+}
         </style>               
 
 
@@ -103,22 +133,42 @@
                 	<a href="index.php/main"><img src="resources/assets/img/logo_gdf_cgdf.png" style="padding-top:0px;" align="top" /></a>&nbsp;                                               	
                 </div>
                 <?php
-                 if($identificacion['id_archivo']==1 || $identificacion['id_archivo']==2){ 
-                 	
-                ?>
-              <div id="mensaje1">
-               	<h1><?php echo $identificacion['nombre'].' '.$identificacion['ap'].' '.$identificacion['am'];?></h1>
-               	<label><h3>Lo sentimos pero se han agotado los lugares como Promotor y Coordinador para Bachillerato</h3></label>
-               	<p><h5>Te sugerimos intentarlo el proximo ciclo escolar</h5></p>
-              </div>
-              <?php }elseif($identificacion['id_archivo']==3){ 
-                ?>
-              <div id="mensaje1">
-               	<h1><?php echo $identificacion['nombre'].' '.$identificacion['ap'].' '.$identificacion['am'];?></h1>
-               	<label><h3>Lo sentimos pero se han agotado los lugares como Promotor y Coordinador para Universitarios</h3></label>
-               	<p><h5>Te sugerimos intentarlo el proximo ciclo escolar</h5></p>
-              </div>
-              <?php }?>
+                if($R==1){
+	                 if(isset($identificacion) && $identificacion['id_archivo']==1 || $identificacion['id_archivo']==2){ 
+	                 	
+	                ?>
+	              <div id="mensaje1">
+	               	<h1><?php echo $identificacion['nombre'].' '.$identificacion['ap'].' '.$identificacion['am'];?></h1>
+	               	<label><h3>Lo sentimos pero se han agotado los lugares como Promotor y Coordinador para Bachillerato</h3></label>
+	               	<p><h5>Te sugerimos estar atento a la próxima convocatoria</h5></p>
+	               	<hr />
+	               	<div style="text-align:center; padding-left:330px;  min-height:73px;" class="span4">
+                		<a href="index.php/main" class="btn">REGRESAR</a>                                         	
+                	</div>
+	              </div>
+	              <?php }elseif($identificacion['id_archivo']==3){ 
+	                ?>
+	              <div id="mensaje2">
+	               	<h1><?php echo $identificacion['nombre'].' '.$identificacion['ap'].' '.$identificacion['am'];?></h1>
+	               	<label><h3>Lo sentimos pero se han agotado los lugares como Promotor y Coordinador para Universitarios</h3></label>
+	               	<p><h5>Te sugerimos estar atento a la próxima convocatoria</h5></p>
+	               	<hr />
+	               	<div style="text-align:center; padding-left:330px;  min-height:73px;" class="span4">
+                		<a href="index.php/main" class="btn">REGRESAR</a>                                         	
+                	</div>
+	              </div>
+	              <?php }
+                }
+                if($R==2){?>
+                	<div id="mensaje3">
+	               	<h1>NO SE ENCONTRO TU REGISTRO</h1>
+	               	<br><br><br>
+	               	<hr />
+	              	<div style="text-align:center; padding-left:330px;  min-height:73px;" class="span4">
+                		<a href="index.php/main" class="btn">REGRESAR</a>                                         	
+                	</div>
+	              </div>
+                <?php }?>
           </form>
 	    </div>    
 	 </div>
