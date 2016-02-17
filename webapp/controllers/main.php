@@ -46,14 +46,20 @@ class Main extends CI_Controller {
     
     function nuevoIngreso($matricula){
     	
+    
      	$data['matricula'] = $matricula;
     	$aux = $this->modelo->getIdentificacion($data['matricula']);
     	$data['identificacion'] = $aux[0];
     	
-    	$aux=$this->modelo->lugar_disponible($data['matricula'], $data['identificacion']['id_archivo']);
-    	$data['Dpromotor']=$aux[0]['promotor'];
-    	$data['Dcoordinador']=$aux[0]['coordinador'];
     	
+    	
+    	$aux=$this->modelo->lugar_disponible($data['matricula'], $data['identificacion']['id_archivo']);
+   	 	
+   	 	if( $aux != null){
+	    	$data['Dpromotor']=$aux[0]['promotor'];
+	    	$data['Dcoordinador']=$aux[0]['coordinador'];
+	    	$data['delegacion'] = $aux[0]['delegacion'];
+    	}
    
     	if($data['Dpromotor']!=0 || $data['Dcoordinador'] !=0 ){
 
@@ -99,6 +105,7 @@ class Main extends CI_Controller {
     	if( $aux != null){
 	    	$data['Dpromotor']=$aux[0]['promotor'];
 	    	$data['Dcoordinador']=$aux[0]['coordinador'];
+	    	$data['delegacion'] = $aux[0]['delegacion'];
     	}
     	 
     	if($data['Dpromotor']!=0 || $data['Dcoordinador'] !=0 ){
@@ -131,6 +138,7 @@ class Main extends CI_Controller {
     	$data['correo'] = $this->input->post('correo');
     	$data['tiene_registro'] = (int)$this->input->post('tiene_registro');
     	$data['tel'] = $this->input->post('tel');
+    	$data['turno'] = $this->input->post('turno');
     	$data['delegacion'] = $this->input->post('delegacion');
     	$data['id_archivo'] = $this->input->post('id_archivo');
     	$data['id_ciclo'] = (int)$this->input->post('ciclo');
@@ -145,9 +153,7 @@ class Main extends CI_Controller {
     	 
     }
     function guarda_registro()
-    {
-    		
-    	// $reg=$this->modelo->buscaRegistro($matricula_asignada);
+    {		
     		$data['matricula'] = $this->input->post('matricula');
 	    	$data['ciclo'] = (int)$this->input->post('ciclo');
 	    	
@@ -170,6 +176,7 @@ class Main extends CI_Controller {
 			$data['lugar']=$this->input->post('lugar');
 			$data['id_archivo'] = $this->input->post('id_archivo');
 			$data['delegacion'] = $this->input->post('delegacion');
+			$data['turno'] = $this->input->post('turno');
 		   	//end post
 		   	
 			
@@ -224,8 +231,8 @@ class Main extends CI_Controller {
 			
 				$b=$this->modelo->insertaRegistro($data['ciclo'],$data['tipo_registro'],$data['matricula'],$data['id_plantel'],
 						$data['eje_1'],$data['eje_2'],$data['eje_3'],$data['eje_4'],$data['eje_5'],$data['eje_6'],$data['eje_7']
-						,$data['lugar'],$data['actividad_1'],$data['actividad_2'],$data['actividad_3'],$data['correo'],
-						$data['tel'],$data['folio'],$data['id_archivo'],$data['id_delegacion']);
+						,$data['actividad_1'],$data['actividad_2'],$data['actividad_3'],$data['correo'],
+						$data['tel'],$data['folio'],$data['id_archivo'],$data['id_delegacion'],$data['turno']);
 		
 			
 			
@@ -235,9 +242,6 @@ class Main extends CI_Controller {
 			$aux=$this->modelo->getfecha($data['matricula'], $data['ciclo']);
 			$data['fecha']=$aux[0];
 
-			
-			
-			//$this->load->view('beneficiario/existe', $data, false);
 			if ($b != null || $b!=''){
 				header ("Location:mensaje2/?matricula=".$data['matricula']);
 				
@@ -285,10 +289,18 @@ class Main extends CI_Controller {
     	$data['id_ciclo_actual']=$aux[0]['id_ciclo_escolar'];
     	
     	$aux = $this->modelo->generaMensaje($data['matricula'], $data['id_ciclo_actual']);
-    	$data['msj'] = $aux[0];
+    	
     	 
-    	 
-    	$this->load->view('beneficiario/v_mensaje', $data, false);
+    	if ($aux != null){
+    		$data['msj'] = $aux[0];
+    		$this->load->view('beneficiario/v_mensaje', $data, false);
+    	}
+    	else{
+    	
+    		$data['R']=3;
+    	
+    		$this->load->view('beneficiario/noDisponible', $data, false);
+    	}
     }
     
     function ajax_beneficiario_registrado()

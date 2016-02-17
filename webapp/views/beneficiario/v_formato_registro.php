@@ -419,9 +419,21 @@
 		                       	<table border="0" style=" width: 90%; text-align: left;">
 		                       	<tr>
 		                       	<td width="2%"></td>
-			                    <td width="50%"> <span style="font-weight: bold; font-size:20px; ">Correo:&nbsp;&nbsp;&nbsp; </span><input type="text" id="email" name="email" placeholder="Correo Electrónico" value="<?php echo $correo; ?>" title="Correo Electrónico" style="width:90%;  text-transform:uppercase;" ></td>
-			                    
+			                    <td width="40%"> <span style="font-weight: bold; font-size:20px; ">Correo:&nbsp;&nbsp;&nbsp; </span><input type="text" id="email" name="email" placeholder="Correo Electrónico" value="<?php echo $correo; ?>" title="Correo Electrónico" style="width:90%;  text-transform:uppercase;" ></td>
+			                    <td width="6%"></td>
 			                    <td width="20%"> <span style="font-weight: bold; font-size:20px;">Telefono: </span><input type="text" id="telefono" name="telefono" placeholder="Teléfono" value="<?php echo $tel; ?>" title="Teléfono" style="width:90%;" maxlength="10"></td>
+			                    <td width="10%"></td>
+			                    <td width="20%"> <span style="font-weight: bold; font-size:20px;">Turno: </span>
+			                   
+									<select id="turno" name="turno" class="form-control"  style="width: 90%;">
+							        	<option value="-1">[Seleccionar]</option>
+							            <option <?php if($turno=='Matutino'){ echo "selected='selected'";} ?> value="Matutino">Matutino</option>
+										<option <?php if($turno=='Vespertino'){ echo "selected='selected'";} ?> value="Vespertino">Vespertino</option>
+										<option <?php if($turno=='Nocturno'){ echo "selected='selected'";} ?> value="Nocturno">Nocturno</option>
+										<option <?php if($turno=='Sabatino'){ echo "selected='selected'";} ?> value="Sabatino">Sabatino</option>
+										<option <?php if($turno=='Sin Turno'){ echo "selected='selected'";} ?> value="Sin Turno">Sin Turno</option>
+										<option <?php if($turno=='Mixto'){ echo "selected='selected'";} ?> value="Mixto">Mixto</option>
+						            </select>		                    	
 			                    </tr>
 		                        </table>	
 	                        	<br />

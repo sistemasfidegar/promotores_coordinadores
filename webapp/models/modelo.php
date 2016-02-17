@@ -87,9 +87,9 @@ class Modelo extends MY_Model {
     function lugar_disponible($matricula, $id_archivo)
     {
     	if($id_archivo==1 || $id_archivo==2)
-    		$this->sql="SELECT c_bach as coordinador, p_bach as promotor from folio_del where delegacion=(SELECT delegacion from b_direccion where matricula_asignada='$matricula');";
+    		$this->sql="SELECT delegacion,c_bach as coordinador, p_bach as promotor from folio_del where delegacion=(SELECT delegacion from b_direccion where matricula_asignada='$matricula');";
     	else
-    		$this->sql="SELECT c_uni as coordinador, p_uni as promotor from folio_del where delegacion=(SELECT delegacion from b_direccion where matricula_asignada='$matricula');";
+    		$this->sql="SELECT delegacion,c_uni as coordinador, p_uni as promotor from folio_del where delegacion=(SELECT delegacion from b_direccion where matricula_asignada='$matricula');";
     	$results = $this->db->query($this->sql);
     	return $results->result_array();
     	 
@@ -118,9 +118,9 @@ SELECT ap, am,nombre,institucion,plantel, to_char(r.fecha_registro, 'DD/MM/YYYY'
     	$results = $this->db->query($this->sql, array(1));
     	return $results->result_array();
     }
-    function insertaRegistro($ciclo,$tipo_lugar,$matricula,$id_plantel,$eje_1,$eje_2,$eje_3,$eje_4,$eje_5,$eje_6,$eje_7,$lugar,$actividad_1,$actividad_2,$actividad_3,$correo,$tel,$folio,$id_archivo,$id_delegacion){
-    	$this->sql="insert into registro_pyc (id_ciclo, id_tipo_registro, matricula, id_plantel, eje_1, eje_2, eje_3, eje_4, eje_5, eje_6, eje_7, lugar_apoyo, actividad_1, actividad_2, actividad_3, correo, telefono, fecha_registro, folio,id_archivo,id_delegacion)
-    						values($ciclo,$tipo_lugar,'$matricula',$id_plantel,$eje_1,$eje_2,$eje_3,$eje_4,$eje_5,$eje_6,$eje_7,'$lugar','$actividad_1','$actividad_2','$actividad_3','$correo',$tel,now(),'$folio',$id_archivo,$id_delegacion) returning id_registro;";
+    function insertaRegistro($ciclo,$tipo_lugar,$matricula,$id_plantel,$eje_1,$eje_2,$eje_3,$eje_4,$eje_5,$eje_6,$eje_7,$actividad_1,$actividad_2,$actividad_3,$correo,$tel,$folio,$id_archivo,$id_delegacion,$turno){
+    	$this->sql="insert into registro_pyc (id_ciclo, id_tipo_registro, matricula, id_plantel, eje_1, eje_2, eje_3, eje_4, eje_5, eje_6, eje_7,actividad_1, actividad_2, actividad_3, correo, telefono, fecha_registro, folio,id_archivo,id_delegacion,turno)
+    						values($ciclo,$tipo_lugar,'$matricula',$id_plantel,$eje_1,$eje_2,$eje_3,$eje_4,$eje_5,$eje_6,$eje_7,'$actividad_1','$actividad_2','$actividad_3','$correo',$tel,now(),'$folio',$id_archivo,$id_delegacion,'$turno') returning id_registro;";
      	$results = $this->db->query($this->sql, array(1));
     	return $results->result_array();
     	
@@ -169,7 +169,7 @@ SELECT ap, am,nombre,institucion,plantel, to_char(r.fecha_registro, 'DD/MM/YYYY'
     	return $results->result_array();
     }
     function CoordinadorBach($delegacion){
-    	$this->sql="SELECT d.delegacion,ap, am,nombre,institucion,plantel, r.fecha_registro, matricula,folio, eje_1, lugar_apoyo,correo, telefono
+    	$this->sql="SELECT d.delegacion,ap, am,nombre,institucion,plantel, r.fecha_registro, matricula,folio, eje_1, r.turno,correo, telefono
     	FROM registro_pyc r
     	INNER JOIN beneficiarios b on b.matricula_asignada=r.matricula
     	INNER JOIN cat_plantel p on p.id_plantel=r.id_plantel
@@ -180,7 +180,7 @@ SELECT ap, am,nombre,institucion,plantel, to_char(r.fecha_registro, 'DD/MM/YYYY'
     	return $results->result_array();
     }
     function CoordinadorUni($delegacion){
-    	$this->sql="SELECT d.delegacion,ap, am,nombre,institucion,plantel, r.fecha_registro, matricula,folio, eje_1, lugar_apoyo,correo, telefono
+    	$this->sql="SELECT d.delegacion,ap, am,nombre,institucion,plantel, r.fecha_registro, matricula,folio, eje_1, r.turno,correo, telefono
     	FROM registro_pyc r
     	INNER JOIN beneficiarios b on b.matricula_asignada=r.matricula
     	INNER JOIN cat_plantel p on p.id_plantel=r.id_plantel
@@ -191,7 +191,7 @@ SELECT ap, am,nombre,institucion,plantel, to_char(r.fecha_registro, 'DD/MM/YYYY'
     	return $results->result_array();
     }
     function CoordinadorTodosU(){
-    	$this->sql="SELECT d.delegacion,ap, am,nombre,institucion,plantel, r.fecha_registro, matricula,folio, eje_1, lugar_apoyo,correo, telefono
+    	$this->sql="SELECT d.delegacion,ap, am,nombre,institucion,plantel, r.fecha_registro, matricula,folio, eje_1, r.turno,correo, telefono
     	FROM registro_pyc r
     	INNER JOIN beneficiarios b on b.matricula_asignada=r.matricula
     	INNER JOIN cat_plantel p on p.id_plantel=r.id_plantel
@@ -202,7 +202,7 @@ SELECT ap, am,nombre,institucion,plantel, to_char(r.fecha_registro, 'DD/MM/YYYY'
     	return $results->result_array();
     }
     function CoordinadorTodosB(){
-    	$this->sql="SELECT d.delegacion,ap, am,nombre,institucion,plantel, r.fecha_registro, matricula,folio, eje_1, lugar_apoyo,correo, telefono
+    	$this->sql="SELECT d.delegacion,ap, am,nombre,institucion,plantel, r.fecha_registro, matricula,folio, eje_1, r.turno,correo, telefono
     	FROM registro_pyc r
     	INNER JOIN beneficiarios b on b.matricula_asignada=r.matricula
     	INNER JOIN cat_plantel p on p.id_plantel=r.id_plantel
@@ -213,7 +213,7 @@ SELECT ap, am,nombre,institucion,plantel, to_char(r.fecha_registro, 'DD/MM/YYYY'
     	return $results->result_array();
     }
     function PromotorBach($delegacion){
-    	$this->sql="SELECT d.delegacion,ap, am,nombre,institucion,plantel, r.fecha_registro, matricula,folio, eje_1, lugar_apoyo,correo, telefono
+    	$this->sql="SELECT d.delegacion,ap, am,nombre,institucion,plantel, r.fecha_registro, matricula,folio, eje_1, r.turno,correo, telefono
     	FROM registro_pyc r
     	INNER JOIN beneficiarios b on b.matricula_asignada=r.matricula
     	INNER JOIN cat_plantel p on p.id_plantel=r.id_plantel
@@ -224,7 +224,7 @@ SELECT ap, am,nombre,institucion,plantel, to_char(r.fecha_registro, 'DD/MM/YYYY'
     	return $results->result_array();
     }
     function PromotorTodosB(){
-    	$this->sql="SELECT d.delegacion,ap, am,nombre,institucion,plantel, r.fecha_registro, matricula,folio, eje_1, lugar_apoyo,correo, telefono
+    	$this->sql="SELECT d.delegacion,ap, am,nombre,institucion,plantel, r.fecha_registro, matricula,folio, eje_1, r.turno,correo, telefono
     	FROM registro_pyc r
     	INNER JOIN beneficiarios b on b.matricula_asignada=r.matricula
     	INNER JOIN cat_plantel p on p.id_plantel=r.id_plantel
@@ -235,7 +235,7 @@ SELECT ap, am,nombre,institucion,plantel, to_char(r.fecha_registro, 'DD/MM/YYYY'
     	return $results->result_array();
     }
     function PromotorUni($delegacion){
-    	$this->sql="SELECT d.delegacion,ap, am,nombre,institucion,plantel, r.fecha_registro, matricula,folio, eje_1, lugar_apoyo,correo, telefono
+    	$this->sql="SELECT d.delegacion,ap, am,nombre,institucion,plantel, r.fecha_registro, matricula,folio, eje_1, r.turno,correo, telefono
     	FROM registro_pyc r
     	INNER JOIN beneficiarios b on b.matricula_asignada=r.matricula
     	INNER JOIN cat_plantel p on p.id_plantel=r.id_plantel
@@ -246,7 +246,7 @@ SELECT ap, am,nombre,institucion,plantel, to_char(r.fecha_registro, 'DD/MM/YYYY'
     	return $results->result_array();
     }
     function PromotorTodosU(){
-    	$this->sql="SELECT d.delegacion,ap, am,nombre,institucion,plantel, r.fecha_registro, matricula,folio, eje_1, lugar_apoyo,correo, telefono
+    	$this->sql="SELECT d.delegacion,ap, am,nombre,institucion,plantel, r.fecha_registro, matricula,folio, eje_1, r.turno,correo, telefono
     	FROM registro_pyc r
     	INNER JOIN beneficiarios b on b.matricula_asignada=r.matricula
     	INNER JOIN cat_plantel p on p.id_plantel=r.id_plantel
@@ -257,7 +257,7 @@ SELECT ap, am,nombre,institucion,plantel, to_char(r.fecha_registro, 'DD/MM/YYYY'
     	return $results->result_array();
     }
     function registroCoo($plantel){
-    	$this->sql="select r.id_registro,r.matricula, p.nombre, p.ap, p.am, r.folio, r.lugar_apoyo, r.eje_1, r.correo, r.telefono, c.ciclo_escolar, cd.delegacion
+    	$this->sql="select r.id_registro,r.matricula, p.nombre, p.ap, p.am, r.folio, r.r.turno, r.eje_1, r.correo, r.telefono, c.ciclo_escolar, cd.delegacion
 						from registro_pyc r
 						inner join beneficiarios p on p.matricula_asignada=r.matricula
 						inner join cat_ciclo_escolar c on c.id_ciclo_escolar=r.id_ciclo 
@@ -271,7 +271,7 @@ SELECT ap, am,nombre,institucion,plantel, to_char(r.fecha_registro, 'DD/MM/YYYY'
     }
     
     function registroProm($plantel){
-    	$this->sql="select r.id_registro,r.matricula, p.nombre, p.ap, p.am, r.folio, r.lugar_apoyo, r.eje_1, r.correo, r.telefono, c.ciclo_escolar, cd.delegacion
+    	$this->sql="select r.id_registro,r.matricula, p.nombre, p.ap, p.am, r.folio, r.r.turno, r.eje_1, r.correo, r.telefono, c.ciclo_escolar, cd.delegacion
 						from registro_pyc r
 						inner join beneficiarios p on p.matricula_asignada=r.matricula
 						inner join cat_ciclo_escolar c on c.id_ciclo_escolar=r.id_ciclo 
@@ -283,33 +283,7 @@ SELECT ap, am,nombre,institucion,plantel, to_char(r.fecha_registro, 'DD/MM/YYYY'
     	$results = $this->db->query($this->sql);
     	return $results->result_array();
     }
-    function AceptadoCoo($plantel){
-    	$this->sql="select r.id_registro,r.matricula, p.nombre, p.ap, p.am, r.folio, r.lugar_apoyo, r.eje_1, r.correo, r.telefono, c.ciclo_escolar, cd.delegacion
-						from registro_pyc r
-						inner join beneficiarios p on p.matricula_asignada=r.matricula
-						inner join cat_ciclo_escolar c on c.id_ciclo_escolar=r.id_ciclo 
-						inner join cat_plantel cp on r.id_plantel=cp.id_plantel
-						INNER JOIN cat_delegacion cd on cp.id_delegacion=cd.id_delegacion
-    			
-    					where r.id_tipo_registro=1 and id_aceptado=1 and c.activo is true and r.id_plantel=$plantel 
-    					order by fecha_registro asc;";
-    	$results = $this->db->query($this->sql);
-    	return $results->result_array();
-    }
-    function AceptadoProm($plantel){
-    	$this->sql="select r.id_registro,r.matricula, p.nombre, p.ap, p.am, r.folio, r.lugar_apoyo, r.eje_1, r.correo, r.telefono, c.ciclo_escolar, cd.delegacion
-						from registro_pyc r
-						inner join beneficiarios p on p.matricula_asignada=r.matricula
-						inner join cat_ciclo_escolar c on c.id_ciclo_escolar=r.id_ciclo 
-						inner join cat_plantel cp on r.id_plantel=cp.id_plantel
-						INNER JOIN cat_delegacion cd on cp.id_delegacion=cd.id_delegacion
-						
-						where r.id_tipo_registro=2 and id_aceptado=1 and c.activo is true and r.id_plantel=$plantel 
-    					order by fecha_registro asc;
-    ";
-    	$results = $this->db->query($this->sql);
-    	return $results->result_array();
-    }
+    
     function getInstitucion(){
     	$this->sql="SELECT id_institucion, institucion, universidad FROM cat_institucion where activo='t' order by universidad,institucion;";
     	$results = $this->db->query($this->sql);

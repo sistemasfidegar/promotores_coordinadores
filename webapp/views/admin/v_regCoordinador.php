@@ -255,28 +255,29 @@
 			        		<div id="span12">
 								<form role="form" action="index.php/admin/exportaExcel" method="post" target="_blank" id="FormularioExportacion">
 								
-									<h2> DELEGACIÓN <?php echo strtoupper ($datos['delegacion']);?></h2>
+									<h2>  <?php if ($con!=12){echo 'DELEGACIÓN  '.strtoupper($datos['delegacion']);}else echo 'TODAS LAS DELEGACIONES';?></h2>
 									<p><img src="resources/images/btn_excel.png" class="botonExcel" style="cursor:pointer;" title="De click aquí para descargar en formato .xls"/></p>
 								<input type="hidden" id="datos_a_enviar" name="datos_a_enviar" />
 									<table border="1" class= "table table-bordered table-striped table-hover table-condensed" id="Exportar_a_Excel"  style="font-size:12px;">
 									<tr align="center">
 											
 											<th colspan="<?php echo $con?>" class="align-right">
-											<p>REPORTE DE BENEFICIARIOS  COORDINADOR <?php echo $nivel.' - '.strtoupper ($datos['delegacion']);?> </p>  
+											<p>REPORTE DE BENEFICIARIOS  COORDINADOR <?php if ($con!=12){echo $nivel.' - '.strtoupper($datos['delegacion']);}else echo $nivel.' - TODAS LAS DELEGACIONES';?> </p>  
 												<?php //echo getMesesTrimestreLetra($trimestre);?><?php //echo$anio;?>
 											</th>
 										</tr>
 										<tr>
-											
+											<th>AP</th>
+											<th>AM</th>
 											<th>NOMBRE</th>
 											<th>MATRICULA</th>
 											<th>INSTITUCIÓN</th>
 											<th>PLANTEL</th>
 											<th>FOLIO</th>
-											<?php if($con==10){?>
+											<?php if($con==12){?>
 											<th>DELEGACION</th>
 											<?php }?>
-											<th>LUGAR APOYO</th>
+											<th>TURNO</th>
 											<th>EJE PREFERENTE</th>
 											<th>CORREO</th>
 											<th>TELEFONO</th>
@@ -287,15 +288,17 @@
 										?>
 										
 										<tr>
-											<td><?php echo $val['ap'].' '.$val['am'].' '.$val['nombre']?></td>
+											<td><?php echo $val['ap']?></td>
+											<td><?php echo $val['am']?></td>
+											<td><?php echo $val['nombre']?></td>
 											<td><?php echo $val['matricula']?></td>
 											<td><?php echo $val['institucion']?></td>
 											<td><?php echo $val['plantel']?></td>
 											<td><?php echo $val['folio']?></td>
-											<?php if($con==10){?>
+											<?php if($con==12){?>
 											<td><?php  echo $val['delegacion']?></td>
 											<?php }?>
-											<td><?php echo $val['lugar_apoyo']?></td>
+											<td><?php echo $val['turno']?></td>
 											<td><?php if($val['eje_1']==2){echo 'Arte y Cultura';}elseif($val['eje_1']==3){echo'Ciencia y tecnología';}elseif($val['eje_1']==4){echo'Deporte y recreación';}elseif($val['eje_1']==5){echo'Economía solidaria';}elseif($val['eje_1']==6){echo'Medio ambiente';}elseif($val['eje_1']==7){echo'Participación juvenil';}elseif($val['eje_1']==8){echo'Salud';} ?></td>
 											
 											<td><?php echo $val['correo']?></td>

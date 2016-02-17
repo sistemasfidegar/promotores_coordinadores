@@ -139,7 +139,8 @@
 	                ?>
 	              <div id="mensaje1">
 	               	<h1><?php echo $identificacion['nombre'].' '.$identificacion['ap'].' '.$identificacion['am'];?></h1>
-	               	<label><h3>Lo sentimos pero se han agotado los lugares como Promotor y Coordinador para Bachillerato</h3></label>
+	               	<label><h3>Lo sentimos pero se han agotado los lugares como Promotor y Coordinador para Bachillerato  </h3></label>
+	               	<H4><?php echo 'DELEGACIÓN  '.$delegacion;?></H4>
 	               	<p><h5>Te sugerimos estar atento a la próxima convocatoria</h5></p>
 	               	<hr />
 	               	<div style="text-align:center; padding-left:330px;  min-height:73px;" class="span4">
@@ -162,6 +163,16 @@
                 if($R==2){?>
                 	<div id="mensaje3">
 	               	<h1>NO SE ENCONTRO TU REGISTRO</h1>
+	               	<br><br><br>
+	               	<hr />
+	              	<div style="text-align:center; padding-left:330px;  min-height:73px;" class="span4">
+                		<a href="index.php/main" class="btn">REGRESAR</a>                                         	
+                	</div>
+	              </div>
+                <?php }
+                 if($R==3){?>
+                	<div id="mensaje3">
+	               	<h1>UPS! Hubo un problema con tu registro</h1>
 	               	<br><br><br>
 	               	<hr />
 	              	<div style="text-align:center; padding-left:330px;  min-height:73px;" class="span4">
