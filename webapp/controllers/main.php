@@ -366,6 +366,10 @@ class Main extends CI_Controller {
     	$pdf->SetSubject('Registro Coordinadores y Promotores');
     	$pdf->SetKeywords('TCPDF, PDF, example, test, guide');
     	ob_start();
+    	$arriba = 7;
+    	$izq = 10;
+    	$der = 10;
+    	 
     	// datos por defecto de cabecera, se pueden modificar en el archivo tcpdf_config_alt.php de libraries/config
     	$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE, PDF_HEADER_STRING, array(0, 64, 255), array(0, 1, 0));
     	$pdf->setFooterData($tc = array(0, 64, 0), $lc = array(0, 64, 128));
@@ -380,7 +384,7 @@ class Main extends CI_Controller {
     	// se pueden modificar en el archivo tcpdf_config.php de libraries/config
     	$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
     	$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
-    	$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+    	//$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
     
     	// se pueden modificar en el archivo tcpdf_config.php de libraries/config
     	$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
@@ -405,7 +409,7 @@ class Main extends CI_Controller {
     
     	//fijar efecto de sombra en el texto
     	$pdf->setTextShadow(array('enabled' => true, 'depth_w' => 0.2, 'depth_h' => 0.2, 'color' => array(255, 255, 255), 'opacity' => 1, 'blend_mode' => 'Normal'));
-    
+    	
     	// Establecemos el contenido para imprimir
     	$data['nombre'] = $this->input->post('nombre');
     	$data['folio'] = $this->input->post('folio');
@@ -414,7 +418,8 @@ class Main extends CI_Controller {
     	$data['plantel'] = $this->input->post('plantel');
     	$data['institucion'] = $this->input->post('institucion');
     	$data['tipo_registro'] = $this->input->post('tipo_registro');
-    	 
+    	$matricula=$this->input->post('matricula');
+    	
     	//preparamos y maquetamos el contenido a crear
     	$html ="";
     	$html .= "<style type=text/css>";
@@ -504,15 +509,27 @@ class Main extends CI_Controller {
     /*	$html .="<p>TU FECHA DE REGISTRO ES: <b>".$data['fecha']."</b></p>";
     	$html .="<p>TU N&Uacute;MERO DE FOLIO ES: <b>".$data['folio']."</b></p>";
     	*/
-    	$html .="<br><h3>Has quedado registrado, te sugerimos estar al pendiente de tu correo: <br> <u>".$data['correo']."</u></h3>";
+    	$html .="<br><br><br><br><br><h3>Has quedado registrado, te sugerimos estar al pendiente de tu correo: <br> <u>".$data['correo']."</u></h3>";
     	
     	
     //	$html .="</body>";
     	
-    	 
+    	
     	// Imprimimos el texto con writeHTMLCell()
     	$pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $html, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
-    
+    	
+    	$estilo = array('padding'=>'auto' );
+    	
+    	/* definimos un array con los diferentes tipos de codigos de barras */
+    	$tipos=array('C128A');
+    	//$pdf->AddPage();
+    	/* establecemos un bucle para que escriba y posicione cada uno de los tipos de código de barras */
+    	for ($i=0;$i<sizeof($tipos);$i++){
+    		$pdf->SetXY(78,110);
+    		$pdf->Cell(45, 50,$matricula,0,0,'C');
+    		$pdf->write1DBarcode($matricula,$tipos[$i],75,115,50,14,'',$estilo);
+    	}
+    	 
     	// ---------------------------------------------------------
     	// Cerrar el documento PDF y preparamos la salida
     	// Este método tiene varias opciones, consulte la documentación para más información.
@@ -520,6 +537,9 @@ class Main extends CI_Controller {
     	
     
     	$pdf->Output($nombre_archivo, 'I');
+    	
+		
+		
     	ob_end_flush();
     }
      

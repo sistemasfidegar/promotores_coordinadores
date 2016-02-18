@@ -160,6 +160,7 @@
                <input type="hidden" id="fecha" name="fecha" value="<?php echo $msj['fecha_registro'];?>" />
                <input type="hidden" id="tipo_registro" name="tipo_registro" value="<?php echo $reg;?>" />
                <input type="hidden" id="correo" name="correo" value="<?php echo $msj['correo'];?>" />
+               <input type="hidden" id="matricula" name="matricula" value="<?php echo $matricula;?>" />
         
 	    <hr />
 	    		<div style="text-align:left; padding-left:20px;  min-height:73px;" class="span2">
