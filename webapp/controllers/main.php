@@ -75,11 +75,10 @@ class Main extends CI_Controller {
 		    	$aux = $this->modelo->getEscolar($data['matricula']);
 		    	$data['escolar'] = $aux[0];
 		    	
-		    	
-		    	
-		    	
 		    	$data['es_promotor'] = 0;
 		    	$data['tiene_registro'] = 0;
+		    	
+		    	
 		    	$this->load->view('beneficiario/v_datos', $data, false);
     	}
     	else{
@@ -366,9 +365,7 @@ class Main extends CI_Controller {
     	$pdf->SetSubject('Registro Coordinadores y Promotores');
     	$pdf->SetKeywords('TCPDF, PDF, example, test, guide');
     	ob_start();
-    	$arriba = 7;
-    	$izq = 10;
-    	$der = 10;
+    	
     	 
     	// datos por defecto de cabecera, se pueden modificar en el archivo tcpdf_config_alt.php de libraries/config
     	$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE, PDF_HEADER_STRING, array(0, 64, 255), array(0, 1, 0));
@@ -399,8 +396,6 @@ class Main extends CI_Controller {
     
     	// Establecer el tipo de letra
     
-    	//Si tienes que imprimir carácteres ASCII estándar, puede utilizar las fuentes básicas como
-    	// Helvetica para reducir el tamaño del archivo.
     	$pdf->SetFont('helvetica', '', 14, '', true);
     
     	// Añadir una página
@@ -474,7 +469,7 @@ class Main extends CI_Controller {
 			";
     	
     	$html .= "</style>";
-    	//$html .="<body>";
+    	
     	$html .='<h1>COMPROBANTE DE REGISTRO COMO '.$data['tipo_registro'].'<br> DEL PROGRAMA PREPA S&Iacute;</h1>';
     	
     	$html .="<p><h5>".$data['nombre']."</h5></p>";
@@ -502,28 +497,17 @@ class Main extends CI_Controller {
     			</tr>
     			
     			</table>';
-    	//$html .="<p><h4>Institucion: ".$data['institucion']." <br>Plantel ".$data['plantel']."</h4></p>";
     	
-    	
-    	
-    /*	$html .="<p>TU FECHA DE REGISTRO ES: <b>".$data['fecha']."</b></p>";
-    	$html .="<p>TU N&Uacute;MERO DE FOLIO ES: <b>".$data['folio']."</b></p>";
-    	*/
     	$html .="<br><br><br><br><br><h3>Has quedado registrado, te sugerimos estar al pendiente de tu correo: <br> <u>".$data['correo']."</u></h3>";
-    	
-    	
-    //	$html .="</body>";
-    	
     	
     	// Imprimimos el texto con writeHTMLCell()
     	$pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $html, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
     	
     	$estilo = array('padding'=>'auto' );
     	
-    	/* definimos un array con los diferentes tipos de codigos de barras */
+    	
     	$tipos=array('C128A');
-    	//$pdf->AddPage();
-    	/* establecemos un bucle para que escriba y posicione cada uno de los tipos de código de barras */
+    	
     	for ($i=0;$i<sizeof($tipos);$i++){
     		$pdf->SetXY(78,110);
     		$pdf->Cell(45, 50,$matricula,0,0,'C');
@@ -538,8 +522,6 @@ class Main extends CI_Controller {
     
     	$pdf->Output($nombre_archivo, 'I');
     	
-		
-		
     	ob_end_flush();
     }
      

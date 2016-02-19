@@ -85,7 +85,37 @@
 		    overflow: hidden !important;
 		    text-align:left;
 		}
-		
+		.btn {
+			  background: #e61e85;
+			  background-image: -webkit-linear-gradient(top, #e61e85, #f2228e);
+			  background-image: -moz-linear-gradient(top, #e61e85, #f2228e);
+			  background-image: -ms-linear-gradient(top, #e61e85, #f2228e);
+			  background-image: -o-linear-gradient(top, #e61e85, #f2228e);
+			  background-image: linear-gradient(to bottom, #e61e85, #f2228e);
+			  -webkit-border-radius: 2;
+			  -moz-border-radius: 2;
+			  border-radius: 2px;
+			  text-shadow: 1px 1px 3px #ffffff;
+			  -webkit-box-shadow: 0px 1px 3px #faf7fa;
+			  -moz-box-shadow: 0px 1px 3px #faf7fa;
+			  box-shadow: 0px 1px 3px #faf7fa;
+			  font-family: Arial;
+			  color: #ffffff;
+			  font-size: 15px;
+			  padding: 4px 43px 4px 43px;
+			  border: solid #E3157D 1px;
+			  text-decoration: none;
+			}
+			
+			.btn:hover {
+			  background: #f2228e;
+			  background-image: -webkit-linear-gradient(top, #f2228e, #e61e85);
+			  background-image: -moz-linear-gradient(top, #f2228e, #e61e85);
+			  background-image: -ms-linear-gradient(top, #f2228e, #e61e85);
+			  background-image: -o-linear-gradient(top, #f2228e, #e61e85);
+			  background-image: linear-gradient(to bottom, #f2228e, #e61e85);
+			  text-decoration: none;
+			}
         
         </style>               
         
@@ -127,34 +157,7 @@
     <body>
     
     <?php 
- 
-    if(isset($tiene_registro) && $tiene_registro==1)
-    {/*
-    ?>	
-    	<script>
-
-    	$().ready(function () {
-    	 	swal({
-         	  title: "Ya existe un registro para el ciclo escolar <?php echo $ciclo_escolar;?>",
-         	  text: "tu folio de registro es:<?php echo $folio['clave'].$folio['consecutivo']; ?>",
-         	  type: "error",
-         	  showCancelButton: false,
-         	  confirmButtonColor: "#F27474",
-         	  confirmButtonText: "Ok, Regresar",
-         	  //cancelButtonText: "No, cancel plx!",
-         	  closeOnConfirm: false
-         	  //closeOnCancel: false
-         	},
-         	function(isConfirm){
-         	  if (isConfirm) {
-         		irA('index.php/main');
-         	  } 
-         	});
-    	});
-    	</script>
-    	
-    <?php 	
-    */}  
+   
   
     ?>
        
@@ -258,7 +261,21 @@
                         	<?php if($es_promotor==1 && ($Dcoordinador!=0)){?>
                         	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         	<button id="guardar_coordinador" type="button" style="font-weight:bold;">Registrarse como "COORDINADOR"</button>
-                        	<?php }?>
+                        	<?php }
+                        	if($Dpromotor==0 && $es_promotor==0){
+                        	?>
+                        	<div style="text-align:center; color:#8a8a8d; font-size:24px;">
+                        		<br>LO SENTIMOS PERO YA NO QUEDAN LUGARES COMO PROMOTOR PARA TU DELEGACIÓN<br>
+                        		 
+                        	</div>
+                        	<br><br>
+                        	<div style="text-align:center; padding-left:20px;  min-height:73px;" class="span10">
+				                <a href="index.php/main" class="btn">Terminar</a>                                         	
+				            </div>
+                        	
+                        	<?php 
+                        	}
+                        	?>
                                                                   
                     </form>
                    
