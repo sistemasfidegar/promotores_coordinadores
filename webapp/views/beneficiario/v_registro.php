@@ -124,7 +124,8 @@
     		        });
         			
         		}
-        		else{
+        		else
+            	{
 	        		if($("#matricula_asignada").val() != "" && $("#matricula_asignada").val().length>10 && busqueda =='inscripcion')
 	    	        {
 	    				$.blockUI({message: 'Procesando por favor espere...'});
@@ -269,7 +270,7 @@
                             <tr>
                                 <td align="center" colspan="2">
                                 	<br />
-                                    <span style="color: #E3157D;">Fideicomiso Educación Garantizada del Distrito Federal<br />Coordinación Ejecutiva del Programa de Estímulos para el Bachillerato Universal<br />Tel: 1102 1730 &nbsp;&nbsp;Ext. 4005, 4089, 4128.</span>
+                                    <span style="color: #E3157D;">Fideicomiso Educación Garantizada del Distrito Federal<br />Coordinación Ejecutiva del Programa de Estímulos para el Bachillerato Universal<br />Tel: 1102 1730 &nbsp;&nbsp;Ext. 4087, 4089, 4128.</span>
                                 </td>	
                             </tr>   
                                                                               

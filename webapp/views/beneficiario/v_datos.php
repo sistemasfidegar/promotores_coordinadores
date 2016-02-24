@@ -221,22 +221,22 @@
 	                        <?php 
 	                        if($identificacion['id_archivo']!=3)
 	                        {
-	                        	$institucion = $escolar['institucion'];
-	                        	$plantel = $escolar['plantel'];
-	                        	$grado = $escolar['grado'];
-	                        	$turno = $escolar['turno'];
-	                        	$modalidad = $escolar['sistema'];
-	                        	$promedio = $escolar['promedio'];
+	                        	@$institucion = $escolar['institucion'];
+	                        	@$plantel = $escolar['plantel'];
+	                        	@$grado = $escolar['grado'];
+	                        	@$turno = $escolar['turno'];
+	                        	@$modalidad = $escolar['sistema'];
+	                        	@$promedio = $escolar['promedio'];
 	                        	      
 	                         }
 	                        else 
 	                        {
-	                        	$institucion = $escolar['institucion_uni'];
-	                        	$plantel = $escolar['plantel_uni'];
-	                        	$grado = $escolar['grado_uni'];
-	                        	$turno = $escolar['turno_uni'];
-	                        	$modalidad = $escolar['sistema'];
-	                        	$promedio = $escolar['promedio_uni'];
+	                        	@$institucion = $escolar['institucion_uni'];
+	                        	@$plantel = $escolar['plantel_uni'];
+	                        	@$grado = $escolar['grado_uni'];
+	                        	@$turno = $escolar['turno_uni'];
+	                        	@$modalidad = $escolar['sistema'];
+	                        	@$promedio = $escolar['promedio_uni'];
 	                        	
 	                        	
 	                        }
@@ -255,14 +255,14 @@
 						    
 
                        </div>
-                            <?php if($Dpromotor!=0){?>                
+                            <?php if($Dpromotor>0){?>                
                         	<button id="guardar_promotor" type="button" style="font-weight:bold;">Registrarse como "PROMOTOR"</button>
                         	<?php }?>
-                        	<?php if($es_promotor==1 && ($Dcoordinador!=0)){?>
+                        	<?php if($es_promotor==1 && ($Dcoordinador>0)){?>
                         	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         	<button id="guardar_coordinador" type="button" style="font-weight:bold;">Registrarse como "COORDINADOR"</button>
                         	<?php }
-                        	if($Dpromotor==0 && $es_promotor==0){
+                        	if($Dpromotor<=0 && $es_promotor==0){
                         	?>
                         	<div style="text-align:center; color:#8a8a8d; font-size:24px;">
                         		<br>LO SENTIMOS PERO YA NO QUEDAN LUGARES COMO PROMOTOR PARA TU DELEGACIÓN<br>

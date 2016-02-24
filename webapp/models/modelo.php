@@ -69,7 +69,7 @@ class Modelo extends MY_Model {
     
     function getIdPlantel($matricula){
     	$this->sql="select id_plantel from cat_plantel 
-						where plantel=(select plantel from b_escolar where matricula_asignada='$matricula');";
+						where plantel=(select case when plantel<>'' then plantel when plantel_uni<>'' then plantel_uni end as plantel from b_escolar where matricula_asignada='$matricula');";
     	$results = $this->db->query($this->sql);
     	return $results->result_array();
     }
@@ -79,7 +79,7 @@ class Modelo extends MY_Model {
     	return $results->result_array();
     }
     function buscaRegistro($matricula){
-    	$this->sql="select id_tipo_registro, id_ciclo from registro_pyc where matricula='$matricula' ORDER BY id_registro desc;";
+    	$this->sql="select id_tipo_registro, id_ciclo from registro_pyc where matricula='$matricula' ORDER BY fecha_registro desc;";
     	$results = $this->db->query($this->sql);
     	return $results->result_array();
     }
@@ -87,22 +87,25 @@ class Modelo extends MY_Model {
     function lugar_disponible($matricula, $id_archivo)
     {
     	if($id_archivo==1 || $id_archivo==2)
+    	{
     		$this->sql="SELECT delegacion,c_bach as coordinador, p_bach as promotor from folio_del where delegacion=(SELECT delegacion from b_direccion where matricula_asignada='$matricula');";
+    	}
     	else
+    	{
     		$this->sql="SELECT delegacion,c_uni as coordinador, p_uni as promotor from folio_del where delegacion=(SELECT delegacion from b_direccion where matricula_asignada='$matricula');";
+    	}
     	$results = $this->db->query($this->sql);
     	return $results->result_array();
     	 
     }
     function generaMensaje($matricula,$ciclo){
-    	$this->sql="
-SELECT ap, am,nombre,institucion,plantel, to_char(r.fecha_registro, 'DD/MM/YYYY') fecha_registro, matricula,folio,correo,id_tipo_registro as tipo_registro,r.id_archivo
+    	$this->sql="SELECT ap, am,nombre,institucion,plantel, to_char(r.fecha_registro, 'DD/MM/YYYY') fecha_registro, matricula,folio,correo,id_tipo_registro as tipo_registro,r.id_archivo
     	FROM registro_pyc r
     	INNER JOIN beneficiarios b on b.matricula_asignada=r.matricula
     	INNER JOIN cat_plantel p on p.id_plantel=r.id_plantel
-    	INNER JOIN cat_institucion i on i.id_institucion=p.id_institucion
-    	
+    	INNER JOIN cat_institucion i on i.id_institucion=p.id_institucion    	
     	WHERE matricula='$matricula' and r.id_ciclo=$ciclo";
+    	
     	$results = $this->db->query($this->sql);
     	return $results->result_array();
     }

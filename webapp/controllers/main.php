@@ -11,11 +11,12 @@ class Main extends CI_Controller {
     	
     	$this->load->view('beneficiario/v_registro');
     }
+    
     function muestra_informacion($matricula_asignada)
     {
-    	$data['matricula'] = $matricula_asignada;
-    	
+    	$data['matricula'] = $matricula_asignada;    	
     	$reg=$this->modelo->buscaRegistro($data['matricula']);
+    	
     	if($reg!=null)
     	{
     		$aux=$this->modelo->getCicloActual();
@@ -24,14 +25,15 @@ class Main extends CI_Controller {
     		$data['ciclo_escolar'] = $aux[0]['ciclo_escolar'];
     		
     		
-    		if($data['id_ciclo_actual'] == $reg[0]['id_ciclo']){
-    		
-    			$this->mensaje($matricula_asignada, $data['id_ciclo_actual']);
-    			
+    		if($data['id_ciclo_actual'] == $reg[0]['id_ciclo'])
+    		{    		
+    			$this->mensaje($matricula_asignada, $data['id_ciclo_actual']);    			
     		}
-    		else {
+    		else
+    		{
     			$this->Reingreso($data['matricula']);
     		}
+    		
   
     	}
     	else
@@ -61,7 +63,7 @@ class Main extends CI_Controller {
 	    	$data['delegacion'] = $aux[0]['delegacion'];
     	}
    
-    	if($data['Dpromotor']!=0 || $data['Dcoordinador'] !=0 ){
+    	if($data['Dpromotor']>0 || $data['Dcoordinador'] >0 ){
 
     			
     			$aux=$this->modelo->getCicloActual();
@@ -81,7 +83,8 @@ class Main extends CI_Controller {
 		    	
 		    	$this->load->view('beneficiario/v_datos', $data, false);
     	}
-    	else{
+    	else
+    	{
     		$data['R']=1;
     		$this->load->view('beneficiario/noDisponible', $data, false);
     	}    		
@@ -107,7 +110,7 @@ class Main extends CI_Controller {
 	    	$data['delegacion'] = $aux[0]['delegacion'];
     	}
     	 
-    	if($data['Dpromotor']!=0 || $data['Dcoordinador'] !=0 ){
+    	if($data['Dpromotor']>0 || $data['Dcoordinador'] >0 ){
     	
     		 
     		$aux=$this->modelo->getCicloActual();
@@ -130,6 +133,8 @@ class Main extends CI_Controller {
     		$this->load->view('beneficiario/noDisponible', $data, false);
     	}
     }
+    
+    
     function muestra_formato_registro()
     {
     	$data['matricula'] = $this->input->post('matricula');
@@ -151,6 +156,8 @@ class Main extends CI_Controller {
     	 
     	 
     }
+    
+    
     function guarda_registro()
     {		
     		$data['matricula'] = $this->input->post('matricula');
@@ -179,21 +186,428 @@ class Main extends CI_Controller {
 		   	//end post
 		   	
 			
-			
 			if ($data['id_archivo']== 1 || $data['id_archivo']== 2)
 			{
-				if($data['tipo_registro']==1)
-					$tipo='CB';
-				else
-					$tipo='PB';
-				
 				$aux=$this->modelo->getConsecutivoB($data['delegacion'], $data['tipo_registro']);
 				$cons= $aux[0]['fol'];
+
 				
 				$data['siglas']=$aux[0]['siglas'];
 				$data['id_delegacion']=$aux[0]['id_delegacion'];
+				
+				$consaux = $cons;
+				
+				if($data['tipo_registro']==1){
+					$tipo='CB';
+					//XOC
+					if($data['id_delegacion']==13)
+					{
+						$nuevo_fol = array();
+						
+						$nuevo_fol[3] =40;
+						$nuevo_fol[2] =15;
+						$nuevo_fol[1] =13;
+						
+						$consaux = $nuevo_fol[$cons];										
+					}
+					//VCA
+					if($data['id_delegacion']==17)
+					{
+						$nuevo_fol = array();
+						$nuevo_fol[8] =73;
+						$nuevo_fol[7] =72;
+						$nuevo_fol[5] =53;
+						$nuevo_fol[4] =52;
+						$nuevo_fol[3] =19;
+						$nuevo_fol[2] =18;
+						$nuevo_fol[1] =2;
+						
+						$consaux = $nuevo_fol[$cons];										
+					}
+					//MHI
+					if($data['id_delegacion']==16)
+					{
+						$nuevo_fol = array();
+						
+							$nuevo_fol[2] =45;
+							$nuevo_fol[1] =42;
+						
+						$consaux = $nuevo_fol[$cons];										
+					}
+					//AOB
+					if($data['id_delegacion']==10){
+						$nuevo_fol = array();
+						$nuevo_fol[4] =62;
+						$nuevo_fol[3] =52;
+						$nuevo_fol[2] =31;
+						$nuevo_fol[1] =30;
+						
+						$consaux = $nuevo_fol[$cons];
+						
+					}
+					//AZC
+					if($data['id_delegacion']==2){
+						$nuevo_fol = array();
+						$nuevo_fol[1] =30;
+						
+						$consaux = $nuevo_fol[$cons];
+						
+					}
+					//COY
+					if($data['id_delegacion']==3){
+						$nuevo_fol = array();
+						$nuevo_fol[2] =27;
+						$nuevo_fol[1] =25;
+						$consaux = $nuevo_fol[$cons];
+						
+					}
+					//CUJ
+					if($data['id_delegacion']==4){
+						
+						$nuevo_fol = array();
+						$nuevo_fol[1] =11;
+						$consaux = $nuevo_fol[$cons];
+						
+					}
+					//GAM
+					if($data['id_delegacion']==5){
+						$nuevo_fol = array();
+						$nuevo_fol[12] =86;
+						$nuevo_fol[11] =84;
+						$nuevo_fol[10] =83;
+						$nuevo_fol[9] =82;
+						$nuevo_fol[8] =81;
+						$nuevo_fol[7] =77;
+						$nuevo_fol[6] =75;
+						$nuevo_fol[5] =74;
+						$nuevo_fol[4] =73;
+						$nuevo_fol[3] =71;
+						$nuevo_fol[2] =31;
+						$nuevo_fol[1] =19;
+						$consaux = $nuevo_fol[$cons];
+						
+					}
+						//CUH
+					if($data['id_delegacion']==15)
+					{
+						$nuevo_fol = array();
+						$nuevo_fol[6] =22;
+						$nuevo_fol[5] =18;
+						$nuevo_fol[4] =16;
+						$nuevo_fol[3] =12;
+						$nuevo_fol[2] =11;
+						$nuevo_fol[1] =4;
+						
+						$consaux = $nuevo_fol[$cons];										
+					}
+					//IZT
+					if($data['id_delegacion']==6)
+					{
+						$nuevo_fol = array();
+						
+						$nuevo_fol[3] =35;
+						$nuevo_fol[2] =24;
+						$nuevo_fol[1] =13;
+						
+						$consaux = $nuevo_fol[$cons];										
+					}	
+					//IZP
+					if($data['id_delegacion']==7)
+					{
+						$nuevo_fol = array();
+						
+							$nuevo_fol[18] =288;
+							$nuevo_fol[17] =286;
+							$nuevo_fol[16] =269;
+							$nuevo_fol[15] =247;
+							$nuevo_fol[14] =242;
+							$nuevo_fol[13] =226;
+							$nuevo_fol[12] =220;
+							$nuevo_fol[11] =215;
+							$nuevo_fol[10] =195;
+							$nuevo_fol[9] =194;
+							$nuevo_fol[8] =185;
+							$nuevo_fol[7] =170;
+							$nuevo_fol[6] =163;
+							$nuevo_fol[5] =161;
+							$nuevo_fol[4] =130;
+							$nuevo_fol[3] =69;
+							$nuevo_fol[2] =13;
+							$nuevo_fol[1] =2;
+						
+						$consaux = $nuevo_fol[$cons];										
+					}
+					//MAC
+					if($data['id_delegacion']==8)
+					{
+						$nuevo_fol = array();
+						
+							$nuevo_fol[2] =9;
+							$nuevo_fol[1] =1;
+						
+						$consaux = $nuevo_fol[$cons];										
+					}
+				
+				}
+				else{
+					$tipo='PB';
+					//XOC
+					if($data['id_delegacion']==13)
+					{
+						$nuevo_fol = array();
+						
+						$nuevo_fol[3] =57;
+						$nuevo_fol[2] =15;
+						$nuevo_fol[1] =6;
+						
+						$consaux = $nuevo_fol[$cons];										
+					}
 					
-				$data['folio']=$data['siglas'].'-'.$tipo.'-'.str_pad($cons, 5,0, STR_PAD_LEFT);
+					//VCA
+					if($data['id_delegacion']==17)
+					{
+						$nuevo_fol = array();
+						$nuevo_fol[8] =77;
+						$nuevo_fol[7] =74;
+						$nuevo_fol[6] =73;
+						$nuevo_fol[5] =72;
+						$nuevo_fol[4] =53;
+						$nuevo_fol[3] =52;
+						$nuevo_fol[2] =19;
+						$nuevo_fol[1] =18;
+						
+						$consaux = $nuevo_fol[$cons];										
+					}
+					//TLP
+					if($data['id_delegacion']==12)
+					{
+						$nuevo_fol = array();
+						
+						$nuevo_fol[6] =128;
+						$nuevo_fol[5] =115;
+						$nuevo_fol[4] =93;
+						$nuevo_fol[3] =92;
+						$nuevo_fol[2] =69;
+						$nuevo_fol[1] =61;
+						
+						$consaux = $nuevo_fol[$cons];										
+					}
+					//TLH
+					if($data['id_delegacion']==11)
+					{
+						$nuevo_fol = array();
+							$nuevo_fol[4] =94;
+							$nuevo_fol[3] =82;
+							$nuevo_fol[2] =13;
+							$nuevo_fol[1] =09;
+						
+						
+						$consaux = $nuevo_fol[$cons];										
+					}
+					//MHI
+					if($data['id_delegacion']==16)
+					{
+						$nuevo_fol = array();
+						
+							$nuevo_fol[2] =3;
+							$nuevo_fol[1] =2;
+						
+						$consaux = $nuevo_fol[$cons];										
+					}
+					//AOB
+					/*
+					if($data['id_delegacion']==10){
+						
+						$nuevo_fol = array();
+						
+						$nuevo_fol[31] =56;
+						$nuevo_fol[30] =55;
+						$nuevo_fol[29] =54;
+						$nuevo_fol[28] =53;
+						$nuevo_fol[27] =52;
+						$nuevo_fol[26] =49;
+						$nuevo_fol[25] =48;
+						$nuevo_fol[24] =47;
+						$nuevo_fol[23] =46;
+						$nuevo_fol[22] =44;
+						$nuevo_fol[21] =43;
+						$nuevo_fol[20] =42;
+						$nuevo_fol[19] =41;
+						$nuevo_fol[18] =38;
+						$nuevo_fol[17] =37;
+						$nuevo_fol[16] =36;
+						$nuevo_fol[15] =35;
+						$nuevo_fol[14] =34;
+						$nuevo_fol[13] =27;
+						$nuevo_fol[12] =26;
+						$nuevo_fol[11] =25;
+						$nuevo_fol[10] =17;
+						$nuevo_fol[9] =10;
+						$nuevo_fol[8] =9;
+						$nuevo_fol[7] =8;
+						$nuevo_fol[6] =7;
+						$nuevo_fol[5] =6;
+						$nuevo_fol[4] =5;
+						$nuevo_fol[3] =4;
+						$nuevo_fol[2] =2;
+						$nuevo_fol[1] =1;
+						
+						
+						$consaux = $nuevo_fol[$cons];
+						
+					}*/
+					//AOB
+					if($data['id_delegacion']==10){
+					
+						$nuevo_fol = array();
+						$nuevo_fol[43] =134;
+						$nuevo_fol[42] =129;
+						$nuevo_fol[41] =128;
+						$nuevo_fol[40] =126;
+						$nuevo_fol[39] =125;
+						$nuevo_fol[38] =123;
+						$nuevo_fol[37] =122;
+						$nuevo_fol[36] =121;
+						$nuevo_fol[35] =120;
+						$nuevo_fol[34] =119;
+						$nuevo_fol[32] =118;
+						$nuevo_fol[31] =117;
+						$nuevo_fol[30] =116;
+						$nuevo_fol[29] =115;
+						$nuevo_fol[28] =114;
+						$nuevo_fol[27] =113;
+						$nuevo_fol[26] =105;
+						$nuevo_fol[25] =104;
+						$nuevo_fol[24] =103;
+						$nuevo_fol[23] =102;
+						$nuevo_fol[22] =101;
+						$nuevo_fol[21] =100;
+						$nuevo_fol[20] =99;
+						$nuevo_fol[19] =98;
+						$nuevo_fol[18] =97;
+						$nuevo_fol[17] =95;
+						$nuevo_fol[16] =93;
+						$nuevo_fol[15] =92;
+						$nuevo_fol[14] =91;
+						$nuevo_fol[13] =90;
+						$nuevo_fol[12] =89;
+						$nuevo_fol[11] =88;
+						$nuevo_fol[10] =87;
+						$nuevo_fol[9] =86;
+						$nuevo_fol[8] =85;
+						$nuevo_fol[7] =84;
+						$nuevo_fol[6] =83;
+						$nuevo_fol[5] =82;
+						$nuevo_fol[4] =60;
+						$nuevo_fol[3] =24;
+						$nuevo_fol[2] =23;
+						$nuevo_fol[1] =18;
+						
+						
+						$consaux = $nuevo_fol[$cons];
+						
+					}
+					//BJU
+					if($data['id_delegacion']==14)
+					{
+						$nuevo_fol = array();
+						$nuevo_fol[5] =33;
+						$nuevo_fol[4] =32;
+						$nuevo_fol[3] =31;
+						$nuevo_fol[2] =15;
+						$nuevo_fol[1] =14;
+						
+						$consaux = $nuevo_fol[$cons];										
+					}
+					//COY
+					if($data['id_delegacion']==3)
+					{
+						$nuevo_fol = array();
+						
+						$nuevo_fol[13] =119;
+						$nuevo_fol[12] =53;
+						$nuevo_fol[11] =12;
+						$nuevo_fol[10] =11;
+						$nuevo_fol[9] =10;
+						$nuevo_fol[8] =9;
+						$nuevo_fol[7] =8;
+						$nuevo_fol[6] =6;
+						$nuevo_fol[5] =5;
+						$nuevo_fol[4] =4;
+						$nuevo_fol[3] =3;
+						$nuevo_fol[2] =2;
+						$nuevo_fol[1] =1;
+						
+						$consaux = $nuevo_fol[$cons];										
+					}
+					//CUJ
+					if($data['id_delegacion']==4)
+					{
+						$nuevo_fol = array();
+						
+						$nuevo_fol[4] =11;
+						$nuevo_fol[3] =10;
+						$nuevo_fol[2] =9;
+						$nuevo_fol[1] =8;
+						
+						$consaux = $nuevo_fol[$cons];										
+					}
+					//CUH
+					if($data['id_delegacion']==15)
+					{
+						$nuevo_fol = array();
+						
+						$nuevo_fol[2] =28;
+						$nuevo_fol[1] =27;
+						
+						$consaux = $nuevo_fol[$cons];										
+					}
+					//GAM
+					if($data['id_delegacion']==5)
+					{
+						$nuevo_fol = array();
+						$nuevo_fol[23] =17;
+						$nuevo_fol[22] =159;
+						$nuevo_fol[21] =84;
+						$nuevo_fol[20] =31;
+						$nuevo_fol[19] =30;
+						$nuevo_fol[18] =29;
+						$nuevo_fol[17] =28;
+						$nuevo_fol[16] =25;
+						$nuevo_fol[15] =24;
+						$nuevo_fol[14] =23;
+						$nuevo_fol[13] =19;
+						$nuevo_fol[12] =17;
+						$nuevo_fol[11] =16;
+						$nuevo_fol[10] =14;
+						$nuevo_fol[9] =13;
+						$nuevo_fol[8] =12;
+						$nuevo_fol[7] =11;
+						$nuevo_fol[6] =10;
+						$nuevo_fol[5] =9;
+						$nuevo_fol[4] =8;
+						$nuevo_fol[3] =7;
+						$nuevo_fol[2] =5;
+						$nuevo_fol[1] =4;
+												
+						$consaux = $nuevo_fol[$cons];	
+					}
+					//MAC
+					if($data['id_delegacion']==8)
+					{
+						$nuevo_fol = array();
+						
+						$nuevo_fol[2] =45;
+						$nuevo_fol[1] =23;
+						
+						$consaux = $nuevo_fol[$cons];										
+					}
+				}
+				
+				
+				
+					
+				$data['folio']=$data['siglas'].'-'.$tipo.'-'.str_pad($consaux, 5,0, STR_PAD_LEFT);
 				
 				$cons=$cons-1;
 				$data['cons']=$this->modelo->ActualizaFolio($cons, $data['tipo_registro'],$data['delegacion']);
@@ -203,11 +617,6 @@ class Main extends CI_Controller {
 			}
 			elseif ($data['id_archivo']== 3)
 			{
-				if($data['tipo_registro']==1)
-					$tipo='CU';
-				else
-					$tipo='PU';
-				
 				$aux=$this->modelo->getConsecutivoU($data['delegacion'], $data['tipo_registro']);
 				$cons= $aux[0]['fol'];
 				
@@ -216,7 +625,51 @@ class Main extends CI_Controller {
 					
 				$data['folio']=$data['siglas'].'-'.$tipo.'-'.str_pad($cons, 5,0, STR_PAD_LEFT);
 				
+				if($data['tipo_registro']==1){
+					$tipo='CU';
+					if($data['id_delegacion']==7) //IZP
+					{
+						$nuevo_fol = array();
+						
+						$nuevo_fol[2] =14;
+						$nuevo_fol[1] =1;
+												
+						$consaux = $nuevo_fol[$cons];	
+					}
+				}
+				else{
+					$tipo='PU';
+					if($data['id_delegacion']==10) //AOB
+					{
+						$nuevo_fol = array();
+						$nuevo_fol[4] =6;
+						$nuevo_fol[3] =5;
+						$nuevo_fol[2] =2;
+						$nuevo_fol[1] =1;
+												
+						$consaux = $nuevo_fol[$cons];	
+					}
+					if($data['id_delegacion']==7) //IZP
+					{
+						$nuevo_fol = array();
+						
+						
+						$nuevo_fol[1] =11;
+												
+						$consaux = $nuevo_fol[$cons];	
+					}
+					if($data['id_delegacion']==8)
+					{
+						$nuevo_fol = array();
+						
+						$nuevo_fol[1] =3;
+						
+						$consaux = $nuevo_fol[$cons];										
+					}
+				}
 				
+				
+				$data['folio']=$data['siglas'].'-'.$tipo.'-'.str_pad($cons, 5,0, STR_PAD_LEFT);
 				$cons=$cons-1;
 				$data['cons']=$this->modelo->ActualizaFolioU($cons, $data['tipo_registro'],$data['delegacion']);
 				
@@ -259,6 +712,7 @@ class Main extends CI_Controller {
     function mensaje($matricula){
     	$data['msj'] =null;
     	$data['matricula'] = $matricula;
+    	
     	$aux=$this->modelo->getCicloActual();
     	
     	$data['id_ciclo_actual']=$aux[0]['id_ciclo_escolar'];
